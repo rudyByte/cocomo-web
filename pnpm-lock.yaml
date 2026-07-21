@@ -8,9 +8,18 @@ importers:
 
   .:
     devDependencies:
+      next:
+        specifier: ^16.0.0
+        version: 16.2.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       prettier:
         specifier: ^3.4.2
         version: 3.7.4
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
       turbo:
         specifier: ^2.5.4
         version: 2.9.6
