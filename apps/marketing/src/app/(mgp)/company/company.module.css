@@ -1,0 +1,18 @@
+.page { min-height: 100dvh; }
+.hero { padding-block: var(--space-16) var(--section-gap); border-bottom: 1px solid var(--hairline); }
+.hero__heading { font-size: clamp(var(--text-lg), 5vw, var(--text-xl)); max-width: 22ch; margin-block: var(--space-4); }
+.hero__sub { font-size: var(--text-base); color: var(--ink-soft); max-width: 54ch; }
+.section { padding-block: var(--section-gap); border-top: 1px solid var(--hairline); }
+.section__heading { font-size: var(--text-lg); margin-bottom: var(--space-6); }
+.section__body { font-size: var(--text-base); color: var(--ink-soft); max-width: 56ch; }
+.contact { padding-block: var(--section-gap); background: var(--surface); border-top: 1px solid var(--hairline); }
+.form { display: flex; flex-direction: column; gap: var(--space-5); max-width: 600px; margin-top: var(--space-8); }
+.form__row { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
+@media (min-width: 540px) { .form__row { grid-template-columns: 1fr 1fr; } }
+.form__field { display: flex; flex-direction: column; gap: var(--space-2); }
+.form__label { font-size: var(--text-sm); font-weight: 500; color: var(--ink-soft); }
+.form__input { font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); background: var(--paper); border: 1.5px solid var(--hairline); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); min-height: 48px; width: 100%; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.form__input:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px var(--clay-tint); }
+.form__textarea { resize: vertical; min-height: 120px; }
+.form__submit { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 500; color: #fff; background: var(--clay); border: none; border-radius: var(--radius-pill); padding: var(--space-4) var(--space-8); cursor: pointer; min-height: 52px; align-self: flex-start; transition: background var(--t-fast), transform var(--t-fast); }
+.form__submit:hover { background: var(--clay-deep); transform: translateY(-1px); }

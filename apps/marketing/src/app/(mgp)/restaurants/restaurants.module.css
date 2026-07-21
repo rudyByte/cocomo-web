@@ -1,0 +1,28 @@
+.page { min-height: 100dvh; }
+.hero { padding-block: var(--space-16) var(--section-gap); border-bottom: 1px solid var(--hairline); }
+.hero__heading { font-size: clamp(var(--text-lg), 5vw, var(--text-xl)); max-width: 22ch; margin-block: var(--space-4); }
+.hero__sub { font-size: var(--text-base); color: var(--ink-soft); max-width: 52ch; margin-bottom: var(--space-8); }
+.hero__cta {
+  display: inline-flex; align-items: center; font-size: var(--text-base); font-weight: 500;
+  color: #fff; background: var(--clay); padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-pill); box-shadow: 0 2px 8px rgba(147,64,31,.3);
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.hero__cta:hover { background: var(--clay-deep); transform: translateY(-1px); }
+.example { padding-block: var(--section-gap); }
+.example__steps { display: flex; flex-direction: column; gap: 0; margin-top: var(--space-10); }
+.example__step { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-6); padding-block: var(--space-6); border-bottom: 1px solid var(--hairline); }
+.example__step:last-child { border-bottom: none; }
+.example__steplabel { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wider); text-transform: uppercase; color: var(--clay); padding-top: 4px; }
+.example__steptext { font-size: var(--text-base); color: var(--ink-soft); max-width: 60ch; line-height: var(--leading-normal); }
+.sub { padding-block: var(--space-10); border-top: 1px solid var(--hairline); }
+.section__heading { font-size: var(--text-lg); margin-bottom: var(--space-4); }
+.section__body { font-size: var(--text-base); color: var(--ink-soft); max-width: 56ch; }
+.cta { padding-block: var(--section-gap); background: var(--surface); border-top: 1px solid var(--hairline); }
+.cta__heading { font-size: clamp(var(--text-md), 3vw, var(--text-lg)); margin-bottom: var(--space-8); }
+.cta__btn {
+  display: inline-flex; align-items: center; font-size: var(--text-base); font-weight: 500;
+  color: #fff; background: var(--clay); padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-pill); transition: background var(--t-fast);
+}
+.cta__btn:hover { background: var(--clay-deep); }

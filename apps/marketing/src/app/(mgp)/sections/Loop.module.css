@@ -1,0 +1,95 @@
+.loop {
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--hairline);
+}
+
+.loop__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 480px;
+  margin-bottom: var(--space-16);
+}
+
+.loop__heading {
+  font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
+}
+
+.loop__sub {
+  font-size: var(--text-base);
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+/* SVG diagram — desktop */
+.loop__diagram {
+  display: none;
+}
+
+.loop__svg {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  overflow: visible;
+}
+
+@media (min-width: 720px) {
+  .loop__diagram { display: block; }
+  .loop__mobile  { display: none; }
+}
+
+/* Mobile stacked steps */
+.loop__mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.loop__step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.loop__step:last-child { border-bottom: none; }
+
+.loop__stepnum {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-muted);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+  min-width: 36px;
+  text-align: center;
+}
+
+.loop__stepnum--active {
+  color: #fff;
+  background: var(--clay);
+  border-color: var(--clay-deep);
+}
+
+.loop__stepcopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: 2px;
+}
+
+.loop__steplabel {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.loop__stepsub {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}

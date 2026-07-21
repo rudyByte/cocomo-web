@@ -1,0 +1,36 @@
+{
+  "name": "marketing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "framer-motion": "^11.13.1",
+    "lucide-react": "^0.511.0",
+    "zod": "^3.25.76",
+    "three": "^0.177.0",
+    "@react-three/fiber": "^9.2.1",
+    "@react-three/drei": "^10.4.4",
+    "drizzle-orm": "^0.44.2",
+    "@neondatabase/serverless": "^0.10.4",
+    "@cocomo/db": "workspace:*",
+    "@cocomo/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.177.0",
+    "typescript": "^5",
+    "drizzle-kit": "^0.31.4"
+  }
+}
+
