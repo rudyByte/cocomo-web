@@ -11,6 +11,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  output: "standalone",
 
   // Transpile local packages
   transpilePackages: ["@cocomo/ui", "@cocomo/db"],

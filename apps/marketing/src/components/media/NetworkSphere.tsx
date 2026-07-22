@@ -1,64 +1,99 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-// Generates random points on a sphere surface
-function generateSpherePoints(count: number, radius: number) {
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-    positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-    positions[i * 3 + 2] = radius * Math.cos(phi);
-  }
-  return positions;
-}
+function InteractivePoints() {
+  const pointsRef = useRef<any>(null);
+  const startPositions = useRef<Float32Array | null>(null);
+  const targetPositions = useRef<Float32Array | null>(null);
 
-function NetworkParticles() {
-  const ref = useRef<THREE.Points>(null!);
-  const positions = useMemo(() => generateSpherePoints(1200, 2.2), []);
+  const count = 1800;
 
-  useFrame((state, delta) => {
-    ref.current.rotation.y += delta * 0.08;
-    ref.current.rotation.x += delta * 0.03;
+  useEffect(() => {
+    const start = new Float32Array(count * 3);
+    const target = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      // Start position: randomized noise cloud (a sphere of wide radius)
+      const r = 2.5 + Math.random() * 1.5;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 2 - 1);
+
+      start[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      start[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      start[i * 3 + 2] = r * Math.cos(phi);
+
+      // Target position: converging double-helix spiral ("ordered signal")
+      const thetaT = i * 0.07 + (i % 2 === 0 ? 0 : Math.PI);
+      const radT = 0.8 + Math.sin(i * 0.015) * 0.35;
+      const yT = (i / count) * 3.2 - 1.6;
+
+      target[i * 3] = Math.cos(thetaT) * radT;
+      target[i * 3 + 1] = yT;
+      target[i * 3 + 2] = Math.sin(thetaT) * radT;
+    }
+
+    startPositions.current = start;
+    targetPositions.current = target;
+  }, []);
+
+  useFrame((state) => {
+    if (!pointsRef.current || !startPositions.current || !targetPositions.current) return;
+
+    const time = state.clock.getElapsedTime();
+    // Animates toward organized structure over the first 2.8 seconds
+    const t = Math.min(time / 2.8, 1.0);
+
+    const posAttr = pointsRef.current.geometry?.attributes?.position;
+    if (!posAttr || !posAttr.array) return;
+    const positions = posAttr.array;
+    const pointer = state.pointer; // Mouse coordinate normalized between [-1, 1]
+
+    for (let i = 0; i < count; i++) {
+      const idx = i * 3;
+
+      // Base lerp position
+      const bx = startPositions.current[idx] + (targetPositions.current[idx] - startPositions.current[idx]) * t;
+      const by = startPositions.current[idx + 1] + (targetPositions.current[idx + 1] - startPositions.current[idx + 1]) * t;
+      const bz = startPositions.current[idx + 2] + (targetPositions.current[idx + 2] - startPositions.current[idx + 2]) * t;
+
+      // Radius-based pointer displacement (mouse push)
+      const dx = bx - pointer.x * 2.0;
+      const dy = by - pointer.y * 2.0;
+      const dist = Math.hypot(dx, dy);
+
+      let pushX = 0;
+      let pushY = 0;
+      if (dist < 0.9) {
+        const force = (0.9 - dist) * 0.3;
+        pushX = (dx / dist) * force;
+        pushY = (dy / dist) * force;
+      }
+
+      positions[idx] = bx + pushX;
+      positions[idx + 1] = by + pushY;
+      positions[idx + 2] = bz;
+    }
+
+    posAttr.needsUpdate = true;
+
+    // Continuous slow rotations
+    pointsRef.current.rotation.y = time * 0.08;
+    pointsRef.current.rotation.x = Math.sin(time * 0.04) * 0.08;
   });
 
   return (
-    <Points ref={ref} positions={positions} stride={3}>
+    <Points ref={pointsRef} positions={new Float32Array(count * 3)} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#E8356D"
-        size={0.025}
-        sizeAttenuation
+        color="#2F5FE0"
+        size={0.042}
+        sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.75}
-      />
-    </Points>
-  );
-}
-
-function InnerSphere() {
-  const ref = useRef<THREE.Points>(null!);
-  const positions = useMemo(() => generateSpherePoints(400, 1.4), []);
-
-  useFrame((state, delta) => {
-    ref.current.rotation.y -= delta * 0.12;
-    ref.current.rotation.z += delta * 0.04;
-  });
-
-  return (
-    <Points ref={ref} positions={positions} stride={3}>
-      <PointMaterial
-        transparent
-        color="#F5A623"
-        size={0.02}
-        sizeAttenuation
-        depthWrite={false}
-        opacity={0.6}
+        blending={THREE.AdditiveBlending}
       />
     </Points>
   );
@@ -66,14 +101,14 @@ function InnerSphere() {
 
 export function NetworkSphere() {
   return (
-    <Canvas
-      camera={{ position: [0, 0, 5], fov: 55 }}
-      style={{ width: "100%", height: "100%" }}
-      aria-hidden="true"
-    >
-      <ambientLight intensity={0.5} />
-      <NetworkParticles />
-      <InnerSphere />
-    </Canvas>
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+      <Canvas
+        camera={{ position: [0, 0, 3.2], fov: 60 }}
+        style={{ width: "100%", height: "100%", display: "block" }}
+      >
+        <ambientLight intensity={0.5} />
+        <InteractivePoints />
+      </Canvas>
+    </div>
   );
 }

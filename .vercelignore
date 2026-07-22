@@ -1,7 +1,9 @@
 node_modules
-**/node_modules
 .next
 .turbo
-.pnpm-store
-*.tsbuildinfo
-pnpm-lock.yaml
+yarn-cache
+yarn-global
+.yarn/cache
+.yarn/unplugged
+.yarn/install-state.gz
+node-bin

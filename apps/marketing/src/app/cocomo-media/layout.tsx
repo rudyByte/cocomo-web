@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { SmoothScroll } from "@/components/media/SmoothScroll";
+import { CustomCursor } from "@/components/media/CustomCursor";
+import { PageLoader } from "@/components/media/PageLoader";
 import styles from "./media-layout.module.css";
 
 const mediaNav = [
@@ -12,13 +15,16 @@ const mediaNav = [
 
 export default function CocomoMediaLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <SmoothScroll>
+      <PageLoader />
+      <CustomCursor />
+      
       {/* Cocomo Media Nav — fully separate from MGP */}
       <header className={styles.nav}>
         <div className={`${styles.nav__inner}`}>
           <Link href="/cocomo-media" className={styles.nav__logo} aria-label="Cocomo Media — home">
             <span className={styles.nav__wordmark}>
-              <span className={styles.nav__co}>Cocomo</span>
+              <span className={styles.nav__co} data-magnetic>Cocomo</span>
               <span className={styles.nav__media}>Media</span>
             </span>
           </Link>
@@ -29,6 +35,7 @@ export default function CocomoMediaLayout({ children }: { children: React.ReactN
                 key={href}
                 href={href}
                 className={`${styles.nav__link} ${label === "Get a proposal" ? styles["nav__link--cta"] : ""}`}
+                data-magnetic={label === "Get a proposal" ? "true" : undefined}
               >
                 {label}
               </Link>
@@ -62,6 +69,6 @@ export default function CocomoMediaLayout({ children }: { children: React.ReactN
           </div>
         </div>
       </footer>
-    </>
+    </SmoothScroll>
   );
 }

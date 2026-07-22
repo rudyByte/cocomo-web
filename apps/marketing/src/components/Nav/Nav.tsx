@@ -15,22 +15,6 @@ const products = [
     icon: Cpu,
     color: "var(--clay)",
   },
-  {
-    name: "Cocomo Media",
-    badge: "EXECUTION NETWORK",
-    desc: "Influencer & creator growth engine connected to POS & revenue lift.",
-    href: "/cocomo-media",
-    icon: Sparkles,
-    color: "#E8356D",
-  },
-  {
-    name: "Cocomo Intelligence",
-    badge: "SIGNAL ANALYTICS",
-    desc: "Continuous POS, footfall, and competitor anomaly detection.",
-    href: "/platform#loop",
-    icon: BarChart3,
-    color: "var(--good)",
-  },
 ];
 
 const navLinks = [
@@ -44,7 +28,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
 
   // Detect scroll for frosted header
   useEffect(() => {
@@ -59,13 +42,6 @@ export function Nav() {
     setDropdownOpen(false);
   }, [pathname]);
 
-  // Read persisted theme
-  useEffect(() => {
-    const stored = localStorage.getItem("cocomo-theme") as "light" | "dark" | null;
-    const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    setTheme(stored ?? preferred);
-  }, []);
-
   // Keyboard shortcut: D → /demo
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -76,13 +52,6 @@ export function Nav() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
-
-  const toggleTheme = useCallback(() => {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("cocomo-theme", next);
-  }, [theme]);
 
   return (
     <>
@@ -152,7 +121,12 @@ export function Nav() {
                     })}
                   </div>
                   <div className={styles.dropdown__footer}>
-                    <span>Not sure which solution fits your business?</span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                      <span style={{ fontSize: "10px", color: "var(--ink-muted)", fontWeight: 500 }}>ALSO FROM COCOMO:</span>
+                      <Link href="/cocomo-media" className={styles.dropdown__footerLink} style={{ color: "#2563EB" }}>
+                        Media Creator Engine <ArrowRight size={12} />
+                      </Link>
+                    </div>
                     <Link href="/demo" className={styles.dropdown__footerLink}>
                       Book a strategy demo <ArrowRight size={12} />
                     </Link>
@@ -180,15 +154,6 @@ export function Nav() {
 
           {/* Right actions */}
           <div className={styles.nav__actions}>
-            <button
-              onClick={toggleTheme}
-              className={styles.nav__theme}
-              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-              title={`${theme === "light" ? "Dark" : "Light"} mode`}
-            >
-              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
-            </button>
-
             <Link href="/login" className={styles.nav__signin}>
               Sign in
             </Link>
@@ -229,11 +194,21 @@ export function Nav() {
               href={p.href}
               className={styles.mobile__productLink}
               tabIndex={menuOpen ? 0 : -1}
+              style={{ display: "block", marginBottom: "8px" }}
             >
               <div style={{ fontWeight: 600, color: "var(--ink)" }}>{p.name}</div>
               <div style={{ fontSize: "var(--text-xs)", color: "var(--ink-muted)" }}>{p.desc}</div>
             </Link>
           ))}
+          <Link
+            href="/cocomo-media"
+            className={styles.mobile__productLink}
+            tabIndex={menuOpen ? 0 : -1}
+            style={{ display: "block", borderColor: "rgba(37,99,235,0.15)", background: "rgba(37,99,235,0.02)" }}
+          >
+            <div style={{ fontWeight: 600, color: "#2563EB" }}>Cocomo Media ↗</div>
+            <div style={{ fontSize: "var(--text-xs)", color: "var(--ink-muted)" }}>Creator & influencer growth engine.</div>
+          </Link>
           <div className={styles.mobile__divider} />
           {navLinks.map(({ href, label }) => (
             <Link

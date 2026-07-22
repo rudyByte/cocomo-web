@@ -21,7 +21,6 @@ export default function LoginPage() {
 
         {/* Auth stub: Clerk sign-in button placeholder */}
         <div className={styles.clerkStub} role="region" aria-label="Sign in options">
-          {/* TODO: Replace with <SignIn /> from @clerk/nextjs once Clerk keys are configured */}
           <p className={styles.clerkNote}>
             Authentication is being configured. In the meantime,{" "}
             <Link href="/demo" className={styles.clerkLink}>book a demo</Link>{" "}

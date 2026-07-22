@@ -36,10 +36,10 @@ const detailedServices = [
 
 export default function ServicesPage() {
   return (
-    <div className={styles.page} style={{ paddingTop: "4rem" }}>
+    <div className={styles.page} style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
       <div className={styles.container}>
         <span className={styles.eyebrow}>Our Services</span>
-        <h1 className={styles.section__heading} style={{ fontSize: "3rem", marginBottom: "1.5rem" }}>
+        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem", color: "#0A162F" }}>
           Full-stack media execution for growing brands.
         </h1>
         <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
@@ -49,27 +49,29 @@ export default function ServicesPage() {
 
         <div style={{ display: "grid", gap: "2rem" }}>
           {detailedServices.map((svc) => (
-            <div key={svc.title} className={styles.services__card} style={{ padding: "2.5rem" }}>
-              <h2 className={styles.services__title} style={{ fontSize: "1.5rem", color: "#fff" }}>
+            <div key={svc.title} className={styles.services__card} style={{ padding: "3rem", background: "rgba(246, 248, 252, 0.4)" }}>
+              <h2 className={styles.services__title} style={{ fontSize: "1.75rem", color: "#0A162F", marginBottom: "0.5rem" }}>
                 {svc.title}
               </h2>
-              <p style={{ color: "#E8356D", fontSize: "0.9375rem", fontFamily: "var(--font-mono)", marginBottom: "1rem" }}>
+              <p style={{ color: "#2563EB", fontSize: "0.875rem", fontFamily: "var(--font-mono)", fontWeight: 600, marginBottom: "1.5rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                 {svc.sub}
               </p>
-              <p className={styles.services__desc} style={{ fontSize: "1rem", lineHeight: "1.7", marginBottom: "1.5rem" }}>
+              <p className={styles.services__desc} style={{ fontSize: "1.0625rem", lineHeight: "1.75", marginBottom: "2rem", color: "#5E697F" }}>
                 {svc.body}
               </p>
-              <ul style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", listStyle: "none" }}>
+              <ul style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", listStyle: "none", padding: 0 }}>
                 {svc.features.map((f) => (
                   <li
                     key={f}
                     style={{
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "#FFFFFF",
+                      border: "1px solid rgba(10, 22, 47, 0.08)",
                       borderRadius: "100px",
-                      padding: "0.35rem 0.85rem",
+                      padding: "0.5rem 1.25rem",
                       fontSize: "0.8125rem",
-                      color: "rgba(255,255,255,0.8)",
+                      color: "#0A162F",
+                      fontWeight: 500,
+                      boxShadow: "0 2px 6px rgba(10,22,47,0.01)"
                     }}
                   >
                     ✓ {f}
@@ -80,12 +82,12 @@ export default function ServicesPage() {
           ))}
         </div>
 
-        <div style={{ marginTop: "5rem", textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.02)", borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)" }}>
-          <h2 className={styles.section__heading}>Ready to build your custom campaign?</h2>
-          <p className={styles.section__sub} style={{ margin: "1rem auto 2rem" }}>
+        <div style={{ marginTop: "6rem", textAlign: "center", padding: "5rem 3rem", background: "rgba(246, 248, 252, 0.45)", borderRadius: "32px", border: "1px solid rgba(10, 22, 47, 0.06)" }}>
+          <h2 className={styles.section__heading} style={{ color: "#0A162F", marginBottom: "1rem" }}>Ready to build your custom campaign?</h2>
+          <p className={styles.section__sub} style={{ margin: "1rem auto 2.5rem" }}>
             Get a tailored proposal with creator matches and budget breakdowns in 48 hours.
           </p>
-          <Link href="/cocomo-media/contact" className={styles.hero__primary}>
+          <Link href="/cocomo-media/contact" className={styles.hero__primary} data-magnetic>
             Request Proposal
           </Link>
         </div>

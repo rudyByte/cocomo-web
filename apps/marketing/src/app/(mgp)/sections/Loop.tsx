@@ -1,63 +1,81 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
+import { Eye, Cpu, Zap, BarChart4, ArrowRight } from "lucide-react";
 import styles from "./Loop.module.css";
 
-const nodes = [
+const loopPhases = [
   {
-    id: "observe",
-    label: "Observe",
-    sublabel: "Your POS, foot traffic, campaigns, reviews",
-    x: 80,
-    y: 80,
+    num: "01",
+    phase: "Observe",
+    icon: Eye,
+    title: "Continuous Telemetry",
+    desc: "Engine aggregates sales telemetry, hourly transaction velocity, Google reviews, and neighborhood traffic sensors automatically.",
+    color: "var(--clay)",
   },
   {
-    id: "recommend",
-    label: "Recommend",
-    sublabel: "Specific action, confidence, ₹ impact",
-    x: 520,
-    y: 80,
+    num: "02",
+    phase: "Recommend",
+    icon: Cpu,
+    title: "Prioritized Actions",
+    desc: "Calculates the exact weekday drop, maps it to a ₹ expected revenue impact, and surfaces concrete recommendations with confidence scores.",
+    color: "var(--warn)",
   },
   {
-    id: "execute",
-    label: "Execute",
-    sublabel: "Creators, Meta ads, WhatsApp, offers",
-    x: 520,
-    y: 320,
+    num: "03",
+    phase: "Execute",
+    icon: Zap,
+    title: "Instant Campaigns",
+    desc: "Deploys local Meta ad sets, matches and contracts micro-creators, or triggers WhatsApp loyalty loops with a single merchant approval click.",
+    color: "var(--clay)",
   },
   {
-    id: "measure",
-    label: "Measure",
-    sublabel: "Revenue lift, attribution, next signal",
-    x: 80,
-    y: 320,
+    num: "04",
+    phase: "Measure",
+    icon: BarChart4,
+    title: "Closed-Loop Attribution",
+    desc: "Traces campaign redemption mechanics directly back to cover lift and outlet sales, feeding the attribution data back to start the cycle again.",
+    color: "var(--good)",
   },
-];
-
-const paths = [
-  { d: "M200 100 H500", from: "observe", to: "recommend" },
-  { d: "M540 140 V300", from: "recommend", to: "execute" },
-  { d: "M500 340 H200", from: "execute", to: "measure" },
-  { d: "M100 300 V140", from: "measure", to: "observe" },
 ];
 
 export function Loop() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Map scroll progress to active index states
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    let index = 0;
+    if (latest < 0.35) index = 0;
+    else if (latest < 0.55) index = 1;
+    else if (latest < 0.75) index = 2;
+    else index = 3;
+    setActiveIdx(index);
+  });
+
+  // Calculate width scaling or path length scrub
+  const pathLength = useTransform(scrollYProgress, [0.2, 0.8], [0, 1]);
 
   return (
-    <section className={styles.loop} id="section-loop" aria-labelledby="loop-heading" ref={ref}>
-      <div className="container">
+    <section ref={sectionRef} className={styles.loop} id="section-loop" aria-labelledby="loop-heading">
+      <div className={styles.loop__glow} aria-hidden="true" />
+
+      <div className="container" style={{ position: "relative" }}>
         <div className={styles.loop__header}>
-          <span className="eyebrow">How it works</span>
+          <span className="eyebrow">The Engine Cycle</span>
           <motion.h2
             id="loop-heading"
             className={styles.loop__heading}
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             One continuous loop.
           </motion.h2>
@@ -68,122 +86,88 @@ export function Loop() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            Every recommendation feeds the next one. The system gets sharper over time.
+            Every execution feeds the next recommendation. The system gets sharper with every cover resolved.
           </motion.p>
         </div>
 
-        {/* SVG Diagram */}
-        <div className={styles.loop__diagram} aria-hidden="true">
-          <svg
-            viewBox="0 0 620 420"
-            className={styles.loop__svg}
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Draw paths */}
-            {paths.map(({ d, from }, i) => (
-              <motion.path
-                key={from}
-                d={d}
-                stroke="var(--hairline)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={inView ? { pathLength: 1, opacity: 1 } : {}}
-                transition={{
-                  delay: i * 0.3 + 0.4,
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              />
-            ))}
-
-            {/* Arrow heads */}
-            {inView && (
-              <>
-                <motion.polygon
-                  points="498,93 508,100 498,107"
-                  fill="var(--hairline)"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                />
-                <motion.polygon
-                  points="533,298 540,308 547,298"
-                  fill="var(--hairline)"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  transition={{ delay: 1.0 }}
-                />
-                <motion.polygon
-                  points="202,333 192,340 202,347"
-                  fill="var(--hairline)"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  transition={{ delay: 1.3 }}
-                />
-                <motion.polygon
-                  points="93,142 100,132 107,142"
-                  fill="var(--hairline)"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  transition={{ delay: 1.6 }}
-                />
-              </>
-            )}
-
-            {/* Nodes */}
-            {nodes.map(({ id, label, x, y }, i) => (
-              <motion.g
-                key={id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: i * 0.15, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ transformOrigin: `${x + 60}px ${y + 28}px` }}
-              >
-                <rect
-                  x={x}
-                  y={y - 6}
-                  width="120"
-                  height="40"
-                  rx="8"
-                  fill={id === "observe" ? "var(--clay)" : "var(--surface)"}
-                  stroke={id === "observe" ? "var(--clay-deep)" : "var(--hairline)"}
-                  strokeWidth="1.5"
-                />
-                <text
-                  x={x + 60}
-                  y={y + 19}
-                  textAnchor="middle"
-                  fontFamily="var(--font-mono)"
-                  fontSize="11"
-                  fontWeight="500"
-                  letterSpacing="0.06em"
-                  fill={id === "observe" ? "#fff" : "var(--ink-soft)"}
-                >
-                  {label.toUpperCase()}
-                </text>
-              </motion.g>
-            ))}
+        {/* Animated Connecting SVG Path (Desktop only) */}
+        <div className={styles.loop__svgWrapper}>
+          <svg className={styles.loop__svg} viewBox="0 0 1000 100" fill="none">
+            {/* Background path line */}
+            <path
+              d="M 120 50 L 370 50 L 620 50 L 870 50"
+              stroke="rgba(37, 99, 235, 0.08)"
+              strokeWidth="2.5"
+            />
+            {/* Animated active path line */}
+            <motion.path
+              d="M 120 50 L 370 50 L 620 50 L 870 50"
+              stroke="var(--clay)"
+              strokeWidth="3"
+              style={{ pathLength }}
+            />
           </svg>
         </div>
 
-        {/* Mobile stacked fallback */}
-        <div className={styles.loop__mobile} aria-label="The Cocomo loop">
-          {nodes.map(({ label, sublabel }, i) => (
-            <motion.div
-              key={label}
-              className={styles.loop__step}
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-            >
-              <div className={`${styles.loop__stepnum} ${i === 0 ? styles["loop__stepnum--active"] : ""}`}>
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <div className={styles.loop__stepcopy}>
-                <span className={styles.loop__steplabel}>{label}</span>
-                <span className={styles.loop__stepsub}>{sublabel}</span>
-              </div>
-            </motion.div>
-          ))}
+        {/* Bento Grid Process Layout */}
+        <div className={styles.loop__grid}>
+          {loopPhases.map(({ num, phase, icon: Icon, title, desc, color }, i) => {
+            const isActive = activeIdx === i;
+            return (
+              <motion.div
+                key={num}
+                className={`${styles.phaseCard} ${isActive ? styles["phaseCard--active"] : ""}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.1, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Desktop Connection Arrow */}
+                {i < 3 && (
+                  <div className={styles.phaseCard__bridge} aria-hidden="true">
+                    <ArrowRight
+                      size={14}
+                      className={styles.phaseCard__bridgeArrow}
+                      style={{ color: isActive ? color : "var(--hairline)" }}
+                    />
+                  </div>
+                )}
+
+                <div className={styles.phaseCard__top}>
+                  <span className={styles.phaseCard__index} style={{ color: isActive ? color : "var(--ink-muted)" }}>
+                    {num} / {phase.toUpperCase()}
+                  </span>
+                  <div
+                    className={styles.phaseCard__icon}
+                    style={{
+                      color: isActive ? color : "var(--ink-muted)",
+                      backgroundColor: isActive
+                        ? `color-mix(in srgb, ${color} 12%, transparent)`
+                        : "rgba(10, 22, 47, 0.04)",
+                      border: isActive ? `1px solid ${color}` : "1px solid transparent",
+                      transition: "all 0.3s ease"
+                    }}
+                  >
+                    <Icon size={16} />
+                  </div>
+                </div>
+
+                <div className={styles.phaseCard__body}>
+                  <h3 className={styles.phaseCard__title}>{title}</h3>
+                  <p className={styles.phaseCard__desc}>{desc}</p>
+                </div>
+
+                {/* Bottom active line indicator */}
+                <div
+                  className={styles.phaseCard__accentLine}
+                  style={{
+                    backgroundColor: isActive ? color : "transparent",
+                    boxShadow: isActive ? `0 0 12px ${color}` : "none"
+                  }}
+                />
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

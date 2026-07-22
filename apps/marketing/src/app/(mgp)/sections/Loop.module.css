@@ -1,95 +1,193 @@
 .loop {
+  position: relative;
   padding-block: var(--section-gap);
   border-top: 1px solid var(--hairline);
+  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+  overflow: hidden;
+}
+
+.loop__glow {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 60%);
+  filter: blur(70px);
+  pointer-events: none;
 }
 
 .loop__header {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: 480px;
+  max-width: 580px;
   margin-bottom: var(--space-16);
 }
 
 .loop__heading {
-  font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
+  font-family: var(--font-serif);
+  font-size: clamp(var(--text-lg), 4.5vw, var(--text-xl));
+  font-weight: 600;
+  line-height: var(--leading-tight);
 }
 
 .loop__sub {
   font-size: var(--text-base);
   color: var(--ink-soft);
   max-width: 48ch;
+  line-height: var(--leading-normal);
 }
 
-/* SVG diagram — desktop */
-.loop__diagram {
+.loop__svgWrapper {
   display: none;
+  position: absolute;
+  top: 240px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (min-width: 960px) {
+  .loop__svgWrapper {
+    display: block;
+  }
 }
 
 .loop__svg {
   width: 100%;
-  max-width: 640px;
-  height: auto;
-  overflow: visible;
+  height: 100%;
 }
 
-@media (min-width: 720px) {
-  .loop__diagram { display: block; }
-  .loop__mobile  { display: none; }
+.loop__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  position: relative;
+  z-index: 2;
 }
 
-/* Mobile stacked steps */
-.loop__mobile {
+@media (min-width: 540px) {
+  .loop__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .loop__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+/* ── Phase Card Primitives ─────────────────────────────────────────────────── */
+.phaseCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid rgba(10, 22, 47, 0.05);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: var(--space-6);
+  min-height: 220px;
+  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition:
+    border-color var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out),
+    box-shadow var(--t-slow) var(--ease-out),
+    background-color var(--t-slow) var(--ease-out);
 }
 
-.loop__step {
+.phaseCard--active {
+  border-color: rgba(37, 99, 235, 0.2);
+  transform: translateY(-4px);
+  background-color: #FFFFFF;
+  box-shadow: var(--shadow-lift), 0 10px 30px rgba(37, 99, 235, 0.03);
+}
+
+/* Connection Bridges (Desktop only) */
+.phaseCard__bridge {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(37, 99, 235, 0.08);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-5);
-  padding: var(--space-5) 0;
-  border-bottom: 1px solid var(--hairline);
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-rest);
 }
 
-.loop__step:last-child { border-bottom: none; }
+@media (min-width: 960px) {
+  .phaseCard__bridge {
+    display: flex;
+  }
+}
 
-.loop__stepnum {
+.phaseCard__bridgeArrow {
+  transition: color var(--t-fast) var(--ease);
+}
+
+.phaseCard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phaseCard__index {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: var(--tracking-wide);
-  color: var(--ink-muted);
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-xs);
-  flex-shrink: 0;
-  min-width: 36px;
-  text-align: center;
+  letter-spacing: 0.08em;
+  transition: color var(--t-base) var(--ease-out);
 }
 
-.loop__stepnum--active {
-  color: #fff;
-  background: var(--clay);
-  border-color: var(--clay-deep);
+.phaseCard__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  transition: all var(--t-base) var(--ease-out);
 }
 
-.loop__stepcopy {
+.phaseCard__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding-top: 2px;
+  gap: var(--space-2);
 }
 
-.loop__steplabel {
+.phaseCard__title {
   font-family: var(--font-serif);
   font-size: var(--text-md);
   font-weight: 600;
   color: var(--ink);
 }
 
-.loop__stepsub {
+.phaseCard__desc {
   font-size: var(--text-sm);
-  color: var(--ink-muted);
+  color: var(--ink-soft);
+  line-height: var(--leading-normal);
+}
+
+.phaseCard__accentLine {
+  position: absolute;
+  bottom: 0;
+  left: var(--space-6);
+  right: var(--space-6);
+  height: 3px;
+  border-radius: var(--radius-pill) var(--radius-pill) 0 0;
+  transition: background-color var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
 }

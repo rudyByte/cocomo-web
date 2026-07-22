@@ -40,3 +40,14 @@ yarn-error.log*
 .DS_Store
 *.pem
 .env*
+
+# Yarn Berry (Yarn 4)
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Yarn global folder if present in workspace
+yarn-global/

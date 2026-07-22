@@ -60,7 +60,7 @@ export default function MediaContactPage() {
               <label className={styles.form__label}>Campaign brief
                 <textarea name="brief" rows={5} className={`${styles.form__input} ${styles.form__textarea}`} placeholder="Tell us your campaign goal, target audience, and approximate budget..." />
               </label>
-              <button type="submit" disabled={isPending} className={styles.form__submit} id="media-contact-submit">
+              <button type="submit" disabled={isPending} className={styles.form__submit} id="media-contact-submit" data-magnetic>
                 {isPending ? <><Loader2 size={16} className={styles.spinner} />Sending...</> : "Send proposal request"}
               </button>
             </form>

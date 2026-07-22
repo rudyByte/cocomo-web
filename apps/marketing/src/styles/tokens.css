@@ -4,34 +4,34 @@
    ========================================================================= */
 
 :root {
-  /* ── Color Palette ────────────────────────────────────────────────────── */
-  --paper:      #FBFAF6;
-  --surface:    #F3F0E9;
-  --surface-2:  #EAE6DC;
-  --hairline:   #E0D9CC;
-  --ink-muted:  #857A6C;
-  --ink-soft:   #4A4239;
-  --ink:        #1B1712;
+  /* ── Color Palette (Luxury Blue & White Glassmorphism) ─────────────────── */
+  --paper:      #FFFFFF;
+  --surface:    rgba(255, 255, 255, 0.75);
+  --surface-2:  rgba(255, 255, 255, 0.45);
+  --hairline:   rgba(37, 99, 235, 0.08);
+  --ink-muted:  #64748B;
+  --ink-soft:   #334155;
+  --ink:        #0F172A;
 
-  /* Accent — use sparingly: CTAs, active states, key numbers, one keyline */
-  --clay:       #B4502D;
-  --clay-deep:  #93401F;
-  --clay-light: #DCBFB2;
-  --clay-tint:  #F7EDE8;
+  /* Accent — Luxury Cobalt/Sapphire Blue */
+  --clay:       #2563EB;
+  --clay-deep:  #1D4ED8;
+  --clay-light: rgba(37, 99, 235, 0.15);
+  --clay-tint:  #EFF6FF;
 
   /* Semantic */
-  --good:        #2E8B67;
-  --good-tint:   #E3F4EE;
-  --warn:        #C08A24;
-  --warn-tint:   #FBF3E0;
-  --danger:      #A8332A;
-  --danger-tint: #F8E9E8;
+  --good:        #059669;
+  --good-tint:   #ECFDF5;
+  --warn:        #D97706;
+  --warn-tint:   #FEF3C7;
+  --danger:      #DC2626;
+  --danger-tint: #FEF2F2;
 
   /* Chart color order: clay → slate → good → warn */
-  --data-clay:  #B4502D;
-  --data-slate: #4E6E8E;
-  --data-good:  #2E8B67;
-  --data-warn:  #C08A24;
+  --data-clay:  #2563EB;
+  --data-slate: #64748B;
+  --data-good:  #059669;
+  --data-warn:  #D97706;
 
   /* ── Typography ───────────────────────────────────────────────────────── */
   --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
@@ -79,21 +79,27 @@
   --space-32: 8rem;      /* 128px */
 
   /* Section breathing room */
-  --section-gap: var(--space-24);
-  --section-gap-sm: var(--space-18);
+  --section-gap: var(--space-16);
+  --section-gap-sm: var(--space-12);
 
-  /* ── Border Radius ────────────────────────────────────────────────────── */
-  --radius-xs: 4px;
-  --radius-sm: 7px;
-  --radius-md: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  /* ── Border Radius (Highly Rounded Skeuomorphic Curves) ───────────────── */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
   --radius-pill: 100px;
 
-  /* ── Shadows ──────────────────────────────────────────────────────────── */
-  --shadow-rest: 0 1px 2px rgba(27, 23, 18, 0.06), 0 0 0 1px rgba(27, 23, 18, 0.04);
-  --shadow-lift: 0 4px 16px rgba(27, 23, 18, 0.10), 0 1px 3px rgba(27, 23, 18, 0.06);
-  --shadow-high: 0 12px 40px rgba(27, 23, 18, 0.14), 0 2px 6px rgba(27, 23, 18, 0.08);
+  /* ── Shadows (Soft Skeuomorphic Depth) ────────────────────────────────── */
+  --shadow-rest: 0 4px 12px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(37, 99, 235, 0.04);
+  --shadow-lift: 0 12px 28px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(37, 99, 235, 0.06);
+  --shadow-high: 0 20px 48px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.08);
+
+  /* ── Glassmorphism Attributes ─────────────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-backdrop: blur(16px);
 
   /* ── Motion Tokens ────────────────────────────────────────────────────── */
   --t-fast:    120ms;
@@ -119,31 +125,24 @@
   --z-tooltip: 50;
 }
 
-/* ── Dark Mode ─────────────────────────────────────────────────────────────── */
+/* ── Dark Mode Fallback (Enforces Light Luxury Theme) ─────────────────────── */
 [data-theme="dark"] {
-  --paper:      #141210;
-  --surface:    #1D1A17;
-  --surface-2:  #252118;
-  --hairline:   #2E2923;
-  --ink-muted:  #9E9185;
-  --ink-soft:   #C4B8AA;
-  --ink:        #F0EAE0;
+  --paper:      #FFFFFF;
+  --surface:    rgba(255, 255, 255, 0.75);
+  --surface-2:  rgba(255, 255, 255, 0.45);
+  --hairline:   rgba(37, 99, 235, 0.08);
+  --ink-muted:  #64748B;
+  --ink-soft:   #334155;
+  --ink:        #0F172A;
 
-  --clay:       #D4673E;
-  --clay-deep:  #B4502D;
-  --clay-light: #5C3020;
-  --clay-tint:  #2A1A12;
+  --clay:       #2563EB;
+  --clay-deep:  #1D4ED8;
+  --clay-light: rgba(37, 99, 235, 0.15);
+  --clay-tint:  #EFF6FF;
 
-  --good:       #3DAE80;
-  --good-tint:  #0D2B1E;
-  --warn:       #D4A030;
-  --warn-tint:  #2B2008;
-  --danger:     #C94540;
-  --danger-tint: #2C0E0D;
-
-  --shadow-rest: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
-  --shadow-lift: 0 4px 20px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3);
-  --shadow-high: 0 12px 48px rgba(0, 0, 0, 0.6), 0 3px 8px rgba(0, 0, 0, 0.4);
+  --shadow-rest: 0 4px 12px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(37, 99, 235, 0.04);
+  --shadow-lift: 0 12px 28px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(37, 99, 235, 0.06);
+  --shadow-high: 0 20px 48px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 /* ── Reduced Motion ────────────────────────────────────────────────────────── */

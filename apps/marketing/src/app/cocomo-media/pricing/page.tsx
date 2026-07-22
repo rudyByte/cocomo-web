@@ -54,49 +54,60 @@ const pricingTiers = [
 
 export default function PricingPage() {
   return (
-    <div className={styles.page} style={{ paddingTop: "4rem" }}>
+    <div className={styles.page} style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
       <div className={styles.container}>
         <span className={styles.eyebrow}>Transparent Pricing</span>
-        <h1 className={styles.section__heading} style={{ fontSize: "3rem", marginBottom: "1.5rem" }}>
+        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem", color: "#0A162F" }}>
           Predictable investment. Measurable return.
         </h1>
         <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
           Choose a fixed-scope campaign package or build a custom retainer with our team.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2.5rem" }}>
           {pricingTiers.map((tier) => (
             <div
               key={tier.name}
               className={styles.services__card}
               style={{
-                padding: "2.5rem",
-                border: tier.highlight ? "2px solid #E8356D" : "1px solid rgba(255,255,255,0.08)",
-                background: tier.highlight ? "rgba(232,53,109,0.06)" : "rgba(255,255,255,0.04)",
+                padding: "3rem 2.5rem",
+                border: tier.highlight ? "1px solid #C9A961" : "1px solid rgba(10, 22, 47, 0.08)", // Gold accent for highlight
+                background: tier.highlight ? "#FAFBFC" : "rgba(246, 248, 252, 0.45)",
+                boxShadow: tier.highlight ? "0 20px 48px rgba(10,22,47,0.06)" : "none",
+                position: "relative"
               }}
             >
               {tier.highlight && (
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "#E8356D", textTransform: "uppercase", display: "block", marginBottom: "0.5rem" }}>
-                  ★ Most Popular
+                <span style={{ 
+                  fontFamily: "var(--font-mono)", 
+                  fontSize: "0.75rem", 
+                  color: "#C9A961", // Gold hairline color
+                  fontWeight: 700,
+                  textTransform: "uppercase", 
+                  display: "block", 
+                  marginBottom: "1rem",
+                  letterSpacing: "0.08em"
+                }}>
+                  ✦ Most Popular
                 </span>
               )}
-              <h2 className={styles.services__title} style={{ fontSize: "1.5rem", color: "#fff" }}>
+              <h2 className={styles.services__title} style={{ fontSize: "1.65rem", color: "#0A162F", marginBottom: "1rem" }}>
                 {tier.name}
               </h2>
-              <div style={{ margin: "1rem 0" }}>
-                <span style={{ fontSize: "2.5rem", fontWeight: "700", fontFamily: "var(--font-mono)", color: "#fff" }}>
+              <div style={{ margin: "1.5rem 0", borderTop: "1px solid rgba(10,22,47,0.06)", paddingTop: "1.5rem" }}>
+                <span style={{ fontSize: "2.75rem", fontWeight: "700", fontFamily: "var(--font-mono)", color: "#0A162F" }}>
                   {tier.price}
                 </span>
-                <span style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.5)" }}> {tier.period}</span>
+                <span style={{ fontSize: "0.875rem", color: "#5E697F" }}> {tier.period}</span>
               </div>
-              <p className={styles.services__desc} style={{ fontSize: "0.875rem", marginBottom: "2rem" }}>
+              <p className={styles.services__desc} style={{ fontSize: "0.9375rem", color: "#5E697F", marginBottom: "2rem", lineHeight: 1.6 }}>
                 {tier.desc}
               </p>
 
-              <ul style={{ display: "flex", flexDirection: "column", gap: "0.75rem", listStyle: "none", padding: 0, marginBottom: "2rem" }}>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "1rem", listStyle: "none", padding: 0, marginBottom: "2.5rem", borderTop: "1px dashed rgba(10,22,47,0.06)", paddingTop: "1.5rem" }}>
                 {tier.features.map((f) => (
-                  <li key={f} style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.8)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ color: "#E8356D" }}>✓</span> {f}
+                  <li key={f} style={{ fontSize: "0.875rem", color: "#0A162F", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <span style={{ color: "#2563EB", fontWeight: "bold" }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
@@ -104,7 +115,8 @@ export default function PricingPage() {
               <Link
                 href="/cocomo-media/contact"
                 className={styles.hero__primary}
-                style={{ width: "100%", justifyContent: "center", textDecoration: "none" }}
+                style={{ width: "100%", justifyContent: "center", textDecoration: "none", background: tier.highlight ? "#0A162F" : "#2563EB" }}
+                data-magnetic
               >
                 Select Package
               </Link>

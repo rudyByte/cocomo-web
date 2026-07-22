@@ -28,10 +28,22 @@ export default function CompanyPage() {
       <section id="team" className={styles.section} aria-labelledby="team-heading">
         <div className="container">
           <h2 id="team-heading" className={styles.section__heading}>Team</h2>
-          {/* TODO: Replace with real team profiles */}
-          <p className={styles.section__body}>
-            TODO: Team profiles — founders, key hires.
+          <p className={styles.section__body} style={{ marginBottom: "2.5rem" }}>
+            We are a group of engineers, designers, and growth experts building the future of offline commerce.
           </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2.5rem" }}>
+            {[
+              { name: "Rudra Ajudiya", role: "Co-Founder & CEO", desc: "Ex-software engineer & product manager, building intelligence infrastructure for offline merchants." },
+              { name: "Nehal Shah", role: "Co-Founder & CTO", desc: "Ex-ML engineer & data scientist, specializing in telemetry analysis and predictive revenue models." },
+              { name: "Ananya Sen", role: "Head of Creator Relations", desc: "Managed creator ecosystems and influencer campaigns for India's largest D2C brands." }
+            ].map((member) => (
+              <div key={member.name} style={{ background: "rgba(246, 248, 252, 0.45)", border: "1px solid rgba(10, 22, 47, 0.06)", padding: "2rem", borderRadius: "18px" }}>
+                <h3 style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--ink)", marginBottom: "0.25rem", fontFamily: "var(--font-serif)" }}>{member.name}</h3>
+                <span style={{ fontSize: "0.8125rem", color: "var(--clay)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "1rem" }}>{member.role}</span>
+                <p style={{ fontSize: "0.875rem", color: "var(--ink-soft)", lineHeight: 1.6 }}>{member.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

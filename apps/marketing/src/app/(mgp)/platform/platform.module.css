@@ -1,82 +1,260 @@
-.page { min-height: 100dvh; }
+/* ── Cocomo Engine Platform — Luxury White & deep sapphire ────────────────── */
+
+.page { 
+  min-height: 100dvh; 
+  background-color: #FFFFFF;
+  color: #080F1E;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
 .hero {
-  padding-block: var(--space-16) var(--space-18);
-  border-bottom: 1px solid var(--hairline);
+  position: relative;
+  padding-block: 5rem 6rem;
+  border-bottom: 1px solid rgba(10, 22, 47, 0.05);
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+.hero__glow {
+  position: absolute;
+  top: -10%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+  }
+}
+
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .hero__heading {
-  font-size: clamp(var(--text-lg), 5vw, var(--text-xl));
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5.5vw, 4rem);
   max-width: 18ch;
-  margin-block: var(--space-4);
+  line-height: 1.1;
+  color: #0A162F;
+  letter-spacing: -0.02em;
 }
 
 .hero__sub {
-  font-size: var(--text-base);
-  color: var(--ink-soft);
-  max-width: 56ch;
+  font-size: 1.0625rem;
+  color: #5E697F;
+  max-width: 52ch;
+  line-height: 1.6;
 }
 
-.phases { padding-block: var(--section-gap); }
-
-.phase {
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  gap: var(--space-6);
-  padding-block: var(--space-8);
-  border-bottom: 1px solid var(--hairline);
+.hero__graphic {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background: rgba(246, 248, 252, 0.45);
+  border: 1px solid rgba(10, 22, 47, 0.06);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(10, 22, 47, 0.02);
 }
 
-.phase:last-child { border-bottom: none; }
-
-.phase__num {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  color: var(--clay);
-  letter-spacing: var(--tracking-wide);
-  padding-top: 4px;
+.pipeline__fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.phase__title {
+.pipeline__static {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px dashed rgba(37,99,235,0.15);
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Stacking Card Layout ─────────────────────────────────────────────────── */
+.phases { 
+  padding-block: 6rem; 
+  background-color: #FFFFFF;
+}
+
+.phases__header {
+  margin-bottom: 4rem;
+}
+
+.phases__heading {
   font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  margin-top: 0.5rem;
+  color: #0A162F;
+  letter-spacing: -0.02em;
+}
+
+.phases__sub {
+  font-size: 1rem;
+  color: #5E697F;
+  margin-top: 0.5rem;
+}
+
+.phases__stackList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 860px;
+  margin: 3rem auto 0;
+  perspective: 1200px;
+}
+
+.phaseCard {
+  background: #FFFFFF;
+  border: 1px solid rgba(10, 22, 47, 0.08);
+  border-radius: 28px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  position: sticky;
+  top: 110px;
+  transform-origin: top center;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  box-shadow: 0 10px 40px rgba(10, 22, 47, 0.03);
+  background-image: linear-gradient(135deg, rgba(246, 248, 252, 0.4) 0%, rgba(255,255,255,0) 60%);
+}
+
+@media (min-width: 680px) {
+  .phaseCard {
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 48px;
+  }
+}
+
+.phaseCard__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.phaseCard__num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2563EB;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.phaseCard__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
   font-weight: 600;
-  margin-bottom: var(--space-3);
+  color: #0A162F;
+  margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
-.phase__body {
-  font-size: var(--text-base);
-  color: var(--ink-soft);
-  max-width: 60ch;
+.phaseCard__body {
+  font-size: 0.9375rem;
+  color: #5E697F;
+  line-height: 1.65;
+  margin-bottom: 2rem;
 }
 
+.phaseCard__stat {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(10, 22, 47, 0.05);
+  padding-top: 1rem;
+}
+
+.phaseCard__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phaseCard__iconWrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.8);
+}
+
+/* ── Pricing model ────────────────────────────────────────────────────────── */
 .pricing {
-  padding-block: var(--section-gap);
-  background: var(--surface);
-  border-top: 1px solid var(--hairline);
+  padding-block: 6rem;
+  background: rgba(246, 248, 252, 0.45);
+  border-top: 1px solid rgba(10, 22, 47, 0.05);
+}
+
+.pricing__inner {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .pricing__heading {
-  font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
-  margin-bottom: var(--space-6);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  color: #0A162F;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .pricing__body {
-  font-size: var(--text-base);
-  color: var(--ink-soft);
-  max-width: 58ch;
+  font-size: 1.0625rem;
+  color: #5E697F;
+  line-height: 1.6;
 }
 
-.security { padding-block: var(--section-gap); border-top: 1px solid var(--hairline); }
-
-.section__heading {
-  font-size: var(--text-lg);
-  margin-bottom: var(--space-5);
+/* ── Security ─────────────────────────────────────────────────────────────── */
+.security {
+  padding-block: 6rem;
+  border-top: 1px solid rgba(10, 22, 47, 0.05);
+  background-color: #FFFFFF;
 }
 
-.section__body {
-  font-size: var(--text-base);
-  color: var(--ink-soft);
-  max-width: 56ch;
+.security__inner {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.security__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  color: #0A162F;
+}
+
+.security__body {
+  font-size: 1.0625rem;
+  color: #5E697F;
+  line-height: 1.6;
 }

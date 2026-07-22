@@ -1,11 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Users, MessageSquare, Tag, BarChart2, Repeat } from "lucide-react";
+import { Zap, Users, MessageSquare, Tag, BarChart2, Repeat, LucideIcon } from "lucide-react";
 import styles from "./ExecutionNetwork.module.css";
 
-const channels = [
+interface ChannelItem {
+  icon: LucideIcon;
+  label: string;
+  sub: string;
+}
+
+const channels: ChannelItem[] = [
   { icon: Users, label: "Creator campaigns", sub: "Micro-influencers in your city" },
   { icon: Zap, label: "Meta ads", sub: "Auto-targeted to your customer profile" },
   { icon: MessageSquare, label: "WhatsApp offers", sub: "Personalised to repeat visitors" },
@@ -13,6 +19,30 @@ const channels = [
   { icon: BarChart2, label: "Staff tasks", sub: "Assigned with context and timing" },
   { icon: Repeat, label: "Loyalty loops", sub: "Bring customers back, automatically" },
 ];
+
+function ExecutionCard({ item, index }: { item: ChannelItem; index: number }) {
+  const [inView, setInView] = useState(false);
+  const Icon = item.icon;
+
+  return (
+    <motion.div
+      className={`${styles.exec__card} ${inView ? styles.drawIcon : ""}`}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      onViewportEnter={() => setInView(true)}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ delay: index * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className={styles.exec__icon} aria-hidden="true">
+        <Icon size={18} strokeWidth={1.5} />
+      </div>
+      <div className={styles.exec__copy}>
+        <span className={styles.exec__label}>{item.label}</span>
+        <span className={styles.exec__sublabel}>{item.sub}</span>
+      </div>
+    </motion.div>
+  );
+}
 
 export function ExecutionNetwork() {
   return (
@@ -45,23 +75,8 @@ export function ExecutionNetwork() {
         </div>
 
         <div className={styles.exec__grid}>
-          {channels.map(({ icon: Icon, label, sub }, i) => (
-            <motion.div
-              key={label}
-              className={styles.exec__card}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className={styles.exec__icon} aria-hidden="true">
-                <Icon size={18} strokeWidth={1.5} />
-              </div>
-              <div className={styles.exec__copy}>
-                <span className={styles.exec__label}>{label}</span>
-                <span className={styles.exec__sublabel}>{sub}</span>
-              </div>
-            </motion.div>
+          {channels.map((item, i) => (
+            <ExecutionCard key={item.label} item={item} index={i} />
           ))}
         </div>
 

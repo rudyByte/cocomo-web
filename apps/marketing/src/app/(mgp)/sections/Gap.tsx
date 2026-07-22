@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Gap.module.css";
 
@@ -21,6 +21,8 @@ const fadeUp = {
 };
 
 export function Gap() {
+  const [cocomoInView, setCocomoInView] = useState(false);
+
   return (
     <section className={styles.gap} id="section-gap" aria-labelledby="gap-heading">
       <div className={`container ${styles.gap__inner}`}>
@@ -62,6 +64,7 @@ export function Gap() {
                   variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
+                  animate={cocomoInView ? { opacity: 0.4, scale: 0.98, transition: { duration: 0.5 } } : undefined}
                   viewport={{ once: true, margin: "-60px" }}
                 >
                   <span className={styles.gap__sysname}>{name}</span>
@@ -93,6 +96,7 @@ export function Gap() {
               className={styles.gap__cocomo}
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
+              onViewportEnter={() => setCocomoInView(true)}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >

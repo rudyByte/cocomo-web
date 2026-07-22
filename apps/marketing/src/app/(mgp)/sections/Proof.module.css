@@ -31,9 +31,12 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-6);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .proof__value {
@@ -60,13 +63,17 @@
 
 .proof__quote {
   padding: var(--space-8) var(--space-8) var(--space-8) var(--space-10);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-left: 2px solid var(--clay);
-  background: var(--surface);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
   max-width: 720px;
+  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .proof__blockquote {
