@@ -24,10 +24,8 @@ export default function CocomoMediaLayout({ children }: { children: React.ReactN
       <header className={styles.nav}>
         <div className={`${styles.nav__inner}`}>
           <Link href="/cocomo-media" className={styles.nav__logo} aria-label="Cocomo Media — home">
-            <span className={styles.nav__wordmark}>
-              <span className={styles.nav__co} data-magnetic>Cocomo</span>
-              <span className={styles.nav__media}>Media</span>
-            </span>
+            <Logo variant="light" iconSize={26} textSize="1.05rem" spacing="0.5rem" />
+            <span className={styles.nav__media} style={{ marginLeft: "4px" }}>Media</span>
           </Link>
 
           <nav className={styles.nav__links} aria-label="Cocomo Media navigation">
@@ -53,7 +51,17 @@ export default function CocomoMediaLayout({ children }: { children: React.ReactN
       <footer className={styles.footer}>
         <div className={styles.footer__inner}>
           <div>
-            <Link href="/cocomo-media" className={styles.footer__logo}>Cocomo Media</Link>
+            <Link href="/cocomo-media" className={styles.footer__logo} style={{ display: "inline-flex", alignItems: "center", textDecoration: "none" }}>
+              <Logo variant="dark" iconSize={28} textSize="1.15rem" spacing="0.6rem" />
+              <span style={{
+                fontFamily: "var(--font-mono), monospace",
+                fontSize: "0.75rem",
+                color: "#2563EB",
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                marginLeft: "8px"
+              }}>Media</span>
+            </Link>
             <p className={styles.footer__tagline}>Creator & Influencer Growth Engine</p>
           </div>
           <nav className={styles.footer__nav} aria-label="Cocomo Media footer">

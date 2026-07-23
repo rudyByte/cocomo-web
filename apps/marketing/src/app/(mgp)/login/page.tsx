@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "./login.module.css";
+import { Logo } from "@/components/Logo/Logo";
 
 export const metadata: Metadata = {
   title: "Sign In — Cocomo",
@@ -11,7 +12,9 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <Link href="/" className={styles.wordmark}>Cocomo</Link>
+        <Link href="/" className={styles.wordmark} style={{ display: "inline-flex", justifyContent: "center", width: "100%", marginBottom: "1.5rem" }}>
+          <Logo variant="light" iconSize={36} textSize="1.35rem" spacing="0.75rem" />
+        </Link>
         <h1 className={styles.heading}>Sign in</h1>
         <p className={styles.sub}>
           Access your Growth OS dashboard.
