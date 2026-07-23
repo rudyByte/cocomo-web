@@ -3,35 +3,57 @@
 import React from "react";
 
 interface LogoProps {
-  variant?: "light" | "dark" | "color"; // light = dark text/icon, dark = white text/icon, color = cobalt blue icon
+  variant?: "light" | "dark"; // light = dark logo on white/light bg, dark = silver/white logo on dark bg
+  layout?: "horizontal" | "vertical";
   showText?: boolean;
-  iconSize?: number;
+  iconSize?: number; // for horizontal layout
   textSize?: string;
   spacing?: string;
   className?: string;
+  size?: number; // for vertical layout
 }
 
 export function Logo({
   variant = "light",
+  layout = "horizontal",
   showText = true,
-  iconSize = 32,
-  textSize = "1.25rem",
-  spacing = "0.75rem",
+  iconSize = 30,
+  textSize = "1.2rem",
+  spacing = "0.6rem",
   className = "",
+  size = 140,
 }: LogoProps) {
-  // Determine colors based on variant
-  const iconColor =
-    variant === "color"
-      ? "var(--clay)" // Cobalt Blue
-      : variant === "dark"
-      ? "#FAFAF7" // Luxury Off-white
-      : "#0A162F"; // Rich Charcoal Ink
+  const imgSrc = variant === "dark" ? "/logo-dark-bg.png" : "/logo-light-bg.png";
+  const blendMode = variant === "dark" ? "screen" : "multiply";
 
-  const textColor =
-    variant === "dark"
-      ? "#FAFAF7"
-      : "#0A162F";
+  if (layout === "vertical") {
+    return (
+      <div
+        className={className}
+        style={{
+          position: "relative",
+          display: "inline-flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: `${size}px`,
+          userSelect: "none",
+        }}
+      >
+        <img
+          src={imgSrc}
+          alt="Cocomo Logo"
+          style={{
+            width: "100%",
+            height: "auto",
+            mixBlendMode: blendMode,
+            display: "block",
+          }}
+        />
+      </div>
+    );
+  }
 
+  // Horizontal layout: Crop the exact circle icon from the reference image, and pair it with a geometric wordmark
   return (
     <div
       className={className}
@@ -42,29 +64,34 @@ export function Logo({
         userSelect: "none",
       }}
     >
-      {/* Curved Ribbon C Globe Sphere Icon */}
-      <svg
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ flexShrink: 0 }}
+      {/* Cropped exact glossy 3D C Ribbon circle icon */}
+      <div
+        style={{
+          width: `${iconSize}px`,
+          height: `${iconSize}px`,
+          position: "relative",
+          overflow: "hidden",
+          display: "inline-block",
+          flexShrink: 0,
+        }}
       >
-        <g style={{ fill: iconColor }}>
-          {/* Vertical/Sweeping Ribbons forming the left sphere shell */}
-          <path d="M43,8 C30,12 20,24 16,38 C14,45 14,55 16,62 C20,76 30,88 43,92 C37,84 31,70 31,50 C31,30 37,16 43,8 Z" />
-          <path d="M54,4 C42,10 33,24 30,38 C28,45 28,55 30,62 C33,76 42,90 54,96 C48,86 42,70 42,50 C42,30 48,14 54,4 Z" />
-          <path d="M65,1 C55,9 47,24 45,38 C43,45 43,55 45,62 C47,76 55,91 65,99 C59,88 54,70 54,50 C54,30 59,12 65,1 Z" />
-          
-          {/* Horizontal/Transverse Ribbons forming the bottom-right shell with C-gap */}
-          <path d="M44,91 C58,95 72,93 83,86 C88,83 92,79 95,74 C91,72 85,71 78,71 C65,71 52,78 44,91 Z" />
-          <path d="M38,78 C54,83 71,81 83,72 C89,68 93,63 96,57 C92,56 85,55 78,55 C63,55 48,64 38,78 Z" />
-          <path d="M32,65 C50,71 68,69 82,58 C88,53 92,47 94,40 C90,40 83,40 76,40 C59,40 43,50 32,65 Z" />
-        </g>
-      </svg>
+        <img
+          src={imgSrc}
+          alt="Cocomo Logo Icon"
+          style={{
+            position: "absolute",
+            top: "-6%", // Focus precisely on the ribbon sphere, hiding the text
+            left: "50%",
+            transform: "translateX(-50%)",
+            height: "140%", // Clip the bottom 30% text
+            width: "auto",
+            maxWidth: "none",
+            mixBlendMode: blendMode,
+          }}
+        />
+      </div>
 
-      {/* Sleek Geometric Sans-Serif Wordmark */}
+      {/* Styled geometric wordmark to match the inspo font */}
       {showText && (
         <span
           style={{
@@ -73,7 +100,7 @@ export function Logo({
             fontWeight: 800,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: textColor,
+            color: variant === "dark" ? "#FAFAF7" : "#0A162F",
             lineHeight: 1,
           }}
         >

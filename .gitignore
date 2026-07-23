@@ -52,5 +52,7 @@ yarn-error.log*
 # Yarn global folder if present in workspace
 yarn-global/
 
-# Misc junk
+# Generated/temporary files
 nul
+pnpm-lock.yaml
+pnpm-workspace.yaml

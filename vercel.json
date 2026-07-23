@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "buildCommand": "turbo build",
-  "installCommand": "pnpm install",
+  "installCommand": "yarn install",
   "ignoreCommand": "npx turbo-ignore"
 }

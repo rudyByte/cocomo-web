@@ -76,21 +76,31 @@ export function PageLoader() {
         <div style={{ overflow: "hidden", display: "flex", alignItems: "center", gap: "10px" }}>
           {/* C Ribbon Globe Icon */}
           <div ref={word1Ref} style={{ display: "flex", alignItems: "center" }}>
-            <svg
-              width={36}
-              height={36}
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ fill: "#0A162F" }}
+            <div
+              style={{
+                width: "36px",
+                height: "36px",
+                position: "relative",
+                overflow: "hidden",
+                display: "inline-block",
+                flexShrink: 0
+              }}
             >
-              <path d="M43,8 C30,12 20,24 16,38 C14,45 14,55 16,62 C20,76 30,88 43,92 C37,84 31,70 31,50 C31,30 37,16 43,8 Z" />
-              <path d="M54,4 C42,10 33,24 30,38 C28,45 28,55 30,62 C33,76 42,90 54,96 C48,86 42,70 42,50 C42,30 48,14 54,4 Z" />
-              <path d="M65,1 C55,9 47,24 45,38 C43,45 43,55 45,62 C47,76 55,91 65,99 C59,88 54,70 54,50 C54,30 59,12 65,1 Z" />
-              <path d="M44,91 C58,95 72,93 83,86 C88,83 92,79 95,74 C91,72 85,71 78,71 C65,71 52,78 44,91 Z" />
-              <path d="M38,78 C54,83 71,81 83,72 C89,68 93,63 96,57 C92,56 85,55 78,55 C63,55 48,64 38,78 Z" />
-              <path d="M32,65 C50,71 68,69 82,58 C88,53 92,47 94,40 C90,40 83,40 76,40 C59,40 43,50 32,65 Z" />
-            </svg>
+              <img
+                src="/logo-light-bg.png"
+                alt="Cocomo Logo Icon"
+                style={{
+                  position: "absolute",
+                  top: "-6%",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  height: "140%",
+                  width: "auto",
+                  maxWidth: "none",
+                  mixBlendMode: "multiply"
+                }}
+              />
+            </div>
           </div>
           
           {/* Wordmark Text */}
