@@ -3,57 +3,26 @@
 import React from "react";
 
 interface LogoProps {
-  variant?: "light" | "dark"; // light = dark logo on white/light bg, dark = silver/white logo on dark bg
-  layout?: "horizontal" | "vertical";
+  variant?: "light" | "dark"; // light = black logo on white/light bg, dark = white logo on dark bg
   showText?: boolean;
-  iconSize?: number; // for horizontal layout
+  iconSize?: number;
   textSize?: string;
   spacing?: string;
   className?: string;
-  size?: number; // for vertical layout
 }
 
 export function Logo({
   variant = "light",
-  layout = "horizontal",
   showText = true,
-  iconSize = 30,
+  iconSize = 28,
   textSize = "1.2rem",
-  spacing = "0.6rem",
+  spacing = "0.5rem",
   className = "",
-  size = 140,
 }: LogoProps) {
-  const imgSrc = variant === "dark" ? "/logo-dark-bg.png" : "/logo-light-bg.png";
+  // If variant is dark, we invert the black logo to make it white/chrome, and use screen blending
+  const filterStyle = variant === "dark" ? "invert(1)" : "none";
   const blendMode = variant === "dark" ? "screen" : "multiply";
 
-  if (layout === "vertical") {
-    return (
-      <div
-        className={className}
-        style={{
-          position: "relative",
-          display: "inline-flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: `${size}px`,
-          userSelect: "none",
-        }}
-      >
-        <img
-          src={imgSrc}
-          alt="Cocomo Logo"
-          style={{
-            width: "100%",
-            height: "auto",
-            mixBlendMode: blendMode,
-            display: "block",
-          }}
-        />
-      </div>
-    );
-  }
-
-  // Horizontal layout: Crop the exact circle icon from the reference image, and pair it with a geometric wordmark
   return (
     <div
       className={className}
@@ -64,34 +33,22 @@ export function Logo({
         userSelect: "none",
       }}
     >
-      {/* Cropped exact glossy 3D C Ribbon circle icon */}
-      <div
+      {/* Pure C Ribbon Globe Circle Icon (No text bleeding) */}
+      <img
+        src="/logo-icon.png"
+        alt="Cocomo Logo Icon"
         style={{
           width: `${iconSize}px`,
           height: `${iconSize}px`,
-          position: "relative",
-          overflow: "hidden",
-          display: "inline-block",
+          objectFit: "contain",
+          filter: filterStyle,
+          mixBlendMode: blendMode,
+          display: "block",
           flexShrink: 0,
         }}
-      >
-        <img
-          src={imgSrc}
-          alt="Cocomo Logo Icon"
-          style={{
-            position: "absolute",
-            top: "-6%", // Focus precisely on the ribbon sphere, hiding the text
-            left: "50%",
-            transform: "translateX(-50%)",
-            height: "140%", // Clip the bottom 30% text
-            width: "auto",
-            maxWidth: "none",
-            mixBlendMode: blendMode,
-          }}
-        />
-      </div>
+      />
 
-      {/* Styled geometric wordmark to match the inspo font */}
+      {/* Styled geometric wordmark */}
       {showText && (
         <span
           style={{

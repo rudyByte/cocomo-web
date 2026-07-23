@@ -1,28 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/globals.css";
-
-// ── Fonts ────────────────────────────────────────────────────────────────────
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-  weight: "variable",
-  axes: ["opsz", "SOFT", "WONK"],
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
+import { fraunces, inter, jetbrainsMono } from "@/lib/fonts";
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {

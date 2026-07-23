@@ -5,8 +5,8 @@ import gsap from "gsap";
 
 export function PageLoader() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const word1Ref = useRef<HTMLSpanElement>(null);
-  const word2Ref = useRef<HTMLSpanElement>(null);
+  const word1Ref = useRef<HTMLDivElement>(null);
+  const word2Ref = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(true);
 
@@ -76,31 +76,18 @@ export function PageLoader() {
         <div style={{ overflow: "hidden", display: "flex", alignItems: "center", gap: "10px" }}>
           {/* C Ribbon Globe Icon */}
           <div ref={word1Ref} style={{ display: "flex", alignItems: "center" }}>
-            <div
+            <img
+              src="/logo-icon.png"
+              alt="Cocomo Logo Icon"
               style={{
                 width: "36px",
                 height: "36px",
-                position: "relative",
-                overflow: "hidden",
-                display: "inline-block",
+                objectFit: "contain",
+                mixBlendMode: "multiply",
+                display: "block",
                 flexShrink: 0
               }}
-            >
-              <img
-                src="/logo-light-bg.png"
-                alt="Cocomo Logo Icon"
-                style={{
-                  position: "absolute",
-                  top: "-6%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  height: "140%",
-                  width: "auto",
-                  maxWidth: "none",
-                  mixBlendMode: "multiply"
-                }}
-              />
-            </div>
+            />
           </div>
           
           {/* Wordmark Text */}
