@@ -77,13 +77,12 @@ export function PageLoader() {
           {/* C Ribbon Globe Icon */}
           <div ref={word1Ref} style={{ display: "flex", alignItems: "center" }}>
             <img
-              src="/logo-icon.png"
+              src="/logo-icon.png?v=3"
               alt="Cocomo Logo Icon"
               style={{
                 width: "36px",
                 height: "36px",
                 objectFit: "contain",
-                mixBlendMode: "multiply",
                 display: "block",
                 flexShrink: 0
               }}

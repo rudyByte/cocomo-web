@@ -25,7 +25,7 @@ export default function CocomoMediaLayout({ children }: { children: React.ReactN
         <div className={`${styles.nav__inner}`}>
           <Link href="/cocomo-media" className={styles.nav__logo} aria-label="Cocomo Media — home">
             <Logo variant="light" iconSize={26} textSize="1.05rem" spacing="0.5rem" />
-            <span className={styles.nav__media} style={{ marginLeft: "4px" }}>Media</span>
+            <span className={styles.nav__media}>Media</span>
           </Link>
 
           <nav className={styles.nav__links} aria-label="Cocomo Media navigation">

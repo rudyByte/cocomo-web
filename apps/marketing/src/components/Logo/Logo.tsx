@@ -19,9 +19,9 @@ export function Logo({
   spacing = "0.5rem",
   className = "",
 }: LogoProps) {
-  // If variant is dark, we invert the black logo to make it white/chrome, and use screen blending
-  const filterStyle = variant === "dark" ? "invert(1)" : "none";
-  const blendMode = variant === "dark" ? "screen" : "multiply";
+  // If variant is dark, we invert the black logo to make it white/chrome.
+  // Transparency is native to the PNG asset, so no mix-blend-mode is needed.
+  const filterStyle = variant === "dark" ? "invert(1) brightness(1.1)" : "none";
 
   return (
     <div
@@ -33,16 +33,15 @@ export function Logo({
         userSelect: "none",
       }}
     >
-      {/* Pure C Ribbon Globe Circle Icon (No text bleeding) */}
+      {/* Pure C Ribbon Globe Circle Icon (True transparent PNG) */}
       <img
-        src="/logo-icon.png"
+        src="/logo-icon.png?v=3"
         alt="Cocomo Logo Icon"
         style={{
           width: `${iconSize}px`,
           height: `${iconSize}px`,
           objectFit: "contain",
           filter: filterStyle,
-          mixBlendMode: blendMode,
           display: "block",
           flexShrink: 0,
         }}
