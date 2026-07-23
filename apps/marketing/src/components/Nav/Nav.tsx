@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Sun, Moon, ChevronDown, Cpu, Sparkles, BarChart3, ArrowRight } from "lucide-react";
 import styles from "./Nav.module.css";
+import { Logo } from "../Logo/Logo";
 
 const products = [
   {
@@ -14,6 +15,14 @@ const products = [
     href: "/platform",
     icon: Cpu,
     color: "var(--clay)",
+  },
+  {
+    name: "Cocomo Media",
+    badge: "CREATOR ENGINE",
+    desc: "Orchestrate strategic creator campaigns and local community loops to capture customer attention.",
+    href: "/cocomo-media",
+    icon: Sparkles,
+    color: "var(--gold)",
   },
 ];
 
@@ -62,7 +71,7 @@ export function Nav() {
         <div className={`container ${styles.nav__inner}`}>
           {/* Wordmark */}
           <Link href="/" className={styles.nav__logo} aria-label="Cocomo — home">
-            <span className={styles.nav__wordmark}>Cocomo</span>
+            <Logo variant="light" iconSize={26} textSize="1.05rem" spacing="0.5rem" />
             <span className={styles.nav__tag}>ENGINE</span>
           </Link>
 
@@ -121,12 +130,9 @@ export function Nav() {
                     })}
                   </div>
                   <div className={styles.dropdown__footer}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                      <span style={{ fontSize: "10px", color: "var(--ink-muted)", fontWeight: 500 }}>ALSO FROM COCOMO:</span>
-                      <Link href="/cocomo-media" className={styles.dropdown__footerLink} style={{ color: "#2563EB" }}>
-                        Media Creator Engine <ArrowRight size={12} />
-                      </Link>
-                    </div>
+                    <span style={{ fontSize: "11px", color: "var(--ink-muted)" }}>
+                      Need help selecting the right solution?
+                    </span>
                     <Link href="/demo" className={styles.dropdown__footerLink}>
                       Book a strategy demo <ArrowRight size={12} />
                     </Link>
@@ -200,15 +206,6 @@ export function Nav() {
               <div style={{ fontSize: "var(--text-xs)", color: "var(--ink-muted)" }}>{p.desc}</div>
             </Link>
           ))}
-          <Link
-            href="/cocomo-media"
-            className={styles.mobile__productLink}
-            tabIndex={menuOpen ? 0 : -1}
-            style={{ display: "block", borderColor: "rgba(37,99,235,0.15)", background: "rgba(37,99,235,0.02)" }}
-          >
-            <div style={{ fontWeight: 600, color: "#2563EB" }}>Cocomo Media ↗</div>
-            <div style={{ fontSize: "var(--text-xs)", color: "var(--ink-muted)" }}>Creator & influencer growth engine.</div>
-          </Link>
           <div className={styles.mobile__divider} />
           {navLinks.map(({ href, label }) => (
             <Link

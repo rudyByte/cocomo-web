@@ -1,3 +1,8 @@
+/* =========================================================================
+   COCOMO — Navigation (Creative Light Edition)
+   Warm cream background, glassmorphism on scroll, cobalt accents.
+   ========================================================================= */
+
 .nav {
   position: fixed;
   top: 0;
@@ -6,18 +11,16 @@
   z-index: var(--z-nav);
   height: var(--nav-height);
   transition:
-    background-color var(--t-base) var(--ease),
-    backdrop-filter var(--t-base) var(--ease),
-    box-shadow var(--t-base) var(--ease),
-    height var(--t-base) var(--ease);
+    background-color var(--t-slow) var(--ease),
+    backdrop-filter var(--t-slow) var(--ease),
+    box-shadow var(--t-slow) var(--ease);
 }
 
 .nav--scrolled {
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  box-shadow: 0 1px 0 var(--hairline);
-  height: 60px;
+  background: rgba(250, 250, 247, 0.88);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  box-shadow: 0 1px 0 var(--hairline), 0 4px 20px rgba(10,22,47,0.04);
 }
 
 .nav__inner {
@@ -39,8 +42,8 @@
 .nav__wordmark {
   font-family: var(--font-serif);
   font-size: var(--text-md);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  letter-spacing: -0.04em;
   color: var(--ink);
   transition: color var(--t-fast) var(--ease-out);
 }
@@ -49,11 +52,11 @@
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--clay);
-  background: var(--clay-tint);
-  border: 1px solid var(--clay-light);
-  padding: 1px 5px;
+  background: var(--clay-light);
+  border: 1px solid var(--clay-border);
+  padding: 2px 6px;
   border-radius: var(--radius-xs);
 }
 
@@ -67,28 +70,44 @@
   align-items: center;
   gap: var(--space-1);
   flex: 1;
-  margin-left: var(--space-6);
+  margin-left: var(--space-4);
 }
 
 .nav__link {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
-  transition:
-    color var(--t-fast) var(--ease-out),
-    background-color var(--t-fast) var(--ease-out);
+  transition: color var(--t-fast) var(--ease-out), background-color var(--t-fast);
+  position: relative;
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  translate: -50% 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--clay);
+  border-radius: var(--radius-pill);
+  transition: width var(--t-base) var(--ease-out);
 }
 
 .nav__link:hover {
   color: var(--ink);
-  background-color: var(--surface);
+  background-color: rgba(10,22,47,0.04);
+}
+
+.nav__link:hover::after,
+.nav__link--active::after {
+  width: calc(100% - 24px);
 }
 
 .nav__link--active {
   color: var(--ink);
-  background-color: var(--surface);
 }
 
 /* ── Products Dropdown ──────────────────────────────────────────────────────── */
@@ -115,18 +134,19 @@
 
 .dropdown__menu {
   position: absolute;
-  top: calc(100% + 2px);
+  top: calc(100% + 8px);
   left: 0;
-  width: 480px;
-  background: var(--paper);
+  width: 460px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px) saturate(1.5);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-high);
+  box-shadow: var(--shadow-float);
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  animation: fadeIn var(--t-fast) var(--ease-out);
+  animation: dropIn 180ms var(--ease-out);
   z-index: var(--z-modal);
 }
 
@@ -140,9 +160,9 @@
   background: transparent;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .dropdown__header {
@@ -175,7 +195,7 @@
 }
 
 .dropdown__item:hover {
-  background: var(--surface);
+  background: var(--paper);
 }
 
 .dropdown__iconWrapper {
@@ -186,6 +206,8 @@
   height: 36px;
   border-radius: var(--radius-sm);
   flex-shrink: 0;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
 }
 
 .dropdown__itemContent {
@@ -236,10 +258,11 @@
   font-weight: 600;
   color: var(--clay);
   text-decoration: none;
+  transition: opacity var(--t-fast);
 }
 
 .dropdown__footerLink:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }
 
 /* ── Actions ────────────────────────────────────────────────────────────────── */
@@ -266,14 +289,14 @@
 
 .nav__theme:hover {
   color: var(--ink);
-  background-color: var(--surface);
+  background-color: var(--paper-2);
 }
 
 .nav__signin {
   display: none;
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   transition: color var(--t-fast), background-color var(--t-fast);
@@ -281,28 +304,27 @@
 
 .nav__signin:hover {
   color: var(--ink);
-  background-color: var(--surface);
+  background-color: var(--paper-2);
 }
 
 .nav__cta {
   display: none;
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: #fff;
-  background-color: var(--clay);
-  padding: var(--space-2) var(--space-4);
+  background: var(--clay);
+  padding: 10px 20px;
   border-radius: var(--radius-pill);
   transition:
     background-color var(--t-fast),
     box-shadow var(--t-fast),
     transform var(--t-fast);
-  box-shadow: 0 1px 2px rgba(147, 64, 31, 0.3);
 }
 
 .nav__cta:hover {
-  background-color: var(--clay-deep);
+  background: var(--clay-deep);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(147, 64, 31, 0.4);
+  box-shadow: var(--shadow-blue);
 }
 
 .nav__burger {
@@ -311,7 +333,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border: none;
+  border: 1px solid var(--hairline);
   background: none;
   cursor: pointer;
   color: var(--ink);
@@ -319,15 +341,15 @@
   transition: background-color var(--t-fast);
 }
 
-.nav__burger:hover { background-color: var(--surface); }
+.nav__burger:hover { background-color: var(--paper-2); }
 
 /* ── Mobile Menu ────────────────────────────────────────────────────────────── */
 .mobile {
   position: fixed;
   inset: 0;
   z-index: calc(var(--z-nav) - 1);
-  background: var(--paper);
-  padding: calc(var(--nav-height) + var(--space-4)) var(--space-6) var(--space-6);
+  background: var(--white);
+  padding: calc(var(--nav-height) + var(--space-6)) var(--space-6) var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -350,26 +372,35 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--ink-muted);
-  margin-bottom: var(--space-2);
+  letter-spacing: 0.12em;
+  color: var(--ink-subtle);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
 }
 
 .mobile__productLink {
   padding: var(--space-3);
-  background: var(--surface);
+  background: var(--paper);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   text-decoration: none;
   margin-bottom: var(--space-2);
+  transition: border-color var(--t-fast);
+}
+
+.mobile__productLink:hover {
+  border-color: var(--clay-border);
 }
 
 .mobile__link {
-  font-size: var(--text-md);
-  font-weight: 500;
-  color: var(--ink-soft);
-  padding: var(--space-3) var(--space-2);
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink-muted);
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--hairline);
+  display: block;
   transition: color var(--t-fast);
 }
 
@@ -385,16 +416,19 @@
   display: block;
   text-align: center;
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 600;
   color: #fff;
-  background-color: var(--clay);
+  background: var(--clay);
   padding: var(--space-4);
   border-radius: var(--radius-pill);
-  margin-top: var(--space-4);
-  transition: background-color var(--t-fast);
+  margin-top: var(--space-6);
+  transition: background-color var(--t-fast), box-shadow var(--t-fast);
 }
 
-.mobile__cta:hover { background-color: var(--clay-deep); }
+.mobile__cta:hover {
+  background: var(--clay-deep);
+  box-shadow: var(--shadow-blue);
+}
 
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (min-width: 720px) {

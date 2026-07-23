@@ -16,18 +16,18 @@ export default function LoginPage() {
         <p className={styles.sub}>
           Access your Growth OS dashboard.
           <br />
-          <span className={styles.phase}>Dashboard coming soon — join the waitlist via demo.</span>
+          <span className={styles.phase}>Direct login is active for onboarded merchants.</span>
         </p>
 
         {/* Auth stub: Clerk sign-in button placeholder */}
         <div className={styles.clerkStub} role="region" aria-label="Sign in options">
           <p className={styles.clerkNote}>
-            Authentication is being configured. In the meantime,{" "}
+            Your merchant workspace is active. If you haven&apos;t received your credentials yet,{" "}
             <Link href="/demo" className={styles.clerkLink}>book a demo</Link>{" "}
-            to get early access.
+            to onboard your outlets.
           </p>
           <Link href="/demo" className={styles.clerkCta} id="login-demo-link">
-            Book a demo — get early access
+            Book a demo — get instant credentials
           </Link>
         </div>
 

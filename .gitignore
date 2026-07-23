@@ -51,3 +51,6 @@ yarn-error.log*
 
 # Yarn global folder if present in workspace
 yarn-global/
+
+# Misc junk
+nul

@@ -1,8 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./Footer.module.css";
+import { Logo } from "../Logo/Logo";
 
-const footerLinks = {
+type FooterLink = {
+  label: string;
+  href?: string;
+  badge?: string;
+};
+
+const footerLinks: Record<string, FooterLink[]> = {
   Product: [
     { label: "Platform", href: "/platform" },
     { label: "How it works", href: "/platform#loop" },
@@ -12,8 +19,8 @@ const footerLinks = {
   Industries: [
     { label: "Restaurants", href: "/restaurants" },
     { label: "Cafés & QSR", href: "/restaurants#cafes" },
-    { label: "Retail", href: null, badge: "soon" },
-    { label: "Beauty & Wellness", href: null, badge: "soon" },
+    { label: "Retail", href: "/platform" },
+    { label: "Beauty & Wellness", href: "/platform" },
   ],
   Company: [
     { label: "Vision", href: "/company#vision" },
@@ -38,7 +45,7 @@ export function Footer() {
           {/* Brand */}
           <div className={styles.footer__brand}>
             <Link href="/" className={styles.footer__wordmark} aria-label="Cocomo home">
-              Cocomo
+              <Logo variant="light" iconSize={28} textSize="1.15rem" spacing="0.6rem" />
             </Link>
             <p className={styles.footer__tagline}>
               Growth, made an operating system.
@@ -60,8 +67,7 @@ export function Footer() {
                 <span className={`eyebrow ${styles.footer__colhead}`}>{group}</span>
                 <ul role="list">
                   {links.map((link) => {
-                    const { label, href } = link;
-                    const badge = "badge" in link ? link.badge : undefined;
+                    const { label, href, badge } = link;
                     return (
                       <li key={label}>
                         {href ? (

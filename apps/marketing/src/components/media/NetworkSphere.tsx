@@ -7,9 +7,9 @@ import * as THREE from "three";
 
 function InteractivePoints() {
   const pointsRef = useRef<any>(null);
+  const smoothPointer = useRef(new THREE.Vector2(0, 0));
   const startPositions = useRef<Float32Array | null>(null);
   const targetPositions = useRef<Float32Array | null>(null);
-
   const count = 1800;
 
   useEffect(() => {
@@ -50,7 +50,11 @@ function InteractivePoints() {
     const posAttr = pointsRef.current.geometry?.attributes?.position;
     if (!posAttr || !posAttr.array) return;
     const positions = posAttr.array;
-    const pointer = state.pointer; // Mouse coordinate normalized between [-1, 1]
+    
+    // Smoothly interpolate pointer position to create a fluid lag/inertia effect
+    const pointer = state.pointer;
+    smoothPointer.current.x += (pointer.x - smoothPointer.current.x) * 0.075;
+    smoothPointer.current.y += (pointer.y - smoothPointer.current.y) * 0.075;
 
     for (let i = 0; i < count; i++) {
       const idx = i * 3;
@@ -60,22 +64,32 @@ function InteractivePoints() {
       const by = startPositions.current[idx + 1] + (targetPositions.current[idx + 1] - startPositions.current[idx + 1]) * t;
       const bz = startPositions.current[idx + 2] + (targetPositions.current[idx + 2] - startPositions.current[idx + 2]) * t;
 
-      // Radius-based pointer displacement (mouse push)
-      const dx = bx - pointer.x * 2.0;
-      const dy = by - pointer.y * 2.0;
+      // Radius-based pointer displacement (mouse push) using smoothed coordinates
+      const dx = bx - smoothPointer.current.x * 2.2;
+      const dy = by - smoothPointer.current.y * 2.2;
       const dist = Math.hypot(dx, dy);
 
       let pushX = 0;
       let pushY = 0;
-      if (dist < 0.9) {
-        const force = (0.9 - dist) * 0.3;
+      let pushZ = 0;
+
+      // Smooth step radius boundary for an organic bubble/ripple effect
+      const radius = 1.15;
+      if (dist < radius) {
+        const norm = dist / radius;
+        // Quadratic easing out makes the boundary transition completely seamless
+        const forceFactor = (1 - norm) * (1 - norm);
+        const force = forceFactor * 0.48;
+        
         pushX = (dx / dist) * force;
         pushY = (dy / dist) * force;
+        // Push slightly forward on the Z axis to create a 3D bubble/dome dome-effect
+        pushZ = forceFactor * 0.35;
       }
 
       positions[idx] = bx + pushX;
       positions[idx + 1] = by + pushY;
-      positions[idx + 2] = bz;
+      positions[idx + 2] = bz + pushZ;
     }
 
     posAttr.needsUpdate = true;

@@ -1,18 +1,221 @@
-.page { min-height: 100dvh; }
-.hero { padding-block: var(--space-16) var(--section-gap); border-bottom: 1px solid var(--hairline); }
-.hero__heading { font-size: clamp(var(--text-lg), 5vw, var(--text-xl)); max-width: 22ch; margin-block: var(--space-4); }
-.hero__sub { font-size: var(--text-base); color: var(--ink-soft); max-width: 54ch; }
-.section { padding-block: var(--section-gap); border-top: 1px solid var(--hairline); }
-.section__heading { font-size: var(--text-lg); margin-bottom: var(--space-6); }
-.section__body { font-size: var(--text-base); color: var(--ink-soft); max-width: 56ch; }
-.contact { padding-block: var(--section-gap); background: var(--surface); border-top: 1px solid var(--hairline); }
-.form { display: flex; flex-direction: column; gap: var(--space-5); max-width: 600px; margin-top: var(--space-8); }
-.form__row { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
-@media (min-width: 540px) { .form__row { grid-template-columns: 1fr 1fr; } }
-.form__field { display: flex; flex-direction: column; gap: var(--space-2); }
-.form__label { font-size: var(--text-sm); font-weight: 500; color: var(--ink-soft); }
-.form__input { font-family: var(--font-sans); font-size: var(--text-base); color: var(--ink); background: var(--paper); border: 1.5px solid var(--hairline); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); min-height: 48px; width: 100%; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
-.form__input:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px var(--clay-tint); }
-.form__textarea { resize: vertical; min-height: 120px; }
-.form__submit { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 500; color: #fff; background: var(--clay); border: none; border-radius: var(--radius-pill); padding: var(--space-4) var(--space-8); cursor: pointer; min-height: 52px; align-self: flex-start; transition: background var(--t-fast), transform var(--t-fast); }
-.form__submit:hover { background: var(--clay-deep); transform: translateY(-1px); }
+/* =========================================================================
+   COCOMO — Company Page (Creative Light Edition)
+   ========================================================================= */
+
+.page {
+  min-height: 100dvh;
+  background: var(--paper);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+  overflow: hidden;
+  background: var(--paper);
+  border-bottom: 1px solid var(--hairline-warm);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--clay);
+}
+
+.hero__heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  max-width: 18ch;
+}
+
+.hero__sub {
+  font-size: var(--text-base);
+  color: var(--ink-muted);
+  line-height: 1.75;
+  max-width: 52ch;
+}
+
+/* ── Content Sections ─────────────────────────────────────────────────────── */
+.section {
+  padding-block: var(--section-gap);
+  background: var(--paper);
+}
+
+.section--alt {
+  background: var(--paper-2);
+  border-top: 1px solid var(--hairline-warm);
+  border-bottom: 1px solid var(--hairline-warm);
+}
+
+.section__heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-4);
+  line-height: 1.05;
+}
+
+.section__body {
+  font-size: var(--text-base);
+  color: var(--ink-muted);
+  max-width: 56ch;
+  line-height: var(--leading-normal);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+}
+
+.valueCard {
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-rest);
+  transition: border-color var(--t-base), transform var(--t-base), box-shadow var(--t-base);
+}
+
+.valueCard:hover {
+  border-color: var(--clay-border);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+
+.valueCard__icon {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.valueCard__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.02em;
+}
+
+.valueCard__desc {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  line-height: var(--leading-normal);
+}
+
+/* ── Contact Form ─────────────────────────────────────────────────────────── */
+.contact {
+  padding-block: var(--section-gap);
+  background: var(--clay-tint);
+  border-top: 1px solid var(--clay-border);
+}
+
+.contact__inner {
+  max-width: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 540px) {
+  .form__row { grid-template-columns: 1fr 1fr; }
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.form__input {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  min-height: 48px;
+  width: 100%;
+  box-shadow: var(--shadow-rest);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--clay);
+  box-shadow: 0 0 0 3px var(--clay-light);
+}
+
+.form__textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: #fff;
+  background: var(--clay);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 16px 32px;
+  cursor: pointer;
+  min-height: 52px;
+  align-self: flex-start;
+  transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+
+.form__submit:hover {
+  background: var(--clay-deep);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-blue);
+}

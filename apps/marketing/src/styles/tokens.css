@@ -1,148 +1,179 @@
 /* =========================================================================
-   COCOMO — Design Token System (MGP Surface)
-   Source of truth for all visual values. Never hardcode hex/px in components.
+   COCOMO — Design Token System (Creative Light Edition)
+   Warm editorial luxury — cream base, cobalt accent, cinematic typography.
+   Source of truth. Never hardcode hex/px in components.
    ========================================================================= */
 
 :root {
-  /* ── Color Palette (Luxury Blue & White Glassmorphism) ─────────────────── */
-  --paper:      #FFFFFF;
-  --surface:    rgba(255, 255, 255, 0.75);
-  --surface-2:  rgba(255, 255, 255, 0.45);
-  --hairline:   rgba(37, 99, 235, 0.08);
-  --ink-muted:  #64748B;
-  --ink-soft:   #334155;
-  --ink:        #0F172A;
+  /* ── Warm Cream Palette ────────────────────────────────────────────────── */
+  --paper:        #FAFAF7;    /* Warm off-white base (not stark) */
+  --paper-2:      #F5F3EE;    /* Slightly deeper warm cream */
+  --paper-3:      #EDE9E1;    /* Deeper linen tone for contrast sections */
+  --white:        #FFFFFF;    /* Pure white for cards */
+  --surface:      rgba(255,255,255,0.80);
+  --surface-2:    rgba(255,255,255,0.55);
+  --hairline:     rgba(10, 22, 47, 0.07);
+  --hairline-warm: rgba(160, 140, 100, 0.15);
 
-  /* Accent — Luxury Cobalt/Sapphire Blue */
-  --clay:       #2563EB;
-  --clay-deep:  #1D4ED8;
-  --clay-light: rgba(37, 99, 235, 0.15);
-  --clay-tint:  #EFF6FF;
+  /* ── Ink (Dark text on light bg) ─────────────────────────────────────── */
+  --ink:          #0A0E1A;    /* Near-black — rich and warm */
+  --ink-soft:     #2E3550;    /* Secondary text */
+  --ink-muted:    #64748B;    /* Tertiary / meta */
+  --ink-subtle:   #A0AABA;    /* Disabled, faded */
 
-  /* Semantic */
-  --good:        #059669;
-  --good-tint:   #ECFDF5;
-  --warn:        #D97706;
-  --warn-tint:   #FEF3C7;
-  --danger:      #DC2626;
-  --danger-tint: #FEF2F2;
+  /* ── Brand — Cobalt Blue ─────────────────────────────────────────────── */
+  --clay:         #2563EB;    /* Primary cobalt */
+  --clay-deep:    #1D4ED8;
+  --clay-bright:  #3B82F6;
+  --clay-light:   rgba(37, 99, 235, 0.10);
+  --clay-tint:    #EFF6FF;
+  --clay-border:  rgba(37, 99, 235, 0.18);
 
-  /* Chart color order: clay → slate → good → warn */
+  /* ── Warm Gold Accent (for editorial highlights) ─────────────────────── */
+  --gold:         #C8962A;    /* Warm amber/gold */
+  --gold-light:   rgba(200, 150, 42, 0.10);
+  --gold-tint:    #FDF8EE;
+
+  /* ── Semantic Colors ──────────────────────────────────────────────────── */
+  --good:         #059669;
+  --good-tint:    #ECFDF5;
+  --warn:         #D97706;
+  --warn-tint:    #FEF3C7;
+  --danger:       #DC2626;
+  --danger-tint:  #FEF2F2;
+
+  /* Chart aliases */
   --data-clay:  #2563EB;
   --data-slate: #64748B;
   --data-good:  #059669;
   --data-warn:  #D97706;
+
+  /* ── Gradients ────────────────────────────────────────────────────────── */
+  --gradient-hero:   linear-gradient(160deg, #EFF6FF 0%, #FAFAF7 40%, #F5F3EE 100%);
+  --gradient-blue:   linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  --gradient-gold:   linear-gradient(135deg, #D4A853, #C8962A);
+  --gradient-subtle: linear-gradient(180deg, rgba(37,99,235,0.04) 0%, transparent 100%);
+  --gradient-text-blue: linear-gradient(135deg, #2563EB, #00BFFF);
+
+  /* ── Glow & Bloom ─────────────────────────────────────────────────────── */
+  --bloom-blue:  0 0 80px rgba(37, 99, 235, 0.12), 0 0 160px rgba(37, 99, 235, 0.05);
+  --bloom-gold:  0 0 60px rgba(200, 150, 42, 0.10);
 
   /* ── Typography ───────────────────────────────────────────────────────── */
   --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
   --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono:  "JetBrains Mono", "Fira Code", Consolas, monospace;
 
-  /* Type scale: 12 · 14 · 17 · 22 · 28 · 42 · 78 (ratio ≈ 1.25) */
-  --text-xs:   0.75rem;    /* 12 */
-  --text-sm:   0.875rem;   /* 14 */
-  --text-base: 1.0625rem;  /* 17 */
-  --text-md:   1.375rem;   /* 22 */
-  --text-lg:   1.75rem;    /* 28 */
-  --text-xl:   2.625rem;   /* 42 */
-  --text-2xl:  4.875rem;   /* 78 */
+  /* Type scale */
+  --text-2xs:  0.6875rem;   /* 11 */
+  --text-xs:   0.8125rem;   /* 13 */
+  --text-sm:   0.9375rem;   /* 15 */
+  --text-base: 1.0625rem;   /* 17 */
+  --text-md:   1.375rem;    /* 22 */
+  --text-lg:   2rem;        /* 32 */
+  --text-xl:   3rem;        /* 48 */
+  --text-2xl:  4.5rem;      /* 72 */
+  --text-3xl:  6.25rem;     /* 100 */
+  --text-4xl:  8.75rem;     /* 140 */
 
   /* Leading */
-  --leading-tight:  1.15;
-  --leading-snug:   1.3;
-  --leading-normal: 1.6;
-  --leading-loose:  1.8;
+  --leading-tightest: 1.0;
+  --leading-tight:    1.1;
+  --leading-snug:     1.25;
+  --leading-normal:   1.65;
+  --leading-loose:    1.85;
 
   /* Tracking */
-  --tracking-tight: -0.025em;
-  --tracking-normal: 0;
-  --tracking-mono:  0.04em;
-  --tracking-wide:  0.08em;
-  --tracking-wider: 0.14em;
+  --tracking-tightest: -0.04em;
+  --tracking-tight:    -0.025em;
+  --tracking-normal:   0;
+  --tracking-mono:     0.05em;
+  --tracking-wide:     0.08em;
+  --tracking-wider:    0.14em;
 
-  /* Max line measure */
-  --measure: 68ch;
+  /* Measure */
+  --measure: 62ch;
 
-  /* ── Spacing (8pt base) ───────────────────────────────────────────────── */
-  --space-1:  0.25rem;   /*  4px */
-  --space-2:  0.5rem;    /*  8px */
-  --space-3:  0.75rem;   /* 12px */
-  --space-4:  1rem;      /* 16px */
-  --space-5:  1.25rem;   /* 20px */
-  --space-6:  1.5rem;    /* 24px */
-  --space-8:  2rem;      /* 32px */
-  --space-10: 2.5rem;    /* 40px */
-  --space-12: 3rem;      /* 48px */
-  --space-16: 4rem;      /* 64px */
-  --space-18: 4.5rem;    /* 72px */
-  --space-24: 6rem;      /* 96px */
-  --space-32: 8rem;      /* 128px */
+  /* ── Spacing (8pt) ────────────────────────────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-18: 4.5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
 
-  /* Section breathing room */
-  --section-gap: var(--space-16);
-  --section-gap-sm: var(--space-12);
+  --section-gap:    var(--space-32);
+  --section-gap-sm: var(--space-24);
 
-  /* ── Border Radius (Highly Rounded Skeuomorphic Curves) ───────────────── */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-2xl: 36px;
+  /* ── Border Radius ────────────────────────────────────────────────────── */
+  --radius-xs:  4px;
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+  --radius-2xl: 40px;
   --radius-pill: 100px;
 
-  /* ── Shadows (Soft Skeuomorphic Depth) ────────────────────────────────── */
-  --shadow-rest: 0 4px 12px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(37, 99, 235, 0.04);
-  --shadow-lift: 0 12px 28px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(37, 99, 235, 0.06);
-  --shadow-high: 0 20px 48px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.08);
+  /* ── Shadows (Warm, multi-layer) ──────────────────────────────────────── */
+  --shadow-rest: 0 1px 3px rgba(10,22,47,0.04), 0 0 0 1px rgba(10,22,47,0.04);
+  --shadow-lift: 0 8px 24px rgba(10,22,47,0.07), 0 0 0 1px rgba(10,22,47,0.04);
+  --shadow-high: 0 20px 56px rgba(10,22,47,0.10), 0 0 0 1px rgba(10,22,47,0.05);
+  --shadow-blue: 0 8px 32px rgba(37,99,235,0.22), 0 0 0 1px rgba(37,99,235,0.12);
+  --shadow-float: 0 32px 80px rgba(10,22,47,0.12), 0 2px 12px rgba(10,22,47,0.06);
 
-  /* ── Glassmorphism Attributes ─────────────────────────────────────────── */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-backdrop: blur(16px);
+  /* ── Glassmorphism ────────────────────────────────────────────────────── */
+  --glass-bg:       rgba(255, 255, 255, 0.75);
+  --glass-border:   rgba(255, 255, 255, 0.9);
+  --glass-backdrop: blur(20px) saturate(1.4);
 
   /* ── Motion Tokens ────────────────────────────────────────────────────── */
   --t-fast:    120ms;
-  --t-base:    200ms;
+  --t-base:    220ms;
   --t-slow:    600ms;
   --t-slower:  900ms;
   --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
   --ease:      cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-expo:   cubic-bezier(0.19, 1, 0.22, 1);
 
   /* ── Layout ───────────────────────────────────────────────────────────── */
-  --container-max:  1200px;
-  --container-pad:  clamp(var(--space-4), 4vw, var(--space-10));
+  --container-max:  1280px;
+  --container-pad:  clamp(var(--space-4), 5vw, var(--space-16));
   --nav-height:     72px;
 
-  /* ── Z-index layers ───────────────────────────────────────────────────── */
+  /* ── Z-index ──────────────────────────────────────────────────────────── */
   --z-base:    0;
   --z-raised:  10;
   --z-overlay: 20;
   --z-modal:   30;
   --z-nav:     40;
   --z-tooltip: 50;
+  --z-cursor:  9999;
 }
 
-/* ── Dark Mode Fallback (Enforces Light Luxury Theme) ─────────────────────── */
+/* ── Both themes enforce light luxury ────────────────────────────────────── */
+[data-theme="light"],
 [data-theme="dark"] {
-  --paper:      #FFFFFF;
-  --surface:    rgba(255, 255, 255, 0.75);
-  --surface-2:  rgba(255, 255, 255, 0.45);
-  --hairline:   rgba(37, 99, 235, 0.08);
+  --paper:      #FAFAF7;
+  --paper-2:    #F5F3EE;
+  --paper-3:    #EDE9E1;
+  --white:      #FFFFFF;
+  --ink:        #0A0E1A;
+  --ink-soft:   #2E3550;
   --ink-muted:  #64748B;
-  --ink-soft:   #334155;
-  --ink:        #0F172A;
-
   --clay:       #2563EB;
   --clay-deep:  #1D4ED8;
-  --clay-light: rgba(37, 99, 235, 0.15);
+  --clay-light: rgba(37,99,235,0.10);
   --clay-tint:  #EFF6FF;
-
-  --shadow-rest: 0 4px 12px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(37, 99, 235, 0.04);
-  --shadow-lift: 0 12px 28px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(37, 99, 235, 0.06);
-  --shadow-high: 0 20px 48px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 /* ── Reduced Motion ────────────────────────────────────────────────────────── */

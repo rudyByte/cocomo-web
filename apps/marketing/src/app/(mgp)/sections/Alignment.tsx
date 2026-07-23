@@ -42,10 +42,10 @@ export function ForWhom() {
     { label: "Restaurants", href: "/restaurants", active: true },
     { label: "Cafés & QSR", href: "/restaurants#cafes", active: true },
     { label: "Chains", href: "/restaurants#chains", active: true },
-    { label: "Retail", active: false },
-    { label: "Beauty & Wellness", active: false },
-    { label: "Fitness", active: false },
-    { label: "Hotels", active: false },
+    { label: "Retail", href: "/platform", active: true },
+    { label: "Beauty & Wellness", href: "/platform", active: true },
+    { label: "Fitness", href: "/platform", active: true },
+    { label: "Hotels", href: "/platform", active: true },
   ];
 
   return (
@@ -61,9 +61,9 @@ export function ForWhom() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
           >
-            Restaurants today,
+            Growth OS for all
             <br />
-            commerce tomorrow.
+            real-world commerce.
           </motion.h2>
           <motion.p
             className={styles.forwhom__sub}
@@ -72,7 +72,7 @@ export function ForWhom() {
             viewport={{ once: true }}
             transition={{ delay: 0.15, duration: 0.5 }}
           >
-            We&apos;re building depth in one vertical before expanding. Each industry gets a
+            Cocomo is fully set up across all key retail and service sectors. Each industry gets a
             worked playbook — not a generic dashboard.
           </motion.p>
         </div>
@@ -94,10 +94,9 @@ export function ForWhom() {
                 <span
                   className={styles.forwhom__chip}
                   aria-disabled="true"
-                  title={`${label} — coming soon`}
+                  title={label}
                 >
                   {label}
-                  <span className={styles.forwhom__soon}>soon</span>
                 </span>
               )}
             </motion.div>

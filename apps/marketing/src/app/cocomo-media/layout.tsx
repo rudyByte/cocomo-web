@@ -3,6 +3,7 @@ import { SmoothScroll } from "@/components/media/SmoothScroll";
 import { CustomCursor } from "@/components/media/CustomCursor";
 import { PageLoader } from "@/components/media/PageLoader";
 import styles from "./media-layout.module.css";
+import { Logo } from "@/components/Logo/Logo";
 
 const mediaNav = [
   { href: "/cocomo-media", label: "Home" },

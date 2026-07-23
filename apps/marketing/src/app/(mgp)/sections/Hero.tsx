@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, animate, AnimatePresence } from "framer-motion";
-import { ArrowRight, TrendingUp, CheckCircle2, Zap, Cpu, Activity, ShieldCheck, Layers, BarChart3, Radio } from "lucide-react";
+import { motion, animate, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, TrendingUp, CheckCircle2, Zap, Cpu, Activity, ShieldCheck, Layers, Radio, ChevronDown } from "lucide-react";
 import { ProductSwitcher } from "@/components/ProductSwitcher/ProductSwitcher";
 import styles from "./Hero.module.css";
 
@@ -49,7 +49,7 @@ const scenarios: Scenario[] = [
       actions: [
         "Partner with 3 local food creators (Cocomo Media)",
         "Launch weekday lunch combo offer (₹299)",
-        "Geo-fence Meta ads to 1km radius (11am-1pm)",
+        "Geo-fence Meta ads to 1km radius (11am–1pm)",
         "Trigger WhatsApp re-engagement loops",
       ],
       status: "executed",
@@ -57,7 +57,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "dinner-traffic",
-    name: "Slow Tuesday Dinner",
+    name: "Slow Tue Dinner",
     outlet: "Koramangala Café · Pine Labs POS",
     dailyRevenue: "₹1,12,000",
     lift: "+14.2%",
@@ -66,7 +66,7 @@ const scenarios: Scenario[] = [
     signals: [
       { time: "20:15", source: "POS", msg: "Dinner table check-ins +24%" },
       { time: "19:48", source: "INFLU", msg: "Koramangala promo reels live" },
-      { time: "19:22", source: "POS", msg: "Chef's special table turn rate 1.4x" },
+      { time: "19:22", source: "POS", msg: "Chef's special turn rate 1.4x" },
     ],
     recommendation: {
       title: "Boost Tuesday night dinner traffic",
@@ -75,7 +75,7 @@ const scenarios: Scenario[] = [
       actions: [
         "Contract 2 food creators for dinner showcase",
         "Introduce Tuesday Chef's sharing board",
-        "Target local office hubs with dinner ads (5pm-7pm)",
+        "Target local offices with dinner ads (5–7pm)",
       ],
       status: "recommended",
     },
@@ -90,8 +90,8 @@ const scenarios: Scenario[] = [
     chartPathExecuted: "M0 95 Q 120 75, 240 68 T 480 62 L 500 58",
     signals: [
       { time: "16:30", source: "WA", msg: "VIP loyalty blast dispatched" },
-      { time: "16:10", source: "CRM", msg: "Segment: 'Lost VIPs' target list ready" },
-      { time: "15:45", source: "POS", msg: "12 repeat VIP check-ins registered" },
+      { time: "16:10", source: "CRM", msg: "Segment: 'Lost VIPs' ready" },
+      { time: "15:45", source: "POS", msg: "12 repeat VIP check-ins logged" },
     ],
     recommendation: {
       title: "Re-engage lost Patrons",
@@ -99,7 +99,7 @@ const scenarios: Scenario[] = [
       confidence: "95%",
       actions: [
         "Identify patrons inactive for 45+ days",
-        "Trigger WhatsApp invitation with complimentary starter",
+        "Trigger WhatsApp invitation + complimentary starter",
         "Prioritize weekend reservation availability",
       ],
       status: "analyzing",
@@ -107,12 +107,8 @@ const scenarios: Scenario[] = [
   },
 ];
 
-// ── Recommendation card subcomponent ──────────────────────────────────────────
-interface RecommendationCardProps {
-  rec: Scenario["recommendation"];
-}
-
-function RecommendationCard({ rec }: RecommendationCardProps) {
+// ── Recommendation Card ────────────────────────────────────────────────────────
+function RecommendationCard({ rec }: { rec: Scenario["recommendation"] }) {
   const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
@@ -138,7 +134,6 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
       layout
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Top Banner indicating Hero Product Engine */}
       <div className={styles.card__engineHeader}>
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <Cpu size={12} color="var(--clay)" />
@@ -150,7 +145,6 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
         </div>
       </div>
 
-      {/* Header */}
       <div className={styles.card__header}>
         <div className={styles.card__pill}>
           {rec.status === "idle" && <span className={styles.card__dot} />}
@@ -170,7 +164,6 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
             {rec.status === "executed" && "Campaign Active"}
           </span>
         </div>
-
         <motion.div
           className={styles.card__confidence}
           initial={{ opacity: 0 }}
@@ -182,17 +175,11 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
         </motion.div>
       </div>
 
-      {/* Title */}
-      <div className={styles.card__title}>
-        {rec.title}
-      </div>
+      <div className={styles.card__title}>{rec.title}</div>
 
-      {/* Revenue metric */}
       <motion.div
         className={styles.card__revenue}
-        animate={{
-          color: rec.status === "executed" ? "var(--good)" : "var(--clay)",
-        }}
+        animate={{ color: rec.status === "executed" ? "#059669" : "#2563eb" }}
         transition={{ duration: 0.3 }}
       >
         <span className={styles.card__revlabel}>PROJECTED REVENUE LIFT</span>
@@ -202,7 +189,6 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
         </span>
       </motion.div>
 
-      {/* Actions list */}
       <motion.ul
         className={styles.card__actions}
         initial={{ opacity: 0, height: 0 }}
@@ -217,10 +203,7 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
             key={action}
             className={styles.card__action}
             initial={{ opacity: 0, x: -8 }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.07, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className={styles.card__actiondot} />
@@ -229,7 +212,6 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
         ))}
       </motion.ul>
 
-      {/* Execute button */}
       {rec.status === "recommended" && (
         <motion.div
           className={styles.card__execbtn}
@@ -256,15 +238,10 @@ function RecommendationCard({ rec }: RecommendationCardProps) {
   );
 }
 
-// ── Dashboard Mockup subcomponent ─────────────────────────────────────────────
-interface DashboardMockupProps {
-  scenario: Scenario;
-}
-
-function DashboardMockup({ scenario }: DashboardMockupProps) {
+// ── Dashboard Mockup ───────────────────────────────────────────────────────────
+function DashboardMockup({ scenario }: { scenario: Scenario }) {
   return (
     <div className={styles.dashMockup}>
-      {/* Top telemetry bar */}
       <div className={styles.dashMockup__topbar}>
         <div className={styles.dashMockup__outlet}>
           <Layers size={12} color="var(--clay)" />
@@ -283,40 +260,37 @@ function DashboardMockup({ scenario }: DashboardMockupProps) {
         </div>
       </div>
 
-      {/* Sparkline chart SVG */}
       <div className={styles.dashMockup__chartBox}>
         <div className={styles.dashMockup__chartTitle}>
           <span>REVENUE ATTRIBUTION &amp; LIFT</span>
           <span style={{ color: "var(--clay)" }}>● Baseline vs Executed</span>
         </div>
         <svg viewBox="0 0 500 120" className={styles.dashMockup__chartSvg} fill="none">
-          {/* Baseline curve */}
           <motion.path
             d={scenario.chartPathBaseline}
-            stroke="var(--hairline)"
+            stroke="var(--hairline-warm)"
             strokeWidth="1.5"
             strokeDasharray="4 4"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 0.8 }}
           />
-          {/* Cocomo Executed curve */}
           <motion.path
             d={scenario.chartPathExecuted}
             stroke="var(--clay)"
-            strokeWidth="2"
+            strokeWidth="2.5"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 1 }}
           />
           <circle cx="450" cy="15" r="4" fill="var(--clay)" />
+          <circle cx="450" cy="15" r="8" fill="var(--clay)" opacity="0.15" />
         </svg>
       </div>
 
-      {/* Live Signals Log */}
       <div className={styles.dashMockup__signals}>
         <div className={styles.dashMockup__signalHead}>
-          <Radio size={10} color="var(--clay)" />
+          <Radio size={10} />
           <span>INCOMING TELEMETRY SIGNALS</span>
         </div>
         {scenario.signals.map((s) => (
@@ -335,69 +309,88 @@ function DashboardMockup({ scenario }: DashboardMockupProps) {
 export function Hero() {
   const [activeScenarioIdx, setActiveScenarioIdx] = useState(0);
   const activeScenario = scenarios[activeScenarioIdx];
+  const heroRef = useRef<HTMLElement>(null);
 
-  // Auto-rotate scenarios on initial load if user hasn't clicked
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  // Slow upward parallax on the background image
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
   const hasClicked = useRef(false);
   useEffect(() => {
     const timer = setInterval(() => {
       if (hasClicked.current) return;
       setActiveScenarioIdx((prev) => (prev + 1) % scenarios.length);
-    }, 6000);
+    }, 5500);
     return () => clearInterval(timer);
   }, []);
 
-  const handleTabClick = (idx: number) => {
-    hasClicked.current = true;
-    setActiveScenarioIdx(idx);
-  };
-
   return (
-    <section className={styles.hero} aria-labelledby="hero-headline">
+    <section ref={heroRef} className={styles.hero} aria-labelledby="hero-headline">
+      {/* ── Layered background ── */}
+      <div className={styles.hero__bg}>
+        <motion.img
+          src="/hero-bg.png"
+          className={styles.hero__bgImage}
+          alt=""
+          aria-hidden="true"
+          style={{ y: bgY }}
+        />
+        <div className={styles.hero__bgFade} />
+      </div>
+      <div className={styles.hero__bloom1} aria-hidden="true" />
+      <div className={styles.hero__bloom2} aria-hidden="true" />
       <div className={styles.hero__grain} aria-hidden="true" />
-      <div className={styles.hero__glow} aria-hidden="true" />
-      <img src="/growth_layers.png" className={styles.hero__branchImage} alt="" aria-hidden="true" />
 
       <div className={`container ${styles.hero__inner}`}>
-        {/* Left: copy */}
+        {/* ── Left: Copy ── */}
         <div className={styles.hero__copy}>
           <motion.div
             className={styles.hero__eyebrow}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-              <Cpu size={12} color="var(--clay)" />
-              COCOMO ENGINE v2.4 — GROWTH OS
-            </span>
+            <span className={styles.hero__eyebrow_dot} />
+            <Cpu size={11} />
+            COCOMO ENGINE v2.4 — GROWTH OS
           </motion.div>
 
-          <motion.h1
-            id="hero-headline"
-            className={styles.hero__headline}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Know what to grow.
-            <br />
-            <em className={styles.hero__em}>Then watch it get done.</em>
-          </motion.h1>
+          <h1 id="hero-headline" className={styles.hero__headline}>
+            <motion.span
+              style={{ display: "block" }}
+              initial={{ opacity: 0, y: 48, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.12, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Know what to grow.
+            </motion.span>
+            <motion.em
+              className={styles.hero__em}
+              initial={{ opacity: 0, y: 48, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.26, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Then watch it get done.
+            </motion.em>
+          </h1>
 
           <motion.p
             className={styles.hero__sub}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            POS and ERP software answer <em>what happened</em>. <strong>Cocomo Engine</strong> continuously analyzes sales, footfall, and customer signals to tell you <strong>what to do next</strong> — and automatically executes it through our network.
+            POS and ERP software answer <em>what happened</em>. <strong>Cocomo Engine</strong> continuously analyzes sales, footfall, and customer signals to tell you <strong>what to do next</strong> — and automatically executes it.
           </motion.p>
 
           <motion.div
             className={styles.hero__ctas}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 0.65, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link href="/demo" className={styles.hero__primary} id="hero-demo-cta">
               Book a demo — free to start
@@ -408,40 +401,53 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* Product Switcher */}
+          <motion.div
+            className={styles.hero__stats}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.85, duration: 0.7 }}
+          >
+            {[
+              { label: "Incremental Lift", value: "+34%" },
+              { label: "Action Resolution", value: "Closed Loop" },
+              { label: "Attributed Revenue", value: "₹2.4Cr" },
+            ].map(({ label, value }) => (
+              <div key={label} className={styles.hero__stat}>
+                <span className={styles.hero__statval} data-metric>{value}</span>
+                <span className={styles.hero__statlabel}>{label}</span>
+              </div>
+            ))}
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
           >
             <ProductSwitcher />
           </motion.div>
         </div>
 
-        {/* Right: Live Interactive Simulator Showcase Panel */}
+        {/* ── Right: Live Simulator ── */}
         <motion.div
           className={styles.hero__visualContainer}
-          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          initial={{ opacity: 0, y: 32, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Dashboard Viewport Mockup (Fully Visible & Dynamic) */}
           <div className={styles.viewport}>
-            {/* Header integrates Scenario Tabs simulating real browser tabs! */}
             <div className={styles.viewport__header}>
               <div className={styles.viewport__dots}>
                 <span className={styles.viewport__dot} />
                 <span className={styles.viewport__dot} />
                 <span className={styles.viewport__dot} />
               </div>
-
-              {/* Integrates scenarios right inside mockup header tabs */}
               <div className={styles.viewport__tabs}>
                 {scenarios.map((s, idx) => (
                   <button
                     key={s.id}
                     className={`${styles.viewport__tab} ${idx === activeScenarioIdx ? styles["viewport__tab--active"] : ""}`}
-                    onClick={() => handleTabClick(idx)}
+                    onClick={() => { hasClicked.current = true; setActiveScenarioIdx(idx); }}
                     role="tab"
                     aria-selected={idx === activeScenarioIdx}
                   >
@@ -458,7 +464,7 @@ export function Hero() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <DashboardMockup scenario={activeScenario} />
                 </motion.div>
@@ -466,7 +472,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Recommendation Overlay Card (Moved Below Mockup for 100% Visibility) */}
           <div className={styles.cardContainer}>
             <AnimatePresence mode="wait">
               <motion.div
@@ -474,32 +479,18 @@ export function Hero() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               >
                 <RecommendationCard rec={activeScenario.recommendation} />
               </motion.div>
             </AnimatePresence>
           </div>
-
-          {/* Core Telemetry Stats */}
-          <motion.div
-            className={styles.hero__stats}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            {[
-              { label: "Incremental Lift", value: "+34%" },
-              { label: "Action Resolution", value: "Closed Loop" },
-              { label: "Attributed Revenue", value: "₹2.4Cr" },
-            ].map(({ label, value }) => (
-              <div key={label} className={styles.hero__stat}>
-                <span className={styles.hero__statval} data-metric>{value}</span>
-                <span className={styles.hero__statlabel}>{label}</span>
-              </div>
-            ))}
-          </motion.div>
         </motion.div>
+      </div>
+
+      <div className={styles.hero__scroll} aria-hidden="true">
+        <span>Scroll</span>
+        <ChevronDown size={14} />
       </div>
     </section>
   );
