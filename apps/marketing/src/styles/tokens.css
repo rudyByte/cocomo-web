@@ -122,12 +122,16 @@
   --radius-2xl: 40px;
   --radius-pill: 100px;
 
-  /* ── Shadows (Warm, multi-layer) ──────────────────────────────────────── */
-  --shadow-rest: 0 1px 3px rgba(10,22,47,0.04), 0 0 0 1px rgba(10,22,47,0.04);
-  --shadow-lift: 0 8px 24px rgba(10,22,47,0.07), 0 0 0 1px rgba(10,22,47,0.04);
-  --shadow-high: 0 20px 56px rgba(10,22,47,0.10), 0 0 0 1px rgba(10,22,47,0.05);
-  --shadow-blue: 0 8px 32px rgba(37,99,235,0.22), 0 0 0 1px rgba(37,99,235,0.12);
-  --shadow-float: 0 32px 80px rgba(10,22,47,0.12), 0 2px 12px rgba(10,22,47,0.06);
+  /* ── Shadows (Warm, multi-layer, cinematic depth) ─────────────────────── */
+  --shadow-rest:    0 1px 2px rgba(10,22,47,0.04), 0 0 0 1px rgba(10,22,47,0.04);
+  --shadow-lift:    0 4px 12px rgba(10,22,47,0.06), 0 2px 4px rgba(10,22,47,0.04), 0 0 0 1px rgba(10,22,47,0.04);
+  --shadow-high:    0 16px 48px rgba(10,22,47,0.10), 0 4px 16px rgba(10,22,47,0.06), 0 0 0 1px rgba(10,22,47,0.05);
+  --shadow-blue:    0 4px 16px rgba(37,99,235,0.18), 0 12px 40px rgba(37,99,235,0.14), 0 0 0 1px rgba(37,99,235,0.12);
+  --shadow-float:   0 24px 64px rgba(10,22,47,0.12), 0 8px 24px rgba(10,22,47,0.08), 0 2px 8px rgba(10,22,47,0.04);
+  --shadow-card:    0 2px 8px rgba(10,22,47,0.05), 0 8px 32px rgba(10,22,47,0.07), inset 0 1px 0 rgba(255,255,255,0.6);
+  --shadow-inset:   inset 0 1px 3px rgba(10,22,47,0.08), inset 0 1px 0 rgba(255,255,255,0.7);
+  --shadow-glow-sm: 0 0 20px rgba(37,99,235,0.15), 0 0 60px rgba(37,99,235,0.06);
+  --shadow-glow:    0 0 40px rgba(37,99,235,0.20), 0 0 120px rgba(37,99,235,0.08);
 
   /* ── Glassmorphism ────────────────────────────────────────────────────── */
   --glass-bg:       rgba(255, 255, 255, 0.75);
@@ -135,15 +139,21 @@
   --glass-backdrop: blur(20px) saturate(1.4);
 
   /* ── Motion Tokens ────────────────────────────────────────────────────── */
+  --t-instant:  60ms;
   --t-fast:    120ms;
   --t-base:    220ms;
   --t-slow:    600ms;
   --t-slower:  900ms;
+  --t-veryslow: 1400ms;
   --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
   --ease:      cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring-soft: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --ease-bounce: cubic-bezier(0.34, 1.8, 0.64, 1);
   --ease-expo:   cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-circ:   cubic-bezier(0.55, 0, 0.1, 1);
+  --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
 
   /* ── Layout ───────────────────────────────────────────────────────────── */
   --container-max:  1280px;
@@ -158,6 +168,28 @@
   --z-nav:     40;
   --z-tooltip: 50;
   --z-cursor:  9999;
+
+  /* ── Noise & Texture Tokens ───────────────────────────────────────────── */
+  --noise-opacity-light: 0.025;
+  --noise-opacity-mid:   0.035;
+  --noise-opacity-dark:  0.055;
+
+  /* ── Blueprint Grid ──────────────────────────────────────────────────── */
+  --grid-dot-color: rgba(10, 22, 47, 0.045);
+  --grid-dot-size: 1px;
+  --grid-dot-spacing: 28px;
+
+  /* ── Shimmer & Highlight ─────────────────────────────────────────────── */
+  --shimmer-gradient: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+  --shimmer-gradient-strong: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.65) 50%, transparent 100%);
+
+  /* ── Extended Gradients ──────────────────────────────────────────────── */
+  --gradient-hero-deep: linear-gradient(145deg, #EEF5FF 0%, #F7F5F1 35%, #F0EDE7 70%, #EDE9E1 100%);
+  --gradient-section-ink: linear-gradient(160deg, #0A0E1A 0%, #10172B 60%, #0D1324 100%);
+  --gradient-section-blue: linear-gradient(160deg, #EFF6FF 0%, #FAFAF7 100%);
+  --gradient-mesh-1: radial-gradient(ellipse 70% 50% at 70% 40%, rgba(37,99,235,0.08) 0%, transparent 70%);
+  --gradient-mesh-2: radial-gradient(ellipse 50% 60% at 20% 80%, rgba(200,150,42,0.06) 0%, transparent 65%);
+  --gradient-mesh-3: radial-gradient(ellipse 40% 40% at 85% 20%, rgba(99,102,241,0.05) 0%, transparent 60%);
 }
 
 /* ── Both themes enforce light luxury ────────────────────────────────────── */

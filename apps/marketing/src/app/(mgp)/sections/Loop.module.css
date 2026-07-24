@@ -96,16 +96,41 @@
   gap: var(--space-4);
   box-shadow: var(--shadow-rest);
   transition:
-    border-color var(--t-base) var(--ease),
-    box-shadow var(--t-base) var(--ease),
-    transform var(--t-base) var(--ease);
+    border-color 0.35s var(--ease-expo),
+    box-shadow 0.35s var(--ease-expo);
   overflow: hidden;
+  cursor: pointer;
 }
 
 .phaseCard--active {
-  border-color: var(--clay-border);
-  box-shadow: var(--shadow-blue), var(--shadow-lift);
-  transform: translateY(-6px);
+  border-color: rgba(37, 99, 235, 0.22);
+  box-shadow:
+    var(--shadow-lift),
+    0 0 0 4px rgba(37, 99, 235, 0.05);
+}
+
+/* Mouse-follow glow inside card */
+.phaseCard__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(37, 99, 235, 0.08),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity var(--t-base) var(--ease);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.phaseCard:hover .phaseCard__glow {
+  opacity: 1;
+}
+
+.phaseCard--active .phaseCard__glow {
+  opacity: 0.6;
 }
 
 .phaseCard__accentLine {

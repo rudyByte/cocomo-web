@@ -342,6 +342,7 @@ export function Hero() {
       </div>
       <div className={styles.hero__bloom1} aria-hidden="true" />
       <div className={styles.hero__bloom2} aria-hidden="true" />
+      <div className={styles.hero__bloom3} aria-hidden="true" />
       <div className={styles.hero__grain} aria-hidden="true" />
 
       <div className={`container ${styles.hero__inner}`}>
@@ -490,7 +491,6 @@ export function Hero() {
 
       <div className={styles.hero__scroll} aria-hidden="true">
         <span>Scroll</span>
-        <ChevronDown size={14} />
       </div>
     </section>
   );

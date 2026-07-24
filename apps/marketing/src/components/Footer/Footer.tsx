@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import styles from "./Footer.module.css";
 import { Logo } from "../Logo/Logo";
 
@@ -26,7 +29,6 @@ const footerLinks: Record<string, FooterLink[]> = {
     { label: "Vision", href: "/company#vision" },
     { label: "Team", href: "/company#team" },
     { label: "Careers", href: "/company#contact" },
-    { label: "Partners", href: "/company#contact" },
     { label: "Contact", href: "/company#contact" },
   ],
   Legal: [
@@ -40,6 +42,25 @@ export function Footer() {
   return (
     <footer className={styles.footer} role="contentinfo">
       <div className={`container ${styles.footer__inner}`}>
+        {/* Growth line SVG */}
+        <svg
+          className={styles.footer__growthLine}
+          viewBox="0 0 1200 40"
+          fill="none"
+          aria-hidden="true"
+        >
+          <motion.path
+            d="M0 36 Q 150 28, 300 32 T 600 20 T 900 12 T 1200 4"
+            stroke="var(--clay)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          />
+        </svg>
+
         {/* Top: brand + links */}
         <div className={styles.footer__top}>
           {/* Brand */}
@@ -57,13 +78,21 @@ export function Footer() {
             </p>
             <Link href="/demo" className={styles.footer__cta}>
               Book a demo
+              <ArrowUpRight size={14} />
             </Link>
           </div>
 
           {/* Link columns */}
           <nav className={styles.footer__nav} aria-label="Footer navigation">
-            {Object.entries(footerLinks).map(([group, links]) => (
-              <div key={group} className={styles.footer__col}>
+            {Object.entries(footerLinks).map(([group, links], groupIdx) => (
+              <motion.div
+                key={group}
+                className={styles.footer__col}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: groupIdx * 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              >
                 <span className={`eyebrow ${styles.footer__colhead}`}>{group}</span>
                 <ul role="list">
                   {links.map((link) => {
@@ -88,7 +117,7 @@ export function Footer() {
                     );
                   })}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </nav>
         </div>

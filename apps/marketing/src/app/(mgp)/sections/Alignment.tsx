@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import styles from "./Alignment.module.css";
 
 export function Alignment() {
@@ -120,11 +121,11 @@ export function Close() {
         >
           <h2 id="close-heading" className={styles.close__heading}>
             Know what to grow.
-            <br />
             <em className={styles.close__em}>Then watch it get done.</em>
           </h2>
-          <Link href="/demo" className={styles.close__cta} id="close-demo-cta">
+          <Link href="/demo" className={styles.close__cta} id="close-demo-cta" data-cursor="hover">
             Book a demo — free to start
+            <ArrowRight size={16} />
           </Link>
           <p className={styles.close__trust}>
             The platform is free. We earn only when you grow.

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Zap, Users, MessageSquare, Tag, BarChart2, Repeat, LucideIcon } from "lucide-react";
 import styles from "./ExecutionNetwork.module.css";
@@ -20,19 +20,49 @@ const channels: ChannelItem[] = [
   { icon: Repeat, label: "Loyalty loops", sub: "Bring customers back, automatically" },
 ];
 
+// Alternating reveal directions for organic feel
+const revealDirections = [
+  { x: -24, y: 0 },  // left
+  { x: 24, y: 0 },   // right
+  { x: 0, y: 20 },   // up
+  { x: -24, y: 0 },  // left
+  { x: 24, y: 0 },   // right
+  { x: 0, y: 20 },   // up
+];
+
 function ExecutionCard({ item, index }: { item: ChannelItem; index: number }) {
   const [inView, setInView] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const Icon = item.icon;
+
+  // Mouse tracking for glow effect
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty("--mouse-x", `${x}%`);
+    card.style.setProperty("--mouse-y", `${y}%`);
+  }, []);
+
+  const dir = revealDirections[index % revealDirections.length];
 
   return (
     <motion.div
+      ref={cardRef}
       className={`${styles.exec__card} ${inView ? styles.drawIcon : ""}`}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, x: dir.x, y: dir.y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       onViewportEnter={() => setInView(true)}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ delay: index * 0.07, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -2 }}
     >
+      {/* Mouse-follow glow */}
+      <div className={styles.exec__glow} aria-hidden="true" />
+
       <div className={styles.exec__icon} aria-hidden="true">
         <Icon size={18} strokeWidth={1.5} />
       </div>
@@ -56,11 +86,11 @@ export function ExecutionNetwork() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            Most tools stop here.
+            Most tools stop at insight.
             <br />
-            <span className={styles.exec__em}>We don&apos;t.</span>
+            <span className={styles.exec__em}>We execute.</span>
           </motion.h2>
           <motion.p
             className={styles.exec__sub}

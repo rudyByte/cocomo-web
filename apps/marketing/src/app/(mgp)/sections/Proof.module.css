@@ -1,29 +1,58 @@
+/* =========================================================================
+   COCOMO — Proof Section (Enterprise Organic Edition)
+   Asymmetric metric layout, large typographic quote mark, noise on testimonial.
+   ========================================================================= */
+
 .proof {
+  position: relative;
   padding-block: var(--section-gap);
   border-top: 1px solid var(--hairline);
+  background: var(--white);
+  overflow: hidden;
+}
+
+/* Subtle ambient glow */
+.proof::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.04) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .proof__header {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  margin-bottom: var(--space-12);
-  max-width: 480px;
+  margin-bottom: var(--space-16);
+  max-width: 52ch;
 }
 
 .proof__heading {
   font-size: clamp(var(--text-lg), 4vw, var(--text-xl));
+  letter-spacing: -0.025em;
 }
 
+/* ── Metrics Grid — asymmetric organic layout ───────────────────────────────── */
 .proof__metrics {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-6);
+  gap: var(--space-4);
   margin-bottom: var(--space-16);
 }
 
 @media (min-width: 600px) {
-  .proof__metrics { grid-template-columns: repeat(3, 1fr); }
+  .proof__metrics {
+    grid-template-columns: 1.3fr 1fr 1fr;  /* First card slightly larger */
+    align-items: start;
+  }
+  /* First metric card taller for asymmetry */
+  .proof__metric:first-child {
+    padding: var(--space-8) var(--space-6);
+  }
 }
 
 .proof__metric {
@@ -31,62 +60,126 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-6);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: var(--white);
+  border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow var(--t-base) var(--ease-expo), border-color var(--t-base) var(--ease-expo);
+}
+
+/* Colored accent line at top of each metric */
+.proof__metric::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clay), rgba(37, 99, 235, 0.3));
+  border-radius: var(--radius-pill);
+}
+
+.proof__metric:hover {
+  box-shadow: var(--shadow-lift);
+  border-color: rgba(37, 99, 235, 0.12);
 }
 
 .proof__value {
-  font-family: var(--font-mono);
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--clay);
-  letter-spacing: var(--tracking-tight);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .proof__label {
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: var(--ink);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-top: var(--space-1);
 }
 
 .proof__sub {
-  font-size: var(--text-xs);
+  font-size: 11px;
   color: var(--ink-muted);
   font-family: var(--font-mono);
-  letter-spacing: var(--tracking-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
+/* ── Testimonial — typographic quote mark treatment ─────────────────────────── */
 .proof__quote {
-  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-10);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-left: 2px solid var(--clay);
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  position: relative;
+  padding: var(--space-10) var(--space-8) var(--space-8) var(--space-10);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  max-width: 720px;
-  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  max-width: 760px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* Giant typographic quotation mark */
+.proof__quote::before {
+  content: '"';
+  position: absolute;
+  top: -1rem;
+  left: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: clamp(6rem, 12vw, 10rem);
+  font-weight: 900;
+  color: var(--clay);
+  opacity: 0.08;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Noise texture on testimonial card */
+.proof__quote::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--noise-opacity-light);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Clay accent bar on left */
+.proof__quoteBar {
+  position: absolute;
+  left: 0;
+  top: var(--space-8);
+  bottom: var(--space-8);
+  width: 3px;
+  background: linear-gradient(180deg, var(--clay), rgba(37, 99, 235, 0.2));
+  border-radius: var(--radius-pill);
 }
 
 .proof__blockquote {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-size: clamp(var(--text-base), 2vw, var(--text-md));
   font-style: italic;
   font-weight: 400;
   color: var(--ink);
   line-height: var(--leading-snug);
-  max-width: 60ch;
+  max-width: 62ch;
 }
 
 .proof__caption {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -94,7 +187,7 @@
 
 .proof__name {
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ink-soft);
 }
 
@@ -102,4 +195,5 @@
   font-size: var(--text-xs);
   color: var(--ink-muted);
   font-family: var(--font-mono);
+  letter-spacing: 0.04em;
 }

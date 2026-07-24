@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@/styles/tokens.css";
 import "@/styles/globals.css";
 import { fraunces, inter, jetbrainsMono } from "@/lib/fonts";
+import { Cursor } from "@/components/Cursor/Cursor";
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
@@ -80,8 +81,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body
         className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+        style={{ cursor: "none" }}
         suppressHydrationWarning
       >
+        <Cursor />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

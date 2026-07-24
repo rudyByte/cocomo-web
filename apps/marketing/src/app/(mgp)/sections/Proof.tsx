@@ -99,17 +99,25 @@ export function Proof() {
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.55 }}
         >
+          <div className={styles.proof__quoteBar} aria-hidden="true" />
           <blockquote className={styles.proof__blockquote}>
             &ldquo;Within two weeks, Cocomo identified our Tuesday lunch drop and executed a campaign
             that brought weekday covers up 41%. We didn&apos;t have to do anything except approve
             the recommendation.&rdquo;
           </blockquote>
-          <figcaption className={styles.proof__caption}>
+          <motion.figcaption
+            className={styles.proof__caption}
+            initial={{ opacity: 0, x: -12 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className={styles.proof__name}>Kabir Malhotra</span>
             <span className={styles.proof__biz}>Founder, The Sassy Spoon, Mumbai</span>
-          </figcaption>
+          </motion.figcaption>
         </motion.figure>
       </div>
     </section>
   );
 }
+
