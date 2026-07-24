@@ -83,17 +83,49 @@
   font-size: var(--text-base);
   font-weight: 600;
   color: #fff;
-  background: var(--clay);
-  padding: 15px 28px;
+  background: var(--ink);
+  padding: 14px 28px;
   border-radius: var(--radius-pill);
   width: fit-content;
-  transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color var(--t-base) var(--ease-expo),
+    box-shadow var(--t-base) var(--ease-expo),
+    transform var(--t-base) var(--ease-spring-soft);
+  text-decoration: none;
+  cursor: none;
+}
+
+.hero__cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--shimmer-gradient-strong);
+  background-size: 200% 100%;
+  background-position: -200% center;
+  pointer-events: none;
 }
 
 .hero__cta:hover {
-  background: var(--clay-deep);
-  transform: translateY(-2px);
+  background: var(--clay);
   box-shadow: var(--shadow-blue);
+  transform: scale(1.02);
+}
+
+.hero__cta:hover::after {
+  animation: shimmer-sweep 0.6s var(--ease-expo) forwards;
+}
+
+.hero__cta:active {
+  transform: scale(0.99);
+}
+
+.hero__cta svg {
+  transition: transform var(--t-base) var(--ease-expo);
+}
+.hero__cta:hover svg {
+  transform: translateX(5px);
 }
 
 /* ── Stats band ───────────────────────────────────────────────────────────── */
