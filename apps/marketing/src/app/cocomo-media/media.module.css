@@ -280,7 +280,6 @@
   will-change: transform;
 }
 
-/* Restored full-size tall cards as requested */
 .servicesRailCard {
   width: 340px;
   background: var(--white);
@@ -289,10 +288,12 @@
   padding: var(--space-8) var(--space-6);
   display: flex;
   flex-direction: column;
-  height: 380px; /* Full size card height */
+  height: 380px;
   flex-shrink: 0;
   box-shadow: var(--shadow-rest);
-  transition: border-color var(--t-base), transform var(--t-base), box-shadow var(--t-base);
+  transition:
+    border-color 0.35s var(--ease-expo),
+    box-shadow 0.35s var(--ease-expo);
   position: relative;
   overflow: hidden;
 }
@@ -307,10 +308,29 @@
   transition: opacity var(--t-base);
 }
 
+/* Mouse-follow glow layer */
+.servicesRailCard .cardGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(37, 99, 235, 0.07),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity var(--t-base) var(--ease);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.servicesRailCard:hover .cardGlow {
+  opacity: 1;
+}
+
 .servicesRailCard:hover {
-  border-color: var(--clay-border);
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lift);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 .servicesRailCard:hover::before {
@@ -541,9 +561,8 @@
 }
 
 .process__step:hover {
-  border-color: var(--clay-border);
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lift);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 .process__step:hover::before {
@@ -622,10 +641,26 @@
 .close__cta { 
   display: inline-flex; align-items: center; gap: var(--space-2);
   font-size: var(--text-base); font-weight: 600; color: #fff; 
-  background: var(--clay); 
+  background: var(--ink); 
   padding: 16px 36px; border-radius: var(--radius-pill); 
-  box-shadow: var(--shadow-blue); 
-  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color var(--t-base) var(--ease-expo),
+    box-shadow var(--t-base) var(--ease-expo),
+    transform var(--t-base) var(--ease-spring-soft);
   text-decoration: none;
+  cursor: none;
 }
-.close__cta:hover { transform: translateY(-2px); background: var(--clay-deep); box-shadow: var(--shadow-high); }
+.close__cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--shimmer-gradient-strong);
+  background-size: 200% 100%;
+  background-position: -200% center;
+  pointer-events: none;
+}
+.close__cta:hover { background: var(--clay); transform: scale(1.02); box-shadow: var(--shadow-blue); }
+.close__cta:hover::after { animation: shimmer-sweep 0.6s var(--ease-expo) forwards; }
+.close__cta:active { transform: scale(0.99); }
