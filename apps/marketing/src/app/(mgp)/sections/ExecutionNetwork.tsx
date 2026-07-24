@@ -58,7 +58,6 @@ function ExecutionCard({ item, index }: { item: ChannelItem; index: number }) {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.07, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={handleMouseMove}
-      whileHover={{ y: -2 }}
     >
       {/* Mouse-follow glow */}
       <div className={styles.exec__glow} aria-hidden="true" />

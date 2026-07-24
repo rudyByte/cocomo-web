@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X, ChevronDown, Cpu, Sparkles, ArrowUpRight, ArrowRight } from "lucide-react";
 import styles from "./Nav.module.css";
 import { Logo } from "../Logo/Logo";
@@ -77,6 +77,10 @@ export function Nav() {
   const ctaRef = useMagnetic(0.35) as React.RefObject<HTMLAnchorElement>;
   const dropdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Scroll reading progress
+  const { scrollYProgress } = useScroll();
+  const scrollProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 24);
@@ -132,6 +136,13 @@ export function Nav() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: scrolled ? 1 : 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        />
+
+        {/* Reading progress bar */}
+        <motion.div
+          className={styles.nav__progress}
+          style={{ scaleX: scrollProgress }}
+          aria-hidden="true"
         />
 
         <div className={`container ${styles.nav__inner}`}>
