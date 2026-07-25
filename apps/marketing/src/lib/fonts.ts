@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 
 export const fraunces = localFont({
   src: [
@@ -12,16 +13,20 @@ export const fraunces = localFont({
   fallback: ["Georgia", "serif"],
 });
 
-export const inter = localFont({
-  src: [
-    { path: "../../public/fonts/Inter-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../../public/fonts/Inter-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../../public/fonts/Inter-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "../../public/fonts/Inter-Bold.ttf", weight: "700", style: "normal" },
-  ],
+export const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
   fallback: ["system-ui", "sans-serif"],
+});
+
+export const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display-media",
+  display: "swap",
+  weight: ["500", "600", "700"],
+  fallback: ["sans-serif"],
 });
 
 export const jetbrainsMono = localFont({

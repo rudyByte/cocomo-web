@@ -1,7 +1,11 @@
+/* =========================================================================
+   COCOMO — Execution Network (Asymmetric Running List / Marquee Edition)
+   ========================================================================= */
+
 .exec {
   position: relative;
   padding-block: var(--section-gap);
-  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  background: var(--paper);
   border-top: 1px solid var(--hairline);
   overflow: hidden;
 }
@@ -10,149 +14,179 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: 580px;
-  margin-bottom: var(--space-16);
+  max-width: 640px;
+  margin-bottom: var(--space-12);
 }
 
 .exec__heading {
   font-family: var(--font-serif);
-  font-size: clamp(var(--text-lg), 4.5vw, var(--text-xl));
-  font-weight: 600;
-  line-height: var(--leading-tight);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
 }
 
 .exec__em {
   font-style: italic;
   color: var(--clay);
-  font-weight: 400;
 }
 
 .exec__sub {
   font-size: var(--text-base);
   color: var(--ink-soft);
-  max-width: 48ch;
   line-height: var(--leading-normal);
 }
 
-.exec__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
+/* ── Running Ticker / Marquee Band ─────────────────────────────────────────── */
+.exec__tickerBand {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background: var(--paper-2);
+  border-top: 1px solid var(--hairline-warm);
+  border-bottom: 1px solid var(--hairline-warm);
+  padding-block: var(--space-4);
+  overflow: hidden;
+  margin-bottom: var(--space-12);
+  display: flex;
 }
 
-@media (min-width: 600px) {
-  .exec__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.exec__tickerTrack {
+  display: flex;
+  gap: var(--space-8);
+  white-space: nowrap;
+  animation: execTicker 24s linear infinite;
+  will-change: transform;
 }
 
-@media (min-width: 960px) {
-  .exec__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+@keyframes execTicker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-.exec__card {
+.exec__tickerItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.exec__tickerDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--clay);
+}
+
+/* ── Asymmetric Expandable Channel List ───────────────────────────────────── */
+.exec__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-6);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  gap: var(--space-3);
+  max-width: 900px;
+}
+
+.exec__row {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5) var(--space-6);
+  background: var(--white);
+  border: 1px solid var(--hairline);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-rest), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-rest);
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease-expo),
+    box-shadow 0.3s var(--ease-expo),
+    background 0.3s var(--ease-expo);
   position: relative;
   overflow: hidden;
-  transition:
-    border-color var(--t-base) var(--ease),
-    box-shadow var(--t-base) var(--ease),
-    transform var(--t-base) var(--ease);
 }
 
-.exec__card::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 60%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--t-base) var(--ease);
-}
-
-.exec__card:hover {
-  border-color: rgba(37, 99, 235, 0.18);
+.exec__row--active,
+.exec__row:hover {
+  border-color: rgba(37, 99, 235, 0.25);
   box-shadow: var(--shadow-card), 0 0 0 1px rgba(37, 99, 235, 0.08);
+  background: var(--white);
 }
 
-/* Mouse-follow glow (filled by JS custom props) */
-.exec__glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(37, 99, 235, 0.10),
-    transparent 65%
-  );
-  opacity: 0;
-  transition: opacity var(--t-base) var(--ease);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
+.exec__rowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 
-.exec__card:hover .exec__glow {
-  opacity: 1;
+.exec__rowLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
 }
 
-.exec__icon {
+.exec__rowIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--paper-2);
+  border: 1px solid var(--hairline);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(37, 99, 235, 0.08);
   color: var(--clay);
   flex-shrink: 0;
-  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.exec__card:hover .exec__icon {
+.exec__row--active .exec__rowIcon,
+.exec__row:hover .exec__rowIcon {
+  background: var(--clay);
   color: #fff;
-  background-color: var(--clay);
   border-color: var(--clay-deep);
 }
 
-.exec__copy {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.exec__label {
+.exec__rowTitle {
   font-family: var(--font-serif);
-  font-size: var(--text-md);
-  font-weight: 600;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-weight: 700;
   color: var(--ink);
+  letter-spacing: -0.02em;
 }
 
-.exec__sublabel {
+.exec__rowTag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 3px 8px;
+  background: var(--paper-3);
+  border-radius: var(--radius-pill);
+}
+
+.exec__row--active .exec__rowTag {
+  color: var(--clay);
+  background: var(--clay-tint);
+  border: 1px solid var(--clay-border);
+}
+
+.exec__rowDesc {
   font-size: var(--text-sm);
   color: var(--ink-soft);
   line-height: var(--leading-normal);
+  padding-top: var(--space-3);
+  margin-left: 54px;
 }
 
 .exec__callout {
   margin-top: var(--space-12);
   padding: var(--space-6) var(--space-8);
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--hairline);
+  background: var(--paper-2);
+  border: 1px dashed var(--hairline-warm);
   border-radius: var(--radius-xl);
   text-align: center;
 }
@@ -161,25 +195,4 @@
   font-size: var(--text-sm);
   color: var(--ink-soft);
   font-weight: 500;
-}
-
-@keyframes drawStroke {
-  from {
-    stroke-dashoffset: 80;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.drawIcon svg path,
-.drawIcon svg circle,
-.drawIcon svg line,
-.drawIcon svg polyline,
-.drawIcon svg polygon,
-.drawIcon svg rect {
-  stroke-dasharray: 80;
-  stroke-dashoffset: 80;
-  animation: drawStroke 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 0.15s;
 }

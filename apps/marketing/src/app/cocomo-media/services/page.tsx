@@ -74,7 +74,7 @@ export default function ServicesPage() {
                       boxShadow: "0 2px 6px rgba(10,22,47,0.01)"
                     }}
                   >
-                    ✓ {f}
+                    {f}
                   </li>
                 ))}
               </ul>

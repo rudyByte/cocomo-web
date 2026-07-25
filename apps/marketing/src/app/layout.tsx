@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/tokens.css";
 import "@/styles/globals.css";
-import { fraunces, inter, jetbrainsMono } from "@/lib/fonts";
+import { fraunces, plusJakartaSans, spaceGrotesk, jetbrainsMono } from "@/lib/fonts";
 import { Cursor } from "@/components/Cursor/Cursor";
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+        className={`${fraunces.variable} ${plusJakartaSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
         style={{ cursor: "none" }}
         suppressHydrationWarning
       >

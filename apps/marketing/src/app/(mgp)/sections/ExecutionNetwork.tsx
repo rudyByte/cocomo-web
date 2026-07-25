@@ -1,84 +1,27 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
-import { Zap, Users, MessageSquare, Tag, BarChart2, Repeat, LucideIcon } from "lucide-react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Zap, Users, MessageSquare, Tag, BarChart2, Repeat, ChevronRight } from "lucide-react";
 import styles from "./ExecutionNetwork.module.css";
 
-interface ChannelItem {
-  icon: LucideIcon;
-  label: string;
-  sub: string;
-}
-
-const channels: ChannelItem[] = [
-  { icon: Users, label: "Creator campaigns", sub: "Micro-influencers in your city" },
-  { icon: Zap, label: "Meta ads", sub: "Auto-targeted to your customer profile" },
-  { icon: MessageSquare, label: "WhatsApp offers", sub: "Personalised to repeat visitors" },
-  { icon: Tag, label: "Combo offers", sub: "Optimised by day-part & demand" },
-  { icon: BarChart2, label: "Staff tasks", sub: "Assigned with context and timing" },
-  { icon: Repeat, label: "Loyalty loops", sub: "Bring customers back, automatically" },
+const channels = [
+  { id: "creators", icon: Users, label: "Creator campaigns", tag: "INFLUENCER LOOP", desc: "Instantly matches and contracts micro-creators in your city based on target dining demographics." },
+  { id: "ads", icon: Zap, label: "Meta & Geo ads", tag: "PAID MEDIA", desc: "Auto-targeted localized ad sets deployed to zipcodes with low weekday footfall velocity." },
+  { id: "whatsapp", icon: MessageSquare, label: "WhatsApp offers", tag: "DIRECT CRM", desc: "Personalized retention triggers sent to high-value lapse customers with unique redemption tokens." },
+  { id: "combos", icon: Tag, label: "Dynamic combos", tag: "PROMOTIONS", desc: "Algorithmically optimized menu bundles designed to clear slow-moving inventory at peak margin." },
+  { id: "staff", icon: BarChart2, label: "Staff directives", tag: "OPERATIONS", desc: "Actionable daily shift instructions pushed directly to floor leads and kitchen managers." },
+  { id: "loyalty", icon: Repeat, label: "Loyalty loops", tag: "RETENTION", desc: "Automated cashback and visit streaks that turn one-time diners into weekly regulars." },
 ];
-
-// Alternating reveal directions for organic feel
-const revealDirections = [
-  { x: -24, y: 0 },  // left
-  { x: 24, y: 0 },   // right
-  { x: 0, y: 20 },   // up
-  { x: -24, y: 0 },  // left
-  { x: 24, y: 0 },   // right
-  { x: 0, y: 20 },   // up
-];
-
-function ExecutionCard({ item, index }: { item: ChannelItem; index: number }) {
-  const [inView, setInView] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const Icon = item.icon;
-
-  // Mouse tracking for glow effect
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    card.style.setProperty("--mouse-x", `${x}%`);
-    card.style.setProperty("--mouse-y", `${y}%`);
-  }, []);
-
-  const dir = revealDirections[index % revealDirections.length];
-
-  return (
-    <motion.div
-      ref={cardRef}
-      className={`${styles.exec__card} ${inView ? styles.drawIcon : ""}`}
-      initial={{ opacity: 0, x: dir.x, y: dir.y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      onViewportEnter={() => setInView(true)}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.07, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Mouse-follow glow */}
-      <div className={styles.exec__glow} aria-hidden="true" />
-
-      <div className={styles.exec__icon} aria-hidden="true">
-        <Icon size={18} strokeWidth={1.5} />
-      </div>
-      <div className={styles.exec__copy}>
-        <span className={styles.exec__label}>{item.label}</span>
-        <span className={styles.exec__sublabel}>{item.sub}</span>
-      </div>
-    </motion.div>
-  );
-}
 
 export function ExecutionNetwork() {
+  const [activeId, setActiveId] = useState<string>("creators");
+
   return (
     <section className={styles.exec} id="section-execution" aria-labelledby="exec-heading">
       <div className="container">
         <div className={styles.exec__header}>
-          <span className="eyebrow">Execution network</span>
+          <span className="eyebrow">Integrated Execution</span>
           <motion.h2
             id="exec-heading"
             className={styles.exec__heading}
@@ -98,15 +41,76 @@ export function ExecutionNetwork() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ delay: 0.15, duration: 0.5 }}
           >
-            Every recommendation is backed by a network that executes it — creators,
-            paid media, messaging, promotions, and staff — all tracked back to ₹ revenue.
+            Every recommendation connects directly to an active execution channel — no manual campaign setup required.
           </motion.p>
         </div>
+      </div>
 
-        <div className={styles.exec__grid}>
-          {channels.map((item, i) => (
-            <ExecutionCard key={item.label} item={item} index={i} />
+      {/* Running Marquee Ticker Band */}
+      <div className={styles.exec__tickerBand} aria-hidden="true">
+        <div className={styles.exec__tickerTrack}>
+          {[...channels, ...channels].map((item, idx) => (
+            <span key={`${item.id}-${idx}`} className={styles.exec__tickerItem}>
+              {item.label}
+              <span className={styles.exec__tickerDot} />
+            </span>
           ))}
+        </div>
+      </div>
+
+      <div className="container">
+        {/* Asymmetric Expandable Channel List */}
+        <div className={styles.exec__list}>
+          {channels.map((item, index) => {
+            const Icon = item.icon;
+            const isActive = activeId === item.id;
+            return (
+              <motion.div
+                key={item.id}
+                className={`${styles.exec__row} ${isActive ? styles["exec__row--active"] : ""}`}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06, duration: 0.5 }}
+                onClick={() => setActiveId(item.id)}
+                onMouseEnter={() => setActiveId(item.id)}
+              >
+                <div className={styles.exec__rowHeader}>
+                  <div className={styles.exec__rowLeft}>
+                    <div className={styles.exec__rowIcon}>
+                      <Icon size={18} strokeWidth={1.5} />
+                    </div>
+                    <span className={styles.exec__rowTitle}>{item.label}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span className={styles.exec__rowTag}>{item.tag}</span>
+                    <ChevronRight
+                      size={16}
+                      style={{
+                        color: isActive ? "var(--clay)" : "var(--ink-subtle)",
+                        transform: isActive ? "rotate(90deg)" : "none",
+                        transition: "transform 0.3s ease, color 0.3s ease",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.p
+                      className={styles.exec__rowDesc}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      {item.desc}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
 
         <motion.div
@@ -114,11 +118,10 @@ export function ExecutionNetwork() {
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
           <span className={styles.exec__callouttext}>
-            This is where Cocomo Media capability lives within your growth OS —
-            not a separate agency, an integrated execution layer.
+            Cocomo Media functions as an integrated execution layer inside your growth OS — not an external agency.
           </span>
         </motion.div>
       </div>
