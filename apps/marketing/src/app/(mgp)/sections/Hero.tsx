@@ -2,9 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, animate, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, TrendingUp, CheckCircle2, Zap, Cpu, Activity, ShieldCheck, Layers, Radio, ChevronDown } from "lucide-react";
-import { ProductSwitcher } from "@/components/ProductSwitcher/ProductSwitcher";
+import { motion, animate, AnimatePresence } from "framer-motion";
+import { ArrowRight, TrendingUp, CheckCircle2, Zap, Cpu, Activity, ShieldCheck, Layers, Radio, ArrowUpRight } from "lucide-react";
 import styles from "./Hero.module.css";
 
 // ── Scenario definitions ──────────────────────────────────────────────────────
@@ -305,20 +304,12 @@ function DashboardMockup({ scenario }: { scenario: Scenario }) {
   );
 }
 
-// ── Main Hero ──────────────────────────────────────────────────────────────────
+// ── Main Hero Section ──────────────────────────────────────────────────────────
 export function Hero() {
   const [activeScenarioIdx, setActiveScenarioIdx] = useState(0);
   const activeScenario = scenarios[activeScenarioIdx];
-  const heroRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  // Slow upward parallax on the background image
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-
   const hasClicked = useRef(false);
+
   useEffect(() => {
     const timer = setInterval(() => {
       if (hasClicked.current) return;
@@ -328,170 +319,170 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={heroRef} className={styles.hero} aria-labelledby="hero-headline">
-      {/* ── Layered background ── */}
-      <div className={styles.hero__bg}>
-        <motion.img
-          src="/hero-bg.png"
-          className={styles.hero__bgImage}
-          alt=""
-          aria-hidden="true"
-          style={{ y: bgY }}
-        />
-        <div className={styles.hero__bgFade} />
-      </div>
-      <div className={styles.hero__bloom1} aria-hidden="true" />
-      <div className={styles.hero__bloom2} aria-hidden="true" />
-      <div className={styles.hero__bloom3} aria-hidden="true" />
-      <div className={styles.hero__grain} aria-hidden="true" />
+    <>
+      <section className={styles.hero} aria-labelledby="hero-headline">
+        {/* Layered background artwork */}
+        <div className={styles.hero__bg} />
+        <div className={styles.hero__bloom1} aria-hidden="true" />
+        <div className={styles.hero__bloom2} aria-hidden="true" />
+        <div className={styles.hero__grain} aria-hidden="true" />
 
-      <div className={`container ${styles.hero__inner}`}>
-        {/* ── Left: Copy ── */}
-        <div className={styles.hero__copy}>
-          <motion.div
-            className={styles.hero__eyebrow}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className={styles.hero__eyebrow_dot} />
-            <Cpu size={11} />
-            COCOMO ENGINE v2.4 — GROWTH OS
-          </motion.div>
-
-          <h1 id="hero-headline" className={styles.hero__headline}>
-            <motion.span
-              style={{ display: "block" }}
-              initial={{ opacity: 0, y: 48, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.12, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+        <div className={`container ${styles.hero__inner}`}>
+          {/* ── Left Column: Uncluttered High-Conversion Copy ── */}
+          <div className={styles.hero__copy}>
+            <motion.div
+              className={styles.hero__eyebrow}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              Know what to grow.
-            </motion.span>
-            <motion.em
-              className={styles.hero__em}
-              initial={{ opacity: 0, y: 48, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.26, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+              <span className={styles.hero__eyebrow_dot} />
+              <span>COCOMO ENGINE v2.4</span>
+            </motion.div>
+
+            <h1 id="hero-headline" className={styles.hero__headline}>
+              <motion.span
+                style={{ display: "block" }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Know what to grow.
+              </motion.span>
+              <motion.span
+                className={styles.hero__em}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.22, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Then watch it get done.
+              </motion.span>
+            </h1>
+
+            <motion.p
+              className={styles.hero__sub}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              Then watch it get done.
-            </motion.em>
-          </h1>
+              POS and ERP software answer <em>what happened</em>. <strong>Cocomo Engine</strong> continuously analyzes sales, footfall, and customer telemetry to execute exact revenue-growth actions automatically.
+            </motion.p>
 
-          <motion.p
-            className={styles.hero__sub}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            POS and ERP software answer <em>what happened</em>. <strong>Cocomo Engine</strong> continuously analyzes sales, footfall, and customer signals to tell you <strong>what to do next</strong> — and automatically executes it.
-          </motion.p>
+            <motion.div
+              className={styles.hero__ctas}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.48, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Link href="/demo" className={styles.hero__primary} id="hero-demo-cta">
+                Book a demo — free to start
+                <ArrowRight size={16} strokeWidth={2} />
+              </Link>
+              <Link href="/platform" className={styles.hero__secondary} id="hero-platform-cta">
+                See how it works
+                <ArrowUpRight size={14} />
+              </Link>
+            </motion.div>
 
+            <motion.div
+              className={styles.hero__trust}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              ✓ Free to start &nbsp;•&nbsp; Zero setup fee &nbsp;•&nbsp; Integrates in 5 minutes
+            </motion.div>
+          </div>
+
+          {/* ── Right Column: Interactive App Simulator ── */}
           <motion.div
-            className={styles.hero__ctas}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className={styles.hero__visualContainer}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Link href="/demo" className={styles.hero__primary} id="hero-demo-cta">
-              Book a demo — free to start
-              <ArrowRight size={16} strokeWidth={2} />
-            </Link>
-            <span className={styles.hero__trust}>
-              The platform is free. We earn only when you grow.
-            </span>
-          </motion.div>
-
-          <motion.div
-            className={styles.hero__stats}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.85, duration: 0.7 }}
-          >
-            {[
-              { label: "Incremental Lift", value: "+34%" },
-              { label: "Action Resolution", value: "Closed Loop" },
-              { label: "Attributed Revenue", value: "₹2.4Cr" },
-            ].map(({ label, value }) => (
-              <div key={label} className={styles.hero__stat}>
-                <span className={styles.hero__statval} data-metric>{value}</span>
-                <span className={styles.hero__statlabel}>{label}</span>
+            <div className={styles.viewport}>
+              <div className={styles.viewport__header}>
+                <div className={styles.viewport__dots}>
+                  <span className={styles.viewport__dot} />
+                  <span className={styles.viewport__dot} />
+                  <span className={styles.viewport__dot} />
+                </div>
+                <div className={styles.viewport__tabs}>
+                  {scenarios.map((s, idx) => (
+                    <button
+                      key={s.id}
+                      className={`${styles.viewport__tab} ${idx === activeScenarioIdx ? styles["viewport__tab--active"] : ""}`}
+                      onClick={() => { hasClicked.current = true; setActiveScenarioIdx(idx); }}
+                      role="tab"
+                      aria-selected={idx === activeScenarioIdx}
+                    >
+                      {s.name}
+                    </button>
+                  ))}
+                </div>
               </div>
-            ))}
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
-          >
-            <ProductSwitcher />
-          </motion.div>
-        </div>
-
-        {/* ── Right: Live Simulator ── */}
-        <motion.div
-          className={styles.hero__visualContainer}
-          initial={{ opacity: 0, y: 32, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className={styles.viewport}>
-            <div className={styles.viewport__header}>
-              <div className={styles.viewport__dots}>
-                <span className={styles.viewport__dot} />
-                <span className={styles.viewport__dot} />
-                <span className={styles.viewport__dot} />
-              </div>
-              <div className={styles.viewport__tabs}>
-                {scenarios.map((s, idx) => (
-                  <button
-                    key={s.id}
-                    className={`${styles.viewport__tab} ${idx === activeScenarioIdx ? styles["viewport__tab--active"] : ""}`}
-                    onClick={() => { hasClicked.current = true; setActiveScenarioIdx(idx); }}
-                    role="tab"
-                    aria-selected={idx === activeScenarioIdx}
+              <div className={styles.viewport__content}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeScenario.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    {s.name}
-                  </button>
-                ))}
+                    <DashboardMockup scenario={activeScenario} />
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
-            <div className={styles.viewport__content}>
+            <div className={styles.cardContainer}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeScenario.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <DashboardMockup scenario={activeScenario} />
+                  <RecommendationCard rec={activeScenario.recommendation} />
                 </motion.div>
               </AnimatePresence>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Dedicated Full-Width Hero Proof & Integration Strip ── */}
+      <section className={styles.heroTrustStrip} aria-label="Social Proof & Metrics">
+        <div className={`container ${styles.heroTrustStrip__inner}`}>
+          <div className={styles.heroTrustStrip__metrics}>
+            <div>
+              <span className={styles.heroTrustStrip__metricVal}>+34%</span>
+              <span className={styles.heroTrustStrip__metricLabel}>Avg. Revenue Lift</span>
+            </div>
+            <div>
+              <span className={styles.heroTrustStrip__metricVal}>Closed Loop</span>
+              <span className={styles.heroTrustStrip__metricLabel}>Action Attribution</span>
+            </div>
+            <div>
+              <span className={styles.heroTrustStrip__metricVal}>₹2.4Cr</span>
+              <span className={styles.heroTrustStrip__metricLabel}>Attributed Revenue</span>
+            </div>
           </div>
 
-          <div className={styles.cardContainer}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeScenario.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <RecommendationCard rec={activeScenario.recommendation} />
-              </motion.div>
-            </AnimatePresence>
+          <div className={styles.heroTrustStrip__integrations}>
+            <span className={styles.heroTrustStrip__intLabel}>Direct POS &amp; ERP Connectors:</span>
+            <span className={styles.heroTrustStrip__intItem}>Petpooja</span>
+            <span className={styles.heroTrustStrip__intItem}>Pine Labs</span>
+            <span className={styles.heroTrustStrip__intItem}>UrbanPiper</span>
+            <span className={styles.heroTrustStrip__intItem}>Ezetap</span>
+            <span className={styles.heroTrustStrip__intItem}>Razorpay POS</span>
           </div>
-        </motion.div>
-      </div>
-
-      <div className={styles.hero__scroll} aria-hidden="true">
-        <span>Scroll</span>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }
