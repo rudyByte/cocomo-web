@@ -12,6 +12,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "deploy": "vercel --prod",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "db:push": "turbo db:push",
