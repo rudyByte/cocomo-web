@@ -1,95 +1,118 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "../media.module.css";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Services — Cocomo Media",
-  description: "Influencer marketing, content production, Meta ads, and creator management.",
-};
+import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import styles from "../media.module.css";
 
 const detailedServices = [
   {
+    num: "01",
+    emoji: "🧠",
     title: "Influencer & Creator Campaigns",
-    sub: "Hyper-local matching for maximum footfall and conversion",
-    body: "We source, vet, and contract food, lifestyle, and regional micro-influencers. Every campaign is engineered around trackable redemption mechanisms and foot traffic lift.",
-    features: ["Vetted network of 5,000+ creators", "Usage rights & content licensing", "Trackable promo codes & UTM link tracking"],
+    sub: "Hyper-local matching for maximum reach and conversion",
+    body: "We source, vet, and contract food, lifestyle, and regional micro-influencers. Every campaign is engineered around trackable redemption mechanisms and audience lift.",
+    features: ["Vetted network of 500+ creators", "Usage rights & content licensing", "Trackable promo codes & UTM links"],
+    tags: ["Nano", "Micro", "Macro"],
   },
   {
+    num: "02",
+    emoji: "🎬",
     title: "High-Volume Content Production",
     sub: "Reels, stories, and UGC built for social algorithms",
     body: "Static photography doesn't drive social discovery. We produce short-form video content designed for Instagram Reels, YouTube Shorts, and Meta ad placements.",
     features: ["On-location shoot coordination", "Dedicated edit & color grading", "A/B creative testing hooks"],
+    tags: ["Video", "Photography", "Motion"],
   },
   {
+    num: "03",
+    emoji: "📣",
     title: "Meta Ads & Paid Media Management",
-    sub: "Performance media buying connected to POS signals",
-    body: "Stop wasting budget on broad radius boost posts. We run geo-fenced Meta campaigns targeting high-intent foodies and local residents during key meal decision windows.",
-    features: ["Geo-fencing down to 500m radius", "Dynamic day-parting ads (Lunch/Dinner)", "Closed-loop revenue attribution"],
+    sub: "Performance media buying with measurable attribution",
+    body: "Stop wasting budget on broad boost posts. We run geo-fenced Meta campaigns targeting high-intent audiences during key decision windows.",
+    features: ["Geo-fencing down to 500m radius", "Dynamic day-parting ads", "Closed-loop revenue attribution"],
+    tags: ["Meta", "Paid", "Attribution"],
   },
   {
-    title: "Creator Roster & Brand Ambassador Management",
+    num: "04",
+    emoji: "🤝",
+    title: "Brand Ambassador Management",
     sub: "Long-term relationships that build authentic category authority",
     body: "One-off posts build awareness; recurring creator partnerships build habits. We build and manage exclusive creator ambassador programs for your brand.",
     features: ["Monthly recurring deliverables", "Exclusive regional ambassador rights", "Performance bonus structures"],
+    tags: ["Partnerships", "Recurring", "Exclusive"],
   },
 ];
 
 export default function ServicesPage() {
   return (
-    <div className={styles.page} style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
+    <div className={styles.page} style={{ paddingTop: "7rem", paddingBottom: "6rem" }}>
       <div className={styles.container}>
-        <span className={styles.eyebrow}>Our Services</span>
-        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem", color: "#0A162F" }}>
-          Full-stack media execution for growing brands.
-        </h1>
-        <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
-          Whether you need a single viral creator push or an ongoing performance media operation,
-          Cocomo Media executes end-to-end.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className={styles.eyebrow}>Our Services</span>
+          <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem" }}>
+            Full-stack media execution<br />for growing brands.
+          </h1>
+          <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
+            Whether you need a single viral creator push or an ongoing performance media operation,
+            Cocomo Media executes end-to-end.
+          </p>
+        </motion.div>
 
-        <div style={{ display: "grid", gap: "2rem" }}>
-          {detailedServices.map((svc) => (
-            <div key={svc.title} className={styles.services__card} style={{ padding: "3rem", background: "rgba(246, 248, 252, 0.4)" }}>
-              <h2 className={styles.services__title} style={{ fontSize: "1.75rem", color: "#0A162F", marginBottom: "0.5rem" }}>
-                {svc.title}
-              </h2>
-              <p style={{ color: "#2563EB", fontSize: "0.875rem", fontFamily: "var(--font-mono)", fontWeight: 600, marginBottom: "1.5rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                {svc.sub}
+        <div className={styles.servicesGrid}>
+          {detailedServices.map(({ num, emoji, title, sub, body, features, tags }, i) => (
+            <motion.div
+              key={num}
+              className={styles.serviceCard}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.06, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className={styles.svc__num}>{num}</span>
+              <div className={styles.svc__iconWrap}>{emoji}</div>
+              <h2 className={styles.services__title}>{title}</h2>
+              <p style={{ color: "var(--terra)", fontSize: "12px", fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "12px" }}>
+                {sub}
               </p>
-              <p className={styles.services__desc} style={{ fontSize: "1.0625rem", lineHeight: "1.75", marginBottom: "2rem", color: "#5E697F" }}>
-                {svc.body}
-              </p>
-              <ul style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", listStyle: "none", padding: 0 }}>
-                {svc.features.map((f) => (
-                  <li
-                    key={f}
-                    style={{
-                      background: "#FFFFFF",
-                      border: "1px solid rgba(10, 22, 47, 0.08)",
-                      borderRadius: "100px",
-                      padding: "0.5rem 1.25rem",
-                      fontSize: "0.8125rem",
-                      color: "#0A162F",
-                      fontWeight: 500,
-                      boxShadow: "0 2px 6px rgba(10,22,47,0.01)"
-                    }}
-                  >
+              <p className={styles.services__desc}>{body}</p>
+              <div className={styles.svc__tags} style={{ marginBottom: "16px" }}>
+                {tags.map((tag) => (
+                  <span key={tag} className={styles.svc__tag}>{tag}</span>
+                ))}
+              </div>
+              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+                {features.map((f) => (
+                  <li key={f} style={{ fontSize: "13px", color: "var(--ink-gray)", display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                    <span style={{ color: "var(--terra)", marginTop: "2px" }}>✓</span>
                     {f}
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div style={{ marginTop: "6rem", textAlign: "center", padding: "5rem 3rem", background: "rgba(246, 248, 252, 0.45)", borderRadius: "32px", border: "1px solid rgba(10, 22, 47, 0.06)" }}>
-          <h2 className={styles.section__heading} style={{ color: "#0A162F", marginBottom: "1rem" }}>Ready to build your custom campaign?</h2>
-          <p className={styles.section__sub} style={{ margin: "1rem auto 2.5rem" }}>
-            Get a tailored proposal with creator matches and budget breakdowns in 48 hours.
-          </p>
-          <Link href="/cocomo-media/contact" className={styles.hero__primary} data-magnetic>
-            Request Proposal
-          </Link>
+        {/* CTA */}
+        <div className={styles.close} style={{ paddingInline: 0, paddingBottom: 0 }}>
+          <div className={styles.closeInner}>
+            <div className={styles.closeContent}>
+              <span className={styles.close__eyebrow}>Get started</span>
+              <h2 className={styles.close__heading}>
+                Ready to build your <em>custom campaign?</em>
+              </h2>
+              <p className={styles.close__sub}>
+                Tailored proposal with creator matches and budget breakdowns in 48 hours.
+              </p>
+              <Link href="/cocomo-media/contact" className={styles.close__cta}>
+                Request Proposal →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

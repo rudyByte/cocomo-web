@@ -1,83 +1,133 @@
 "use client";
 
-import type { Metadata } from "next";
+import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import styles from "../media.module.css";
 
 const caseStudies = [
   {
-    client: "Bandra Artisanal Bakery",
-    category: "Café & Bakery",
-    metrics: "+42% Weekend Revenue",
-    reach: "1.2M Impressions",
-    summary: "Activated 8 food micro-creators over 3 weeks to push new weekend sourdough and brunch items, supported by geo-fenced Meta Reel ads.",
+    num: "01",
+    client: "Petpooja",
+    category: "Restaurant SaaS · B2B",
+    metrics: "28M+ Reach",
+    metricSub: "3.0x Lead Pipeline Growth",
+    reach: "84 creators · 12 cities",
+    summary: "We activated a synchronized multi-city network of 84 food creators. Rather than posting generic ads, they integrated Petpooja SaaS naturally into their restaurant-vlog workflows, driving high-intent leads.",
+    tags: ["B2B SaaS", "Food Creators", "12 Cities"],
+    color: "#C8604A",
   },
   {
-    client: "The Urban Gourmet",
-    category: "Casual Dining Chain",
-    metrics: "1,850+ Offer Redemptions",
-    reach: "850K Views",
-    summary: "Ran a targeted weekday lunch combo campaign with local office-vlogger creators to solve Tuesday-Thursday cover drops.",
+    num: "02",
+    client: "Urban Company",
+    category: "Home Services · App",
+    metrics: "15M+ Reach",
+    metricSub: "42% Increase in App Installs",
+    reach: "60 creators · 8 states",
+    summary: "Building authentic local trust for home services. We localized campaigns with micro-influencers across 8 states, executing custom creator-native visual hooks that translated directly to service bookings.",
+    tags: ["Local Trust", "Micro Influencers", "8 States"],
+    color: "#0EA5E9",
   },
   {
-    client: "Roast & Co.",
-    category: "Specialty Coffee",
-    metrics: "+65% Loyalty Signups",
-    reach: "450K Impressions",
-    summary: "Integrated creator reels with a WhatsApp digital loyalty card, turning first-time visitors into weekly regulars.",
+    num: "03",
+    client: "Mamaearth",
+    category: "D2C Skincare · Consumer",
+    metrics: "50M+ Impressions",
+    metricSub: "2.8x ROAS on Creator Spend",
+    reach: "120 creators · pan-India",
+    summary: "A full-funnel skincare storytelling campaign. Creators moved audiences from awareness to purchase by integrating Mamaearth into daily skincare routines — authentic, unscripted, and conversion-optimized.",
+    tags: ["D2C", "Skincare", "Pan-India"],
+    color: "#4ade80",
   },
 ];
 
 export default function WorkPage() {
   return (
-    <div className={styles.page} style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
+    <div className={styles.page} style={{ paddingTop: "7rem", paddingBottom: "6rem" }}>
       <div className={styles.container}>
-        <span className={styles.eyebrow}>Our Work</span>
-        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem", color: "#0A162F" }}>
-          Proven results for ambitious merchants.
-        </h1>
-        <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
-          Explore how our creator campaigns turn attention into measurable footfall and revenue.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className={styles.eyebrow}>Case Studies</span>
+          <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem" }}>
+            Campaigns that changed<br />the story.
+          </h1>
+          <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
+            Real brands. Real creators. Results that moved the bottom line.
+          </p>
+        </motion.div>
 
-        <div style={{ display: "grid", gap: "2.5rem" }}>
-          {caseStudies.map((cs, idx) => (
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {caseStudies.map(({ num, client, category, metrics, metricSub, reach, summary, tags, color }, idx) => (
             <motion.div
-              key={cs.client}
-              className={styles.services__card}
-              style={{ padding: "3rem", background: "rgba(246, 248, 252, 0.45)", overflow: "hidden" }}
-              initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" }}
-              whileInView={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.85, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              data-hover-text="VIEW"
+              key={client}
+              className={styles.proofCard}
+              style={{ margin: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.75, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-                <span style={{ fontSize: "0.8125rem", color: "#2563EB", fontFamily: "var(--font-mono)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.08em" }}>
-                  {cs.category}
-                </span>
-                <span style={{ fontSize: "1rem", color: "#3DAE80", fontFamily: "var(--font-mono)", fontWeight: "700" }}>
-                  {cs.metrics}
-                </span>
+              <div style={{ padding: "40px" }}>
+                {/* Top row */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px", flexWrap: "wrap", gap: "16px" }}>
+                  <div>
+                    <span className={styles.proofBadge}>{num} // {category}</span>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <span style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(28px, 5vw, 40px)", fontWeight: 900, color, letterSpacing: "-1px", display: "block", lineHeight: 1 }}>
+                      {metrics}
+                    </span>
+                    <span style={{ fontSize: "12px", color: "rgba(245,242,237,0.5)", marginTop: "4px", display: "block" }}>
+                      {metricSub}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h2 className={styles.proofTitle} style={{ marginBottom: "16px" }}>
+                  {client}
+                </h2>
+
+                {/* Summary */}
+                <p className={styles.proofNarrativeText} style={{ marginBottom: "24px", fontSize: "15px", lineHeight: 1.75 }}>
+                  {summary}
+                </p>
+
+                {/* Meta */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+                  <div className={styles.svc__tags}>
+                    {tags.map((t) => (
+                      <span key={t} style={{ fontSize: "11px", fontWeight: 500, background: "rgba(200,96,74,0.15)", color: "var(--terra-light)", padding: "5px 12px", borderRadius: "100px" }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <span style={{ fontSize: "12px", color: "rgba(245,242,237,0.4)", fontFamily: "var(--font-mono)" }}>{reach}</span>
+                </div>
               </div>
-              <h2 className={styles.services__title} style={{ fontSize: "2rem", color: "#0A162F", marginBottom: "0.75rem" }}>
-                {cs.client}
-              </h2>
-              <p style={{ color: "#5E697F", fontSize: "0.875rem", marginBottom: "2rem", fontFamily: "var(--font-mono)" }}>
-                Reach: {cs.reach}
-              </p>
-              <p className={styles.services__desc} style={{ fontSize: "1.0625rem", lineHeight: "1.7", color: "#0A162F" }}>
-                {cs.summary}
-              </p>
             </motion.div>
           ))}
         </div>
 
-        <div style={{ marginTop: "6rem", textAlign: "center" }}>
-          <Link href="/cocomo-media/contact" className={styles.hero__primary} data-magnetic>
-            Get a Proposal for Your Brand
-          </Link>
+        {/* CTA */}
+        <div className={styles.close} style={{ paddingInline: 0, paddingBottom: 0, marginTop: "4rem" }}>
+          <div className={styles.closeInner}>
+            <div className={styles.closeContent}>
+              <span className={styles.close__eyebrow}>Start your campaign</span>
+              <h2 className={styles.close__heading}>
+                Your brand&apos;s story <em>starts here.</em>
+              </h2>
+              <p className={styles.close__sub}>
+                Get a tailored proposal with creator matches and campaign projections in 48 hours.
+              </p>
+              <Link href="/cocomo-media/contact" className={styles.close__cta}>
+                Get a Proposal →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

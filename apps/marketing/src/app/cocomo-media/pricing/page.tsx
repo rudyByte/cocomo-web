@@ -9,26 +9,29 @@ export const metadata: Metadata = {
 
 const highlightedTier = {
   name: "Scale & Dominance",
+  emoji: "🚀",
   price: "₹1,80,000",
   period: "/ campaign",
-  desc: "For established outlets & multi-location brands aiming for city-wide visibility and measurable revenue lift.",
+  badge: "Most Popular",
+  desc: "For established brands aiming for wide visibility and measurable revenue lift.",
   features: [
     "12 Micro to mid-tier creators",
     "5 High-production Reel assets + raw UGC",
     "Full Meta & Instagram ad management",
     "Dedicated Campaign Director",
-    "POS & footfall revenue attribution report",
+    "Revenue attribution report",
   ],
 };
 
 const secondaryTiers = [
   {
     name: "Growth Launch",
+    emoji: "⚡",
     price: "₹75,000",
     period: "/ campaign",
-    desc: "Ideal for single-location outlets launching a new menu or pushing weekday covers.",
+    desc: "Ideal for brands launching a new product or pushing initial awareness.",
     features: [
-      "5 Vetted local micro-influencers",
+      "5 Vetted micro-influencers",
       "2 Custom Reel video assets",
       "Meta ad campaign setup",
       "Trackable promo redemption setup",
@@ -36,140 +39,107 @@ const secondaryTiers = [
   },
   {
     name: "Custom Enterprise",
+    emoji: "🏆",
     price: "Custom",
     period: "retainer",
-    desc: "Always-on media engine for restaurant chains, franchises, and regional brands.",
+    desc: "Always-on media engine for enterprise brands, chains, and regional powerhouses.",
     features: [
-      "Unlimited creator sourcing & contracting",
+      "Unlimited creator sourcing",
       "Monthly video production sprints",
-      "Multi-channel ad strategy (Meta + Google)",
-      "Growth OS integration & custom API signals",
+      "Multi-channel ad strategy",
+      "Custom API signals & reporting",
     ],
   },
 ];
 
 export default function PricingPage() {
   return (
-    <div className={styles.page} style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
+    <div className={styles.page} style={{ paddingTop: "7rem", paddingBottom: "6rem" }}>
       <div className={styles.container}>
         <span className={styles.eyebrow}>Transparent Pricing</span>
-        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem", color: "var(--ink)" }}>
-          Predictable investment. Measurable return.
+        <h1 className={styles.section__heading} style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)", marginBottom: "1.5rem" }}>
+          Predictable investment.<br />Measurable return.
         </h1>
         <p className={styles.section__sub} style={{ marginBottom: "4rem" }}>
           Choose a fixed-scope campaign package or build a custom retainer with our execution team.
         </p>
 
-        {/* Asymmetric Weighted Layout: 60% Dominant Tier vs 40% Side Comparison Column */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2.5rem", alignItems: "start" }}>
-          <style>{`
-            @media (min-width: 960px) {
-              .pricingAsymmetricGrid {
-                display: grid !important;
-                grid-template-columns: 1.4fr 1fr !important;
-                gap: 2.5rem !important;
-              }
-            }
-          `}</style>
-          <div className="pricingAsymmetricGrid" style={{ display: "grid", gap: "2rem" }}>
-            {/* Dominant Highlighted Package (60% weight) */}
-            <div
-              className={styles.services__card}
-              style={{
-                padding: "3.5rem 3rem",
-                border: "1.5px solid var(--clay-border)",
-                background: "var(--paper-2)",
-                boxShadow: "var(--shadow-card)",
-                borderRadius: "28px",
-                position: "relative",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.75rem",
-                  color: "var(--clay)",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  display: "block",
-                  marginBottom: "1rem",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                ✦ RECOMMENDED EXECUTION TIER
-              </span>
-              <h2 className={styles.services__title} style={{ fontSize: "2.25rem", color: "var(--ink)", marginBottom: "0.5rem" }}>
-                {highlightedTier.name}
-              </h2>
-              <p className={styles.services__desc} style={{ fontSize: "1rem", color: "var(--ink-soft)", marginBottom: "2rem", lineHeight: 1.6 }}>
-                {highlightedTier.desc}
-              </p>
-
-              <div style={{ margin: "2rem 0", borderTop: "1px solid var(--hairline)", paddingTop: "1.5rem" }}>
-                <span style={{ fontSize: "3.5rem", fontWeight: "900", fontFamily: "var(--font-serif)", color: "var(--ink)", letterSpacing: "-0.04em" }}>
+        {/* Featured Tier — dark cinematic */}
+        <div className={styles.proofCard} style={{ margin: "0 0 24px 0", padding: 0 }}>
+          <div style={{ padding: "48px 40px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px", flexWrap: "wrap", gap: "12px" }}>
+              <div>
+                <span className={styles.proofBadge}>{highlightedTier.badge}</span>
+                <h2 className={styles.proofTitle} style={{ marginBottom: "8px" }}>
+                  {highlightedTier.emoji} {highlightedTier.name}
+                </h2>
+                <p className={styles.proofNarrativeText}>{highlightedTier.desc}</p>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <span style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 900, color: "var(--terra-light)", letterSpacing: "-2px", display: "block", lineHeight: 1 }}>
                   {highlightedTier.price}
                 </span>
-                <span style={{ fontSize: "1rem", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}> {highlightedTier.period}</span>
+                <span style={{ fontSize: "12px", color: "rgba(245,242,237,0.45)", marginTop: "4px", display: "block" }}>
+                  {highlightedTier.period}
+                </span>
               </div>
+            </div>
 
-              <ul style={{ display: "flex", flexDirection: "column", gap: "1rem", listStyle: "none", padding: 0, marginBottom: "2.5rem", borderTop: "1px dashed var(--hairline-warm)", paddingTop: "1.5rem" }}>
-                {highlightedTier.features.map((f) => (
-                  <li key={f} style={{ fontSize: "0.9375rem", color: "var(--ink)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <span style={{ color: "var(--clay)", fontWeight: "bold" }}>—</span> {f}
+            <ul style={{ listStyle: "none", padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px", marginBottom: "32px" }}>
+              {highlightedTier.features.map((f) => (
+                <li key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", color: "rgba(245,242,237,0.75)" }}>
+                  <span style={{ color: "var(--terra-light)", fontSize: "16px" }}>✓</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <Link href="/cocomo-media/contact" className={styles.btnCaseStudy}>
+              Get started with this package
+              <span className={styles.btnCaseStudyArrow}>→</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Secondary Tiers */}
+        <div className={styles.servicesGrid} style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+          {secondaryTiers.map(({ name, emoji, price, period, desc, features }) => (
+            <div key={name} className={styles.serviceCard}>
+              <div className={styles.svc__iconWrap}>{emoji}</div>
+              <h2 className={styles.services__title}>{name}</h2>
+              <p className={styles.services__desc}>{desc}</p>
+              <p style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(28px, 4vw, 36px)", fontWeight: 900, color: "var(--terra)", letterSpacing: "-1px", marginBottom: "20px", lineHeight: 1 }}>
+                {price} <span style={{ fontSize: "14px", fontWeight: 400, color: "var(--ink-gray)" }}>{period}</span>
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "8px", marginBottom: "24px" }}>
+                {features.map((f) => (
+                  <li key={f} style={{ fontSize: "13px", color: "var(--ink-gray)", display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                    <span style={{ color: "var(--terra)", marginTop: "2px" }}>✓</span>
+                    {f}
                   </li>
                 ))}
               </ul>
-
-              <Link
-                href="/cocomo-media/contact"
-                className={styles.hero__primary}
-                style={{ width: "100%", justifyContent: "center", textDecoration: "none" }}
-              >
-                Select Package
+              <Link href="/cocomo-media/contact" className={styles.hero__primary} style={{ alignSelf: "flex-start" }}>
+                Get a quote
               </Link>
             </div>
+          ))}
+        </div>
 
-            {/* Slimmer Comparison Column (40% weight) */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-              {secondaryTiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className={styles.services__card}
-                  style={{
-                    padding: "2.5rem 2rem",
-                    border: "1px solid var(--hairline)",
-                    background: "var(--white)",
-                    borderRadius: "20px",
-                  }}
-                >
-                  <h3 className={styles.services__title} style={{ fontSize: "1.35rem", color: "var(--ink)", marginBottom: "0.5rem" }}>
-                    {tier.name}
-                  </h3>
-                  <div style={{ margin: "1rem 0", borderTop: "1px solid var(--hairline)", paddingTop: "1rem" }}>
-                    <span style={{ fontSize: "2rem", fontWeight: "800", fontFamily: "var(--font-serif)", color: "var(--ink)" }}>
-                      {tier.price}
-                    </span>
-                    <span style={{ fontSize: "0.8125rem", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}> {tier.period}</span>
-                  </div>
-                  <p className={styles.services__desc} style={{ fontSize: "0.875rem", color: "var(--ink-muted)", marginBottom: "1.5rem" }}>
-                    {tier.desc}
-                  </p>
-                  <ul style={{ display: "flex", flexDirection: "column", gap: "0.75rem", listStyle: "none", padding: 0, marginBottom: "1.5rem" }}>
-                    {tier.features.map((f) => (
-                      <li key={f} style={{ fontSize: "0.8125rem", color: "var(--ink-soft)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                        <span style={{ color: "var(--ink-subtle)" }}>—</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/cocomo-media/contact"
-                    className={styles.hero__secondary}
-                    style={{ fontSize: "0.875rem", textDecoration: "none", color: "var(--clay)", fontWeight: 700 }}
-                  >
-                    Inquire about {tier.name} →
-                  </Link>
-                </div>
-              ))}
+        {/* Enterprise CTA */}
+        <div className={styles.close} style={{ paddingInline: 0, paddingBottom: 0, marginTop: "4rem" }}>
+          <div className={styles.closeInner}>
+            <div className={styles.closeContent}>
+              <span className={styles.close__eyebrow}>Custom solutions</span>
+              <h2 className={styles.close__heading}>
+                Need something <em>tailored?</em>
+              </h2>
+              <p className={styles.close__sub}>
+                Every brand is different. Talk to us and we&apos;ll build a custom package around your goals.
+              </p>
+              <Link href="/cocomo-media/contact" className={styles.close__cta}>
+                Book a Strategy Call →
+              </Link>
             </div>
           </div>
         </div>
