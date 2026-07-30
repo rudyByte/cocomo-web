@@ -1,99 +1,122 @@
 "use client";
 
-import React, { Suspense, useState, useRef, useEffect } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
-import { Brain, Palette, Monitor, Star, Video, TrendingUp, Target, PenTool, Users, Rocket, ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform, useMotionValue, animate } from "framer-motion";
+import { Brain, Palette, Monitor, Star, Video, TrendingUp, Target, PenTool, Users, Rocket, ArrowRight, Zap, Globe, Award, BarChart3 } from "lucide-react";
 import styles from "./media.module.css";
 
-// Lazy-load NetworkSphere Canvas
-const NetworkSphere = dynamic(
-  () => import("@/components/media/NetworkSphere").then((m) => m.NetworkSphere),
-  {
-    ssr: false,
-    loading: () => (
-      <div className={styles.sphere__fallback} aria-hidden="true">
-        <div className={styles.sphere__static} />
-      </div>
-    ),
-  }
-);
-
+/* ── Data ─────────────────────────────────────────────────────────────────── */
 const services = [
   {
     num: "01",
     title: "Brand Strategy",
     desc: "We decode your audience, sharpen your positioning, and build a story worth telling.",
     icon: Brain,
-    tags: ["Positioning", "Messaging", "Audience Research"],
+    emoji: "🧠",
+    tags: ["Positioning", "Messaging", "Research"],
+    detail: "Full brand audit · Competitive mapping · Tone of voice · Narrative framework"
   },
   {
     num: "02",
     title: "Visual Identity",
     desc: "Logos, color systems, typography — everything that makes you instantly recognizable.",
     icon: Palette,
+    emoji: "🎨",
     tags: ["Logo", "Brand System", "Guidelines"],
+    detail: "Logo design · Color palette · Typography · Brand guidelines doc"
   },
   {
     num: "03",
     title: "Digital Design",
     desc: "Websites, landing pages, and digital assets designed to convert, not just sit pretty.",
     icon: Monitor,
+    emoji: "🖥️",
     tags: ["Web Design", "UI/UX", "Motion"],
+    detail: "Website design · Landing pages · Digital ads · Motion assets"
   },
   {
     num: "04",
     title: "Influencer Marketing",
     desc: "500+ creators. Every niche. Every city. Campaigns that reach the right eyeballs.",
     icon: Star,
-    tags: ["Creator Network", "Campaigns", "ROI Tracking"],
+    emoji: "⭐",
+    tags: ["Creators", "Campaigns", "ROI Tracking"],
+    detail: "Creator sourcing · Brief writing · Campaign execution · Results reporting"
   },
   {
     num: "05",
     title: "Content Production",
     desc: "Reels, shoots, carousels — content that stops the scroll and sparks conversation.",
     icon: Video,
+    emoji: "🎬",
     tags: ["Video", "Photography", "Reels"],
+    detail: "Video production · Photography · Reel editing · Content calendar"
   },
   {
     num: "06",
     title: "Social Growth",
     desc: "Strategy, scheduling, analytics — turning your social into a revenue channel.",
     icon: TrendingUp,
+    emoji: "📈",
     tags: ["Strategy", "Analytics", "Community"],
+    detail: "Platform strategy · Content scheduling · Community management · Analytics"
   }
 ];
 
-const processes = [
+const growthSteps = [
   {
     num: "01",
     tag: "AUDIT & MAPPING",
-    icon: Target,
+    icon: "🔍",
     title: "Strategy First",
-    desc: "We audit your brand, study your audience, and map a clear path before a single pixel is designed.",
+    desc: "We audit your brand, study your audience, and map a clear path before a single pixel is designed."
   },
   {
     num: "02",
     tag: "DESIGN & SYSTEM",
-    icon: PenTool,
+    icon: "✏️",
     title: "Build the Story",
-    desc: "Visual identity, messaging framework, and content system — all built to work seamlessly together.",
+    desc: "Visual identity, messaging framework, and content system — all built to work seamlessly together."
   },
   {
     num: "03",
     tag: "CREATOR ACTIVATION",
-    icon: Users,
+    icon: "🚀",
     title: "Deploy Creators",
-    desc: "We activate the right creators at the right tier — nano, micro, macro — in targeted cities.",
+    desc: "We activate the right creators at the right tier — nano, micro, macro — in targeted cities."
   },
   {
     num: "04",
     tag: "ATTRIBUTION & SCALE",
-    icon: Rocket,
+    icon: "📊",
     title: "Scale What Works",
-    desc: "Analytics → insight → double down. We iterate fast and scale the assets that demonstrably convert.",
+    desc: "Analytics → insight → double down. We iterate fast and scale the assets that demonstrably convert."
   }
+];
+
+const counters = [
+  { icon: "🏆", val: 500, suffix: "+", label: "Creators in network", valColor: true },
+  { icon: "📍", val: 12, suffix: "", label: "Cities activated", valColor: false },
+  { icon: "📈", val: 300, suffix: "M+", label: "Total campaign reach", valColor: true },
+  { icon: "⚡", val: 42, suffix: "%", label: "Avg. conversion uplift", valColor: true },
+];
+
+const reels = [
+  { grad: "pb1", handle: "@petpooja", caption: "B2B SaaS through food creator network" },
+  { grad: "pb2", handle: "@mamaearth", caption: "Skincare launch — 2M reach in week 1" },
+  { grad: "pb3", handle: "@urbancompany", caption: "Local trust amplified via micro influencers" },
+  { grad: "pb4", handle: "@mivi_audio", caption: "Product reveal that broke category records" },
+  { grad: "pb5", handle: "@nykaa", caption: "Beauty haul series — 4x ROAS achieved" },
+  { grad: "pb6", handle: "@licious_in", caption: "Freshness story — authentic creator UGC" },
+  { grad: "pb7", handle: "@theman_co", caption: "Men's grooming rebranding — viral series" },
+];
+
+const whyItems = [
+  { num: "01", title: "Strategy before execution", body: "Every client engagement starts with a deep-dive audit. We never deploy until the strategy is bulletproof." },
+  { num: "02", title: "Speed that doesn't cut corners", body: "Our production systems are built for rapid turnaround. Brief to delivery in days, not weeks." },
+  { num: "03", title: "Creators you can't access alone", body: "10+ years building relationships with India's top creators means you skip the cold-pitch queue entirely." },
+  { num: "04", title: "Attribution that actually makes sense", body: "Every rupee tracked. Every metric that matters, reported in a language your CFO will appreciate." },
 ];
 
 const testimonials = [
@@ -103,271 +126,144 @@ const testimonials = [
   { initial: "S", name: "Sneha Patel", role: "CMO, Lifestyle Company", quote: "Speed, quality, strategy — most agencies give you one. Cocomo gives you all three. I don't know how they do it, but I'm not complaining." }
 ];
 
-const brandLogos = [
-  "Petpooja", "Urban Company", "Mamaearth", "Wow Skin", "Nykaa", 
-  "Licious", "Vedix", "The Man Company", "Mivi", "Slurrp Farm"
-];
+const brandLogos = ["Petpooja", "Urban Company", "Mamaearth", "Wow Skin", "Nykaa", "Licious", "Vedix", "The Man Company", "Mivi", "Slurrp Farm"];
 
-function ScrambleNumber({ value }: { value: string }) {
-  const [display, setDisplay] = useState(value);
+/* ── Animated Counter ─────────────────────────────────────────────────────── */
+function AnimatedCounter({ val, suffix, color }: { val: number; suffix: string; color?: boolean }) {
+  const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const hasTriggered = useRef(false);
+  const triggered = useRef(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasTriggered.current) {
-          hasTriggered.current = true;
-          let iterations = 0;
-          const target = value;
-          const chars = "0123456789X%M+₹";
-          const interval = setInterval(() => {
-            setDisplay(
-              target
-                .split("")
-                .map((char, index) => {
-                  if (index < iterations) return target[index];
-                  if (char === "M" || char === "%" || char === "+" || char === "₹" || char === ".") return char;
-                  return chars[Math.floor(Math.random() * chars.length)];
-                })
-                .join("")
-            );
-            iterations += 1 / 3;
-            if (iterations >= target.length) {
-              clearInterval(interval);
-              setDisplay(target);
-            }
-          }, 35);
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true;
+          const controls = animate(0, val, {
+            duration: 1.8,
+            ease: [0.16, 1, 0.3, 1],
+            onUpdate: (v) => setDisplay(Math.round(v)),
+          });
+          return () => controls.stop();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.3 }
     );
-
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [value]);
-
-  return <span ref={ref} style={{ fontFamily: "var(--font-mono), monospace" }}>{display}</span>;
-}
-
-interface StackingCardProps {
-  id: string;
-  num: string;
-  title: React.ReactNode;
-  body: string;
-  statVal: string;
-  statLabel: string;
-  otherStatVal?: string;
-  otherStatLabel?: string;
-  index: number;
-  children: React.ReactNode;
-}
-
-function StackingCard({ id, num, title, body, statVal, statLabel, otherStatVal, otherStatLabel, index, children }: StackingCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "start 100px"]
-  });
-
-  const scale = useTransform(scrollYProgress, [0.5, 1], [1, 1 - index * 0.035]);
-  const opacity = useTransform(scrollYProgress, [0.5, 1], [1, 1 - index * 0.08]);
+  }, [val]);
 
   return (
-    <motion.div
-      ref={cardRef}
-      id={id}
-      className={styles.stackCard}
-      style={{ scale, opacity }}
-    >
-      <div>
-        <span className={styles.stackCardNum}>{num}</span>
-        <h3 className={styles.stackCardTitle}>{title}</h3>
-        <p className={styles.stackCardBody}>{body}</p>
-        
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-          <div>
-            <span style={{ fontSize: "2rem", fontWeight: 900, color: "var(--clay)", fontFamily: "var(--font-serif)" }}>
-              <ScrambleNumber value={statVal} />
-            </span>
-            <div style={{ fontSize: "11px", color: "var(--ink-muted)", marginTop: "4px", fontFamily: "var(--font-mono)" }}>{statLabel}</div>
-          </div>
-          {otherStatVal && (
-            <div>
-              <span style={{ fontSize: "2rem", fontWeight: 900, color: "#0EA5E9", fontFamily: "var(--font-serif)" }}>
-                <ScrambleNumber value={otherStatVal} />
-              </span>
-              <div style={{ fontSize: "11px", color: "var(--ink-muted)", marginTop: "4px", fontFamily: "var(--font-mono)" }}>{otherStatLabel}</div>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className={styles.stackCardVisual}>
-        {children}
-      </div>
-    </motion.div>
+    <span ref={ref} className={styles.counterVal}>
+      {color ? <span>{display}{suffix}</span> : <>{display}{suffix}</>}
+    </span>
   );
 }
 
-// ── Horizontal Pinned Scroll Component ─────────────────────────────────────────
-// Full-size tall cards, dynamically measured scroll distance, zero cutoff, pinned until 100% complete
-function HorizontalServices() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-  const [scrollDistance, setScrollDistance] = useState(0);
-  const scrollProgress = useMotionValue(0);
+/* ── Testimonial Slider ───────────────────────────────────────────────────── */
+function TestiSlider() {
+  const [idx, setIdx] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const calculateDistance = () => {
-      if (railRef.current) {
-        const railWidth = railRef.current.scrollWidth;
-        const containerWidth = railRef.current.parentElement?.clientWidth || window.innerWidth;
-        // Shift precisely by the difference to align the right edge of Card 06 with the container edge
-        const dist = Math.max(0, railWidth - containerWidth);
-        setScrollDistance(dist);
+  const goTo = useCallback((i: number) => {
+    const clamped = Math.max(0, Math.min(testimonials.length - 1, i));
+    setIdx(clamped);
+    if (trackRef.current) {
+      const cardWidth = trackRef.current.querySelector(`.${styles.testiCard}`) as HTMLElement | null;
+      if (cardWidth) {
+        const offset = clamped * (cardWidth.offsetWidth + 20);
+        trackRef.current.style.transform = `translateX(-${offset}px)`;
       }
-    };
-
-    const handleScroll = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const elementHeight = rect.height;
-        const viewportHeight = window.innerHeight;
-        
-        // Calculate progress: 0 when top enters viewport top, 1 when bottom leaves viewport bottom
-        const totalScrollableDistance = elementHeight - viewportHeight;
-        const scrolled = -rect.top;
-        
-        const currentProgress = Math.max(0, Math.min(1, scrolled / totalScrollableDistance));
-        scrollProgress.set(currentProgress);
-      }
-    };
-
-    // Delay calculation slightly to ensure CSS and DOM are fully rendered
-    const timer = setTimeout(() => {
-      calculateDistance();
-      handleScroll();
-    }, 100);
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", calculateDistance);
-    
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", calculateDistance);
-    };
-  }, [scrollProgress]);
-
-  // Map vertical scroll progress strictly from 0 to 1 over the entire sticky container range
-  const x = useTransform(scrollProgress, [0, 1], [0, -scrollDistance]);
-  const progressWidth = useTransform(scrollProgress, [0, 1], ["10%", "100%"]);
+    }
+  }, []);
 
   return (
-    <div ref={containerRef} className={styles.servicesHorizontalContainer} id="services">
-      <div className={styles.servicesSticky}>
-        <div className={styles.servicesContent}>
-          <div className={styles.servicesHeader}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <span className={styles.eyebrow}>Capabilities</span>
-                <h2 className={styles.section__heading} style={{ marginBottom: 0 }}>Full-Stack Brand Power.</h2>
-              </div>
-              <div className={styles.servicesProgressBar}>
-                <motion.div className={styles.servicesProgressFill} style={{ width: progressWidth }} />
+    <div className={styles.testiSection}>
+      <div className={styles.testiHeader}>
+        <span className={styles.eyebrow}>Clients</span>
+        <h2 className={styles.section__heading}>Don&apos;t Take Our Word.</h2>
+      </div>
+      <div className={styles.testiSlider}>
+        <div ref={trackRef} className={styles.testiTrack}>
+          {testimonials.map((t, i) => (
+            <div key={i} className={styles.testiCard}>
+              <div className={styles.testiStars}>★★★★★</div>
+              <p className={styles.testiQuote}>&ldquo;{t.quote}&rdquo;</p>
+              <div className={styles.testiAuthor}>
+                <div className={styles.testiAvatar}>{t.initial}</div>
+                <div>
+                  <div className={styles.testiName}>{t.name}</div>
+                  <div className={styles.testiRole}>{t.role}</div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <motion.div ref={railRef} style={{ x }} className={styles.servicesRail}>
-            {services.map(({ num, title, desc, icon: Icon, tags }) => (
-              <div key={num} className={styles.servicesRailCard}>
-                <div className={styles.svc__top}>
-                  <span className={styles.svc__num}>{num} / CAPABILITY</span>
-                  <div className={styles.svc__iconWrap}>
-                    <Icon size={20} />
-                  </div>
-                </div>
-                <h3 className={styles.services__title}>{title}</h3>
-                <p className={styles.services__desc}>{desc}</p>
-                <div className={styles.svc__tags}>
-                  {tags.map((tag) => (
-                    <span key={tag} className={styles.svc__tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </motion.div>
+          ))}
         </div>
+      </div>
+      <div className={styles.testiControls}>
+        <button className={styles.testiBtn} onClick={() => goTo(idx - 1)} aria-label="Previous">←</button>
+        <button className={styles.testiBtn} onClick={() => goTo(idx + 1)} aria-label="Next">→</button>
       </div>
     </div>
   );
 }
 
+/* ── Main Page ────────────────────────────────────────────────────────────── */
 export default function CocomoMediaPage() {
-  const testiRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress: testiScroll } = useScroll({
-    target: testiRef,
-    offset: ["start end", "end start"]
-  });
-  const testiX = useTransform(testiScroll, [0, 1], ["5%", "-32%"]);
-
   return (
     <div className={styles.page}>
-      
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section className={styles.hero} aria-labelledby="media-heading">
-        <div className={styles.hero__sphere}>
-          <Suspense fallback={null}>
-            <NetworkSphere />
-          </Suspense>
-        </div>
+        {/* Background elements */}
+        <div className={styles.hero__mesh} aria-hidden="true" />
+        <div className={`${styles.orb} ${styles.orb1}`} aria-hidden="true" />
+        <div className={`${styles.orb} ${styles.orb2}`} aria-hidden="true" />
+        <div className={`${styles.orb} ${styles.orb3}`} aria-hidden="true" />
+        <div className={`${styles.floatShape} ${styles.fs1}`} aria-hidden="true" />
+        <div className={`${styles.floatShape} ${styles.fs2}`} aria-hidden="true" />
+        <div className={`${styles.floatShape} ${styles.fs3}`} aria-hidden="true" />
+        <div className={`${styles.floatShape} ${styles.fs4}`} aria-hidden="true" />
+        <div className={`${styles.floatShape} ${styles.fs5}`} aria-hidden="true" />
 
-        <div className={styles.hero__overlay} aria-hidden="true" />
+        <motion.div
+          className={styles.hero__content}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className={styles.hero__eyebrow}>Branding · Influencer Marketing · Content</span>
+          <h1 id="media-heading" className={styles.hero__heading}>
+            We Don&apos;t Just Build Brands.
+            <br />
+            We Make Them <span className={styles.hero__accent}>Impossible</span>
+            <br />
+            to Ignore.
+          </h1>
+          <p className={styles.hero__sub}>
+            From strategy to content to creators — we help brands grow where attention lives.
+          </p>
+          <div className={styles.hero__ctas}>
+            <Link href="/cocomo-media/contact" className={styles.hero__primary} id="media-proposal-cta">
+              Book a Call →
+            </Link>
+            <a href="#proof" className={styles.hero__secondary}>
+              See Our Work
+              <span className={styles.hero__secondaryArrow}>↓</span>
+            </a>
+          </div>
+        </motion.div>
 
-        <div className={styles.hero__content}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className={styles.hero__eyebrow}>Attention &amp; Influence Ecosystem</span>
-            <h1 id="media-heading" className={styles.hero__heading}>
-              We Don&apos;t Just Build Brands.
-              <br />
-              We Make Them <span className={styles.hero__gradient}>Impossible</span> to Ignore.
-            </h1>
-            <p className={styles.hero__sub}>
-              We deploy strategic creator networks, orchestrate viral content assets, and funnel consumer attention back to your bottom line.
-            </p>
-            <div className={styles.hero__ctas}>
-              <Link href="/cocomo-media/contact" className={styles.hero__primary} id="media-proposal-cta">
-                Get a proposal
-                <ArrowRight size={16} />
-              </Link>
-              <a href="#work" className={styles.hero__secondary}>
-                See our work ↓
-              </a>
-            </div>
-          </motion.div>
+        <div className={styles.hero__scrollHint} aria-hidden="true">
+          <div className={styles.scrollLine} />
+          Scroll
         </div>
       </section>
 
-      {/* INFINITE SMOOTH LOGOS MARQUEE */}
+      {/* ── LOGOS MARQUEE — dark background ── */}
       <div id="logos" className={styles.logosContainer}>
         <div className={styles.logosTrack}>
-          {brandLogos.map((logo, idx) => (
+          {[...brandLogos, ...brandLogos].map((logo, idx) => (
             <span key={idx} className={styles.logoItem}>
-              <span className={styles.logoDot} />
-              {logo}
-            </span>
-          ))}
-          {/* Duplicated set for seamless loop */}
-          {brandLogos.map((logo, idx) => (
-            <span key={`dup-${idx}`} className={styles.logoItem}>
               <span className={styles.logoDot} />
               {logo}
             </span>
@@ -375,166 +271,292 @@ export default function CocomoMediaPage() {
         </div>
       </div>
 
-      {/* HORIZONTAL PINNED SERVICES SECTION */}
-      <HorizontalServices />
-
-      {/* CASE STUDIES STACKING CARDS */}
-      <section className={styles.dashboard} id="work">
+      {/* ── SERVICES GRID ── */}
+      <section className={styles.servicesSection} id="services">
         <div className={styles.container}>
-          <span className={styles.eyebrow}>Case Studies</span>
-          <h2 className={styles.section__heading}>The Stacks of Execution.</h2>
-          <p className={styles.section__sub}>Scroll down to see our campaigns stack in depth.</p>
-          
-          <div className={styles.stackList}>
-            {/* Card 1 */}
-            <StackingCard
-              id="card1"
-              num="01 / FEATURED CAMPAIGN"
-              title={<>The <em>Petpooja</em> Symphony:<br/>Scaling B2B Restaurant SaaS</>}
-              body="We activated a synchronized multi-city network of 84 food creators. Rather than posting generic advertisements, they integrated Petpooja SaaS naturally into their restaurant-vlog workflows, driving high-intent leads."
-              statVal="28M+"
-              statLabel="Campaign Reach"
-              otherStatVal="3.0x"
-              otherStatLabel="Lead Pipeline Growth"
-              index={0}
-            >
-              <div className={styles.stackMockDash}>
-                <div style={{ display: "flex", gap: "6px", marginBottom: "8px" }}>
-                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--clay)" }}></div>
-                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#0EA5E9" }}></div>
-                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--good)" }}></div>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                  <div style={{ background: "var(--clay-tint)", border: "1px solid var(--clay-border)", padding: "10px", borderRadius: "8px", textAlign: "center" }}>
-                    <div style={{ color: "var(--clay)", fontWeight: 800, fontSize: "14px" }}>28M+</div>
-                    <div style={{ fontSize: "8px", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}>REACH</div>
-                  </div>
-                  <div style={{ background: "var(--clay-tint)", border: "1px solid var(--clay-border)", padding: "10px", borderRadius: "8px", textAlign: "center" }}>
-                    <div style={{ color: "var(--clay)", fontWeight: 800, fontSize: "14px" }}>84</div>
-                    <div style={{ fontSize: "8px", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}>CREATORS</div>
-                  </div>
-                  <div style={{ background: "var(--clay-tint)", border: "1px solid var(--clay-border)", padding: "10px", borderRadius: "8px", textAlign: "center" }}>
-                    <div style={{ color: "var(--clay)", fontWeight: 800, fontSize: "14px" }}>12</div>
-                    <div style={{ fontSize: "8px", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}>CITIES</div>
-                  </div>
-                </div>
-              </div>
-            </StackingCard>
-
-            {/* Card 2 */}
-            <StackingCard
-              id="card2"
-              num="02 / BRAND TRANSFORMATION"
-              title={<>Revitalizing <em>Urban Company</em><br/>Local Partner Authority</>}
-              body="Building authentic local trust for home services. We localized campaigns with micro-influencers across 8 states, executing custom creator-native visual hooks that translated directly to service bookings."
-              statVal="15M+"
-              statLabel="Localized Reach"
-              otherStatVal="42%"
-              otherStatLabel="Increase in App Installs"
-              index={1}
-            >
-              <div className={styles.stackGridBento}>
-                <div className={styles.stackBentoItem}>
-                  <div style={{ color: "var(--clay)", fontWeight: 800, fontSize: "14px" }}>42% Spike</div>
-                  <div style={{ fontSize: "8px", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}>APP INSTALLS</div>
-                </div>
-                <div className={styles.stackBentoItem}>
-                  <div style={{ color: "#0EA5E9", fontWeight: 800, fontSize: "14px" }}>8 States</div>
-                  <div style={{ fontSize: "8px", color: "var(--ink-muted)", fontFamily: "var(--font-mono)" }}>GEO-TARGETED</div>
-                </div>
-              </div>
-            </StackingCard>
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESS / THE BLUEPRINT */}
-      <section className={styles.process} id="process" aria-labelledby="process-heading">
-        <div className={styles.container}>
-          <span className={styles.eyebrow}>The Blueprint</span>
-          <h2 id="process-heading" className={styles.section__heading}>How it works.</h2>
+          <span className={styles.eyebrow}>Capabilities</span>
+          <h2 className={styles.section__heading}>Full-Stack Brand Power.</h2>
           <p className={styles.section__sub}>
-            A disciplined, four-phase method for turning audience attention into business growth.
+            Every discipline, every channel — working as one seamless system.
           </p>
-          
-          <div className={styles.process__steps}>
-            {processes.map(({ num, tag, icon: Icon, title, desc }, i) => (
+
+          <div className={styles.servicesGrid}>
+            {services.map(({ num, title, desc, emoji, tags }, i) => (
               <motion.div
                 key={num}
-                className={styles.process__step}
+                className={styles.serviceCard}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ delay: i * 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: i * 0.06, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className={styles.process__stepHeader}>
-                  <span className={styles.process__num}>{num} // {tag}</span>
-                  <div className={styles.process__iconBox}>
-                    <Icon size={20} />
-                  </div>
+                <span className={styles.svc__num}>{num}</span>
+                <div className={styles.svc__iconWrap}>{emoji}</div>
+                <h3 className={styles.services__title}>{title}</h3>
+                <p className={styles.services__desc}>{desc}</p>
+                <div className={styles.svc__tags}>
+                  {tags.map((tag) => (
+                    <span key={tag} className={styles.svc__tag}>{tag}</span>
+                  ))}
                 </div>
-                <h3 className={styles.process__title}>{title}</h3>
-                <p className={styles.process__desc}>{desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section ref={testiRef} style={{ padding: "var(--section-gap) 0", background: "var(--paper-2)", overflow: "hidden", borderTop: "1px solid var(--hairline-warm)" }}>
+      {/* ── GROWTH JOURNEY — dark ── */}
+      <section className={styles.growthSection} id="process">
         <div className={styles.container}>
-          <span className={styles.eyebrow}>Clients</span>
-          <h2 className={styles.section__heading} style={{ marginBottom: "var(--space-8)" }}>Don&apos;t Take Our Word.</h2>
-        </div>
-        
-        <div style={{ position: "relative", width: "100%", overflow: "hidden" }}>
-          <motion.div style={{ x: testiX, display: "flex", gap: "var(--space-6)", width: "max-content" }}>
-            {testimonials.map((testi, idx) => (
-              <div key={idx} style={{ width: "420px", flexShrink: 0 }}>
-                <div style={{
-                  background: "var(--white)",
-                  border: "1px solid var(--hairline)",
-                  padding: "var(--space-8)",
-                  borderRadius: "var(--radius-xl)",
-                  boxShadow: "var(--shadow-rest)"
-                }}>
-                  <div style={{ color: "var(--clay)", letterSpacing: "2px", marginBottom: "var(--space-4)" }}>★★★★★</div>
-                  <p style={{ fontFamily: "var(--font-serif)", fontSize: "var(--text-base)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "var(--space-6)", color: "var(--ink)" }}>
-                    &ldquo;{testi.quote}&rdquo;
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-                    <div style={{
-                      width: "44px", height: "44px", borderRadius: "50%",
-                      background: "var(--clay-tint)", color: "var(--clay)",
-                      border: "1px solid var(--clay-border)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 700, fontFamily: "var(--font-serif)"
-                    }}>
-                      {testi.initial}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--ink)" }}>{testi.name}</div>
-                      <div style={{ fontSize: "var(--text-xs)", color: "var(--ink-muted)" }}>{testi.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className={styles.growthHeader}>
+            <span className={styles.eyebrow}>The Blueprint</span>
+            <h2 className={styles.growthHeading}>How it works.</h2>
+            <p className={styles.growthSub}>
+              A disciplined, four-phase method for turning audience attention into business growth.
+            </p>
+          </div>
+
+          <div className={styles.growthSteps}>
+            <div className={styles.growthConnector} aria-hidden="true" />
+            {growthSteps.map(({ num, icon, title, desc }, i) => (
+              <motion.div
+                key={num}
+                className={styles.growthStep}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className={styles.growthNum}>{num}</div>
+                <div className={styles.growthIcon}>{icon}</div>
+                <h3 className={styles.growthTitle}>{title}</h3>
+                <p className={styles.growthBody}>{desc}</p>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* CLOSE CTA */}
-      <section className={styles.close}>
+      {/* ── FEATURED CASE STUDY — cinematic ── */}
+      <section className={styles.proofSection} id="proof">
+        <div className={styles.container} style={{ paddingInline: "var(--container-pad)" }}>
+          <span className={styles.eyebrow}>Featured Work</span>
+          <h2 className={styles.section__heading}>The Proof.</h2>
+        </div>
+
+        <motion.div
+          className={styles.proofCard}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className={styles.proofWatermark} aria-hidden="true">PETPOOJA</span>
+
+          <div className={styles.proofSplit}>
+            {/* Visual Panel */}
+            <div className={styles.proofVisualPanel}>
+              {/* Logo Badge */}
+              <div className={styles.proofLogoBadge}>
+                <div className={styles.proofLogoDot} />
+                <div>
+                  <span className={styles.proofLogoText}>Petpooja</span>
+                  <span className={styles.proofLogoSub}>Restaurant SaaS</span>
+                </div>
+              </div>
+
+              {/* Hook Metric */}
+              <div className={styles.proofHook}>
+                <span className={styles.proofHookNumber}>
+                  28<em>M+</em>
+                </span>
+                <span className={styles.proofHookLabel}>Campaign Reach</span>
+              </div>
+            </div>
+
+            {/* Text Panel */}
+            <div className={styles.proofTextPanel}>
+              <span className={styles.proofBadge}>
+                <span>●</span> Featured Campaign
+              </span>
+
+              <h3 className={styles.proofTitle}>
+                The <em>Petpooja</em> Symphony:<br />
+                Scaling B2B Restaurant SaaS
+              </h3>
+
+              <div className={styles.proofNarrative}>
+                <div className={styles.proofNarrativeBlock}>
+                  <span className={styles.proofNarrativeLabel}>The Challenge</span>
+                  <p className={styles.proofNarrativeText}>
+                    Petpooja needed to reach restaurant owners through content — not ads. Traditional B2B playbooks were ignored by their audience.
+                  </p>
+                </div>
+                <div className={styles.proofNarrativeBlock}>
+                  <span className={styles.proofNarrativeLabel}>The Solution</span>
+                  <p className={styles.proofNarrativeText}>
+                    We activated 84 food creators who integrated Petpooja organically into restaurant-vlog workflows, driving high-intent leads.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.proofStats}>
+                <div>
+                  <span className={styles.proofStatVal}>28M+</span>
+                  <span className={styles.proofStatLabel}>Total campaign reach</span>
+                </div>
+                <div>
+                  <span className={styles.proofStatVal}>3.0x</span>
+                  <span className={styles.proofStatLabel}>Lead pipeline growth</span>
+                </div>
+              </div>
+
+              <div className={styles.proofBento}>
+                <div className={styles.proofBentoCard}>
+                  <span className={styles.proofBentoIcon}>🎥</span>
+                  <div className={styles.proofBentoTitle}>84 creators deployed</div>
+                  <div className={styles.proofBentoSub}>Nano, micro & macro across 12 cities</div>
+                </div>
+                <div className={styles.proofBentoCard}>
+                  <span className={styles.proofBentoIcon}>📍</span>
+                  <div className={styles.proofBentoTitle}>12 cities targeted</div>
+                  <div className={styles.proofBentoSub}>Geo-specific campaign activation</div>
+                </div>
+                <div className={styles.proofBentoCard}>
+                  <span className={styles.proofBentoIcon}>⚡</span>
+                  <div className={styles.proofBentoTitle}>High-intent B2B leads</div>
+                  <div className={styles.proofBentoSub}>Via organic creator integration</div>
+                </div>
+              </div>
+
+              <Link href="/cocomo-media/contact" className={styles.btnCaseStudy}>
+                Start your campaign
+                <span className={styles.btnCaseStudyArrow}>→</span>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── COUNTERS ── */}
+      <section className={styles.countersSection} id="numbers">
         <div className={styles.container}>
-          <h2 className={styles.close__heading}>
-            Ready to build something people can&apos;t ignore?
-          </h2>
-          <Link href="/cocomo-media/contact" className={styles.close__cta} id="media-close-cta">
-            Get a proposal
-            <ArrowRight size={16} />
-          </Link>
+          <div className={styles.countersHeader}>
+            <span className={styles.eyebrow}>By the numbers</span>
+            <h2 className={styles.section__heading}>Numbers that matter.</h2>
+            <p className={styles.section__sub}>
+              Real results from real campaigns. No vanity metrics — just bottom-line impact.
+            </p>
+          </div>
+
+          <div className={styles.countersGrid}>
+            {counters.map(({ icon, val, suffix, label, valColor }) => (
+              <div key={label} className={styles.counterItem}>
+                <span className={styles.counterIcon}>{icon}</span>
+                <AnimatedCounter val={val} suffix={suffix} color={valColor} />
+                <span className={styles.counterLabel}>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.liveFeed}>
+            {["Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Pune"].map((city) => (
+              <span key={city} className={styles.feedPill}>
+                <span className={styles.feedDot} />
+                Active in {city}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PHONE REELS ── */}
+      <section className={styles.reelsSection} id="content">
+        <div className={styles.reelsHeader}>
+          <span className={styles.eyebrow}>Content at Scale</span>
+          <h2 className={styles.section__heading}>Content that stops the scroll.</h2>
+          <p className={styles.section__sub}>
+            Every reel engineered for engagement. Every creator brief for conversion.
+          </p>
+        </div>
+
+        <div className={styles.reelsTrack}>
+          {[...reels, ...reels].map(({ grad, handle, caption }, i) => (
+            <div key={i} className={styles.phoneFrame}>
+              <div className={styles.phoneShell}>
+                <div className={styles.phoneNotch} />
+                <div className={styles.phoneScreen}>
+                  <div className={`${styles.phoneScreenBg} ${styles[grad as keyof typeof styles]}`} />
+                  <div className={styles.phoneGrad} />
+                  <div className={styles.phoneContent}>
+                    <span className={styles.phoneHandle}>{handle}</span>
+                    <span className={styles.phoneCaption}>{caption}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── WHY COCOMO ── */}
+      <section className={styles.whySection} id="why">
+        <div className={styles.whyCard}>
+          <span className={styles.eyebrow}>Why us</span>
+          <h2 className={styles.section__heading}>Most agencies talk big.</h2>
+          <p className={styles.section__sub}>
+            We've been in the trenches. Here's what makes the difference.
+          </p>
+
+          <div className={styles.whyGrid}>
+            <ul className={styles.whyList}>
+              {whyItems.map(({ num, title, body }) => (
+                <li key={num} className={styles.whyItem}>
+                  <span className={styles.whyNum}>{num}</span>
+                  <div>
+                    <div className={styles.whyTitle}>{title}</div>
+                    <div className={styles.whyBody}>{body}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className={styles.whyRight}>
+              <div className={styles.whyFeature}>
+                <span className={styles.whyFeatureIcon}>🎯</span>
+                <h3 className={styles.whyFeatureTitle}>India&apos;s most connected creator ecosystem</h3>
+                <p className={styles.whyFeatureBody}>
+                  500+ vetted creators across beauty, food, lifestyle, tech, finance — every city, every niche, every tier.
+                </p>
+                <div className={styles.whyTags}>
+                  {["Nano", "Micro", "Macro", "Celebrity"].map((t) => (
+                    <span key={t} className={styles.whyTag}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <TestiSlider />
+
+      {/* ── CLOSE CTA ── */}
+      <section className={styles.close} id="contact">
+        <div className={styles.closeInner}>
+          <div className={styles.closeContent}>
+            <span className={styles.close__eyebrow}>Ready to grow?</span>
+            <h2 className={styles.close__heading}>
+              Ready to build something <em>people can&apos;t ignore?</em>
+            </h2>
+            <p className={styles.close__sub}>
+              Strategy call → creative brief → launch — in under two weeks.
+            </p>
+            <Link href="/cocomo-media/contact" className={styles.close__cta} id="media-close-cta">
+              Book a Free Strategy Call →
+            </Link>
+          </div>
         </div>
       </section>
     </div>
