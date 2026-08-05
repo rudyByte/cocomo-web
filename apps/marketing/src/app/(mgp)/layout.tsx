@@ -1,5 +1,5 @@
 import { Nav } from "@/components/Nav/Nav";
-import { Footer } from "@/components/Footer/Footer";
+import { FooterTransition } from "@/components/Footer/FooterTransition";
 
 export default function MGPLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export default function MGPLayout({ children }: { children: React.ReactNode }) {
       <main id="main-content" style={{ paddingTop: "var(--nav-height)" }}>
         {children}
       </main>
-      <Footer />
+      <FooterTransition />
     </>
   );
 }

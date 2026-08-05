@@ -1,0 +1,40 @@
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(980px, 92vw);
+  height: 520px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, rgba(37, 99, 235, 0.16) 0%, rgba(37, 99, 235, 0.055) 38%, rgba(10, 22, 47, 0) 74%);
+  filter: blur(18px);
+  animation: floatBreathing 7s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+.particleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes floatBreathing {
+  0% {
+    opacity: 0.55;
+    transform: translate(-51%, -50%) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-49%, -51%) scale(1.09);
+  }
+}

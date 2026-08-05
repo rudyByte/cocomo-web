@@ -1,0 +1,59 @@
+/* ============================================================================
+   LinePlusDivider.module.css
+   ============================================================================ */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 1px;
+  margin-block: var(--space-12, 3rem);
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 1px;
+  width: 0;                  /* GSAP animates to 100% */
+  will-change: width;
+  background-color: var(--hairline, #e0ddd6);
+}
+
+/* ── Plus cross ───────────────────────────────────────────────────────────── */
+.plus {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.813rem;
+  height: 0.813rem;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.plus svg {
+  display: block;
+}
+
+/* Position variants */
+.plus--left   { left: 5%; }
+.plus--center { left: 50%; }
+.plus--right  { left: 95%; }
+.plus--col4   { left: 33.333%; }
+.plus--col7   { left: 58.333%; }
+.plus--col9   { left: 75%; }
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .line {
+    width: 100% !important;
+    transition: none;
+  }
+
+  .plus {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+}

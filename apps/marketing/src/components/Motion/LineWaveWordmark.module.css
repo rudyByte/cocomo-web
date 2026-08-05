@@ -1,0 +1,97 @@
+.wrap {
+  position: absolute;
+  inset: 8vh -4vw auto -4vw;
+  width: 108vw;
+  height: min(54vh, 520px);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.footerPlacement {
+  inset: auto -3vw -2.2rem -3vw;
+  width: 106vw;
+  height: min(32vh, 300px);
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+}
+
+.svgText {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.72;
+  filter: drop-shadow(0 0 18px rgba(37, 99, 235, 0.18));
+  animation: lineTextBreathe 7s ease-in-out infinite alternate;
+}
+
+.maskText {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: 278px;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  text-transform: uppercase;
+}
+
+.maskLine {
+  stroke: rgba(214, 228, 255, 0.45);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.footerPlacement .svgText {
+  opacity: 0.72;
+  filter: none;
+}
+
+.footerPlacement .maskLine {
+  stroke: rgba(10, 14, 26, 0.4);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+  filter: drop-shadow(0 0 22px rgba(37, 99, 235, 0.2));
+}
+
+.footerPlacement .canvas {
+  opacity: 0.95;
+  filter: none;
+}
+
+@keyframes lineTextBreathe {
+  0% {
+    opacity: 0.46;
+    transform: translate3d(-0.5%, 0, 0);
+  }
+  100% {
+    opacity: 0.82;
+    transform: translate3d(0.5%, -1%, 0);
+  }
+}
+
+@media (max-width: 760px) {
+  .wrap {
+    inset: 14vh -12vw auto -12vw;
+    width: 124vw;
+    height: 34vh;
+    opacity: 0.78;
+  }
+
+  .footerPlacement {
+    inset: auto -18vw -1.5rem -18vw;
+    width: 136vw;
+    height: 22vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svgText {
+    animation: none;
+  }
+}

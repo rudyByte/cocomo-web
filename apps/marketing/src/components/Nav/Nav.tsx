@@ -7,6 +7,8 @@ import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X, ChevronDown, Cpu, Sparkles, ArrowUpRight, ArrowRight } from "lucide-react";
 import styles from "./Nav.module.css";
 import { Logo } from "../Logo/Logo";
+import { Magnetic } from "../Motion/Magnetic";
+import { CharSplitLink } from "../UI/CharSplitLink";
 
 const products = [
   {
@@ -33,48 +35,12 @@ const navLinks = [
   { href: "/company", label: "Company" },
 ];
 
-// Magnetic button hook
-function useMagnetic(strength: number = 0.3) {
-  const ref = useRef<HTMLAnchorElement | HTMLButtonElement>(null);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
-    el.style.transition = "transform 0.1s ease";
-  }, [strength]);
-
-  const handleMouseLeave = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "translate(0, 0)";
-    el.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
-  }, []);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.addEventListener("mousemove", handleMouseMove as EventListener);
-    el.addEventListener("mouseleave", handleMouseLeave);
-    return () => {
-      el.removeEventListener("mousemove", handleMouseMove as EventListener);
-      el.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [handleMouseMove, handleMouseLeave]);
-
-  return ref;
-}
-
 export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const ctaRef = useMagnetic(0.35) as React.RefObject<HTMLAnchorElement>;
   const dropdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Scroll reading progress
@@ -242,25 +208,28 @@ export function Nav() {
                 ].join(" ")}
                 aria-current={pathname === href ? "page" : undefined}
               >
-                <span className={styles.nav__link_inner}>{label}</span>
+                <CharSplitLink className={styles.nav__link_inner}>{label}</CharSplitLink>
               </Link>
             ))}
           </nav>
 
           {/* Actions */}
           <div className={styles.nav__actions}>
-            <Link href="/login" className={styles.nav__signin}>
-              Sign in
-            </Link>
-            <Link
-              href="/demo"
-              className={styles.nav__cta}
-              id="nav-demo-cta"
-              ref={ctaRef}
-              data-cursor="hover"
-            >
-              Book a demo
-            </Link>
+            <Magnetic strength={5} radius={30}>
+              <Link href="/login" className={styles.nav__signin}>
+                <CharSplitLink>Sign in</CharSplitLink>
+              </Link>
+            </Magnetic>
+            <Magnetic strength={7} radius={35}>
+              <Link
+                href="/demo"
+                className={styles.nav__cta}
+                id="nav-demo-cta"
+                data-cursor="hover"
+              >
+                <CharSplitLink>Book a demo</CharSplitLink>
+              </Link>
+            </Magnetic>
 
             {/* Mobile menu toggle */}
             <button

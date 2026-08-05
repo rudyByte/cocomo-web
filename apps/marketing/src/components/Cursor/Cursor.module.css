@@ -1,119 +1,122 @@
 /* =========================================================================
-   COCOMO — Custom Cursor System
-   Lerp-lagging ring + instant dot. State morphing on interactive elements.
+   COCOMO — Custom Cursor System (Trionn-style)
+   - Inner dot: snaps instantly, 6px sharp point
+   - Outer inversion ring: lerp-follows, uses mix-blend-mode: difference
+     to invert colors underneath (the premium "Trionn effect")
    GPU-accelerated via transform3d. Uses top-left origin offset.
    ========================================================================= */
 
-/* We offset by half the element's size to center it on cursor */
 .cursor__dot,
 .cursor__ring {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: var(--z-cursor);
+  z-index: var(--z-cursor, 9999);
   pointer-events: none;
   will-change: transform;
-  /* We use translate3d from JS, centering via margin offset */
 }
 
 /* ── Inner Dot ─────────────────────────────────────────────────────────────── */
 .cursor__dot {
-  width: 8px;
-  height: 8px;
-  background: var(--ink);
-  border-radius: 50%;
-  margin-top: -4px;
-  margin-left: -4px;
-  transition:
-    width 0.2s var(--ease-expo),
-    height 0.2s var(--ease-expo),
-    background-color 0.15s var(--ease),
-    opacity 0.2s var(--ease),
-    border-radius 0.2s var(--ease);
-}
-
-/* Hover state: dot expands + blue */
-.cursor__dot--hover {
-  width: 12px;
-  height: 12px;
-  margin-top: -6px;
-  margin-left: -6px;
-  background: var(--clay);
-  mix-blend-mode: normal;
-}
-
-/* Text state: dot becomes a thin vertical line (text cursor) */
-.cursor__dot--text {
-  width: 2px;
-  height: 20px;
-  border-radius: 1px;
-  margin-top: -10px;
-  margin-left: -1px;
-  background: var(--ink);
-}
-
-/* Drag state: dot shows 4-arrow shape */
-.cursor__dot--drag {
   width: 6px;
   height: 6px;
+  background: var(--ink, #111);
+  border-radius: 50%;
   margin-top: -3px;
   margin-left: -3px;
-  background: var(--clay);
-}
-
-/* ── Outer Ring ─────────────────────────────────────────────────────────────── */
-.cursor__ring {
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid rgba(10, 22, 47, 0.2);
-  border-radius: 50%;
-  margin-top: -20px;
-  margin-left: -20px;
   transition:
-    width 0.35s var(--ease-expo),
-    height 0.35s var(--ease-expo),
-    margin 0.35s var(--ease-expo),
-    border-color 0.2s var(--ease),
-    border-width 0.2s var(--ease),
-    opacity 0.3s var(--ease),
-    background-color 0.3s var(--ease);
+    width 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.15s ease,
+    opacity 0.15s ease,
+    border-radius 0.18s ease;
 }
 
-/* Hover state: ring expands + fills with brand tint */
-.cursor__ring--hover {
-  width: 52px;
-  height: 52px;
-  margin-top: -26px;
-  margin-left: -26px;
-  border-color: rgba(37, 99, 235, 0.25);
-  background-color: rgba(37, 99, 235, 0.06);
+/* Hover state: dot shrinks (the ring takes over visually) */
+.cursor__dot--hover {
+  width: 4px;
+  height: 4px;
+  margin-top: -2px;
+  margin-left: -2px;
+  background: #fff;            /* white dot inverts within the ring area */
 }
 
-/* Text state: ring collapses to thin slit */
-.cursor__ring--text {
-  width: 6px;
+/* Text state: narrow vertical bar */
+.cursor__dot--text {
+  width: 2px;
+  height: 18px;
+  border-radius: 1px;
+  margin-top: -9px;
+  margin-left: -1px;
+  background: var(--ink, #111);
+}
+
+/* Drag state */
+.cursor__dot--drag {
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  margin-left: -2.5px;
+  background: var(--clay, #5c6bc0);
+}
+
+/* ── Outer Inversion Ring (Trionn mix-blend-difference) ─────────────────────── */
+.cursor__ring {
+  width: 36px;
   height: 36px;
+  background: #fff;              /* must be white for difference blend to invert */
+  mix-blend-mode: difference;    /* inverts colors underneath — the key effect */
+  border-radius: 50%;
   margin-top: -18px;
-  margin-left: -3px;
+  margin-left: -18px;
+  opacity: 0.85;
+  transition:
+    width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    margin 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    border-radius 0.3s ease;
+}
+
+/* Hover: ring expands into a large blending circle */
+.cursor__ring--hover {
+  width: 64px;
+  height: 64px;
+  margin-top: -32px;
+  margin-left: -32px;
+  opacity: 0.95;
+}
+
+/* Text: ring becomes a thin slit */
+.cursor__ring--text {
+  width: 4px;
+  height: 28px;
+  margin-top: -14px;
+  margin-left: -2px;
   border-radius: 2px;
-  border-color: rgba(10, 22, 47, 0.12);
+  opacity: 0.6;
 }
 
-/* Drag state: ring shows large dashed circle */
+/* Drag: large dashed ring */
 .cursor__ring--drag {
-  width: 60px;
-  height: 60px;
-  margin-top: -30px;
-  margin-left: -30px;
-  border-style: dashed;
-  border-color: rgba(37, 99, 235, 0.35);
-  border-width: 2px;
+  width: 56px;
+  height: 56px;
+  margin-top: -28px;
+  margin-left: -28px;
+  background: transparent;
+  mix-blend-mode: normal;
+  border: 1.5px dashed rgba(37, 99, 235, 0.5);
+  opacity: 1;
 }
 
-/* Hidden state */
+/* Hidden */
 .cursor--hidden {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
-/* ── Hide system cursor everywhere ─────────────────────────────────────────── */
-/* Applied via global body style in layout.tsx */
+/* ── Reduced motion: hide the fancy ring ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .cursor__ring {
+    display: none;
+  }
+}

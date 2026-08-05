@@ -19,6 +19,7 @@ export const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
   fallback: ["system-ui", "sans-serif"],
+  adjustFontFallback: false,
 });
 
 export const spaceGrotesk = Space_Grotesk({
@@ -27,6 +28,7 @@ export const spaceGrotesk = Space_Grotesk({
   display: "swap",
   weight: ["500", "600", "700"],
   fallback: ["sans-serif"],
+  adjustFontFallback: false,
 });
 
 export const jetbrainsMono = localFont({

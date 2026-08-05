@@ -1,0 +1,121 @@
+/* ============================================================================
+   AnimatedCTA.module.css
+   ============================================================================ */
+
+.cta {
+  --cta-color: var(--ink);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  color: var(--cta-color);
+  overflow: hidden;
+  line-height: 1;
+  padding-bottom: 2px;      /* breathing room for underline */
+}
+
+/* ── Dual underline ───────────────────────────────────────────────────────── */
+.underlineWrap {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+}
+
+.uRight,
+.uLeft {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--cta-color);
+  will-change: transform;
+}
+
+.uRight {
+  transform-origin: right;
+}
+
+.uLeft {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* ── Word wrap (contains both layers) ────────────────────────────────────── */
+.wordWrap {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.layerOriginal {
+  display: inline-flex;
+  position: relative;
+}
+
+.layerClone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  pointer-events: none;
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.charOriginal,
+.charClone {
+  will-change: transform, opacity;
+}
+
+/* ── Arrow ────────────────────────────────────────────────────────────────── */
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.875rem;
+  height: 0.875rem;
+  opacity: 0;
+  transform: translateX(6px);
+  will-change: transform, opacity;
+  flex-shrink: 0;
+}
+
+.arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .charOriginal,
+  .charClone,
+  .uRight,
+  .uLeft,
+  .arrow {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .layerClone {
+    display: none;
+  }
+
+  .wordWrap {
+    overflow: visible;
+  }
+
+  .uRight {
+    transform: none !important;
+  }
+
+  .arrow {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import styles from "./Alignment.module.css";
+import { Spotlight } from "@/components/Motion/Spotlight";
+import { Magnetic } from "@/components/Motion/Magnetic";
 
 export function Alignment() {
   return (
@@ -109,24 +111,33 @@ export function ForWhom() {
 }
 
 export function Close() {
+  const closeRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: closeRef,
+    offset: ["start 0.95", "start 0.35"],
+  });
+
+  const sectionOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const sectionY = useTransform(scrollYProgress, [0, 1], [25, 0]);
+
   return (
-    <section className={styles.close} id="section-close" aria-labelledby="close-heading">
+    <section ref={closeRef} className={styles.close} style={{ position: "relative" }} id="section-close" aria-labelledby="close-heading">
+      <Spotlight size={600} opacity={0.12} />
       <div className="container">
         <motion.div
           className={styles.close__inner}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7 }}
+          style={{ opacity: sectionOpacity, y: sectionY }}
         >
           <h2 id="close-heading" className={styles.close__heading}>
             Know what to grow.
             <em className={styles.close__em}>Then watch it get done.</em>
           </h2>
-          <Link href="/demo" className={styles.close__cta} id="close-demo-cta" data-cursor="hover">
-            Book a demo — free to start
-            <ArrowRight size={16} />
-          </Link>
+          <Magnetic strength={10} radius={40}>
+            <Link href="/demo" className={styles.close__cta} id="close-demo-cta" data-cursor="hover">
+              Book a demo — free to start
+              <ArrowRight size={16} />
+            </Link>
+          </Magnetic>
           <p className={styles.close__trust}>
             The platform is free. We earn only when you grow.
           </p>

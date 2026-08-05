@@ -1,0 +1,48 @@
+/* ============================================================================
+   MarqueeRow.module.css
+   ============================================================================ */
+
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.track {
+  display: inline-flex;
+  align-items: center;
+  will-change: transform;
+}
+
+.set {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.item {
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: currentColor;
+  padding-inline: 1rem;
+}
+
+.sep {
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  opacity: 0.4;
+  color: currentColor;
+  padding-inline: 0.5rem;
+  margin-top: 0.3em;      /* optical alignment with caps */
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none !important;
+    will-change: auto;
+  }
+}

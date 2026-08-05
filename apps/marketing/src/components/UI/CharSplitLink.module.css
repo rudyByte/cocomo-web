@@ -1,0 +1,54 @@
+/* ============================================================================
+   CharSplitLink.module.css
+   ============================================================================ */
+
+.charSplit {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  overflow: hidden;         /* clips chars flying out/in */
+  line-height: 1;
+  vertical-align: bottom;
+  user-select: none;
+}
+
+/* ── Original text layer ──────────────────────────────────────────────────── */
+.layerOriginal {
+  display: inline-flex;
+  position: relative;
+}
+
+/* ── Clone text layer — identical, sits behind/below ─────────────────────── */
+.layerClone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  pointer-events: none;
+  /* starts invisible below */
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+/* ── Individual chars ─────────────────────────────────────────────────────── */
+.charOriginal,
+.charClone {
+  will-change: transform, opacity;
+}
+
+/* ── Reduced motion: skip animations ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .charOriginal,
+  .charClone {
+    will-change: auto;
+    transition: none !important;
+  }
+
+  .layerClone {
+    display: none;
+  }
+
+  .charSplit {
+    overflow: visible;
+  }
+}

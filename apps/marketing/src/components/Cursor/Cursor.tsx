@@ -14,6 +14,12 @@ export function Cursor() {
   const [state, setState] = useState<CursorState>("default");
   const [isVisible, setIsVisible] = useState(false);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Animate the outer ring with lerp (trailing effect)
   const animate = useCallback(() => {
     const ring = ringRef.current;
@@ -28,6 +34,8 @@ export function Cursor() {
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+
     rafRef.current = requestAnimationFrame(animate);
 
     const onMove = (e: MouseEvent) => {
@@ -48,7 +56,6 @@ export function Cursor() {
       const target = e.target as HTMLElement;
       const closest = target.closest("a, button, [data-cursor]");
       if (!closest) {
-        // Check if it's a text node
         const isText = target.closest("p, h1, h2, h3, h4, h5, h6, span, em, strong, blockquote");
         setState(isText ? "text" : "default");
         return;
@@ -72,9 +79,9 @@ export function Cursor() {
       document.removeEventListener("mouseenter", onEnter);
       document.removeEventListener("mouseover", onMouseOver, true);
     };
-  }, [animate, isVisible]);
+  }, [animate, isVisible, mounted]);
 
-  if (typeof window === "undefined") return null;
+  if (!mounted) return null;
 
   return (
     <>

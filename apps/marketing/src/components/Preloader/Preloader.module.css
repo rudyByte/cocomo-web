@@ -1,0 +1,164 @@
+/* ============================================================================
+   Preloader.module.css — Cocomo / Trionn-style cinematic preloader
+   ============================================================================ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Belts ────────────────────────────────────────────────────────────────── */
+.beltsWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.belt {
+  flex: 1;
+  width: 100%;
+  background: #e6e4e2;       /* matches --paper-2 / cocomo cream */
+  will-change: transform;
+  transform: scaleY(0);
+  transform-origin: top center;
+  margin-bottom: -1px;       /* prevent gap between belts */
+  padding-bottom: 1px;
+}
+
+/* ── Center area ──────────────────────────────────────────────────────────── */
+.center {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* ── Logo Box ─────────────────────────────────────────────────────────────── */
+.logoBox {
+  position: relative;
+  width: clamp(9rem, 20vw, 16rem);
+  height: clamp(9.25rem, 20.5vw, 16.5rem);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.logoSvg {
+  width: 70%;
+  height: 70%;
+  overflow: visible;
+}
+
+.logoLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888;
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ── Corner + marks ───────────────────────────────────────────────────────── */
+.corner {
+  position: absolute;
+  width: 0.813rem;
+  height: 0.813rem;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.corner svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.corner--tl {
+  top: calc(-6px - 6.5px);
+  left: calc(-6px - 6.5px);
+}
+
+.corner--tr {
+  top: calc(-6px - 6.5px);
+  right: calc(-6px - 6.5px);
+}
+
+.corner--bl {
+  bottom: calc(-6px - 6.5px);
+  left: calc(-6px - 6.5px);
+}
+
+.corner--br {
+  bottom: calc(-6px - 6.5px);
+  right: calc(-6px - 6.5px);
+}
+
+/* ── Tagline ──────────────────────────────────────────────────────────────── */
+.tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 2rem;
+}
+
+.tagWord {
+  text-transform: uppercase;
+  color: #434343;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  font-family: var(--font-mono, monospace);
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tagDot {
+  color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  font-size: 1.1rem;
+  margin: 0 0.25rem;
+}
+
+/* ── Counter ──────────────────────────────────────────────────────────────── */
+.counter {
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--font-mono, monospace);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #888;
+  min-width: 3ch;
+  text-align: center;
+  will-change: contents;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .belt {
+    transform: none !important;
+  }
+
+  .overlay {
+    display: none;
+  }
+}

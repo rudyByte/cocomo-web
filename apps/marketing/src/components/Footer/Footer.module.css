@@ -9,6 +9,15 @@
   border-top: 1px solid var(--hairline);
   padding-block: var(--space-18) var(--space-10);
   overflow: hidden;
+  isolation: isolate;
+}
+
+.footer__bgWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(0);
 }
 
 /* Organic noise texture on footer */
@@ -21,25 +30,27 @@
   background-size: 200px 200px;
   pointer-events: none;
   z-index: 0;
+  animation: footerGrainDrift 9s steps(2, end) infinite;
+  will-change: opacity, transform;
 }
 
-/* Giant watermark text background */
 .footer::after {
-  content: 'COCOMO';
+  content: '';
   position: absolute;
-  bottom: -2.5rem;
-  right: -2rem;
-  font-family: var(--font-serif);
-  font-size: clamp(6rem, 14vw, 12rem);
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  color: var(--ink);
-  opacity: 0.032;
+  inset: -18% -8%;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(37, 99, 235, 0.12), transparent 34%),
+    radial-gradient(circle at 78% 42%, rgba(10, 14, 26, 0.07), transparent 40%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.42), transparent 48%);
+  opacity: 0.82;
   pointer-events: none;
   z-index: 0;
-  line-height: 1;
-  user-select: none;
+  transform: translate3d(0, 0, 0);
+  animation: footerAmbientShift 16s var(--ease-in-out, ease-in-out) infinite alternate;
 }
+
+/* Giant watermark text background handled dynamically by <ParallaxWatermark /> */
+
 
 .footer__inner {
   position: relative;
@@ -53,7 +64,14 @@
 .footer__growthLine {
   width: 100%;
   margin-bottom: var(--space-4);
-  opacity: 0.25;
+  opacity: 0.9;
+  transition: opacity 0.6s var(--ease-expo), filter 0.6s var(--ease-expo);
+  filter: drop-shadow(0 8px 20px rgba(37, 99, 235, 0.18));
+}
+
+.footer__growthLine:hover {
+  opacity: 1;
+  filter: drop-shadow(0 10px 30px rgba(37, 99, 235, 0.28));
 }
 
 /* ── Top Row ────────────────────────────────────────────────────────────────── */
@@ -80,9 +98,16 @@
 .footer__wordmark {
   display: inline-flex;
   text-decoration: none;
-  transition: opacity var(--t-fast) var(--ease);
+  transition:
+    opacity var(--t-base) var(--ease-expo),
+    transform var(--t-base) var(--ease-expo),
+    filter var(--t-base) var(--ease-expo);
 }
-.footer__wordmark:hover { opacity: 0.75; }
+.footer__wordmark:hover {
+  opacity: 0.75;
+  filter: drop-shadow(0 8px 22px rgba(37, 99, 235, 0.12));
+  transform: translateY(-1px);
+}
 
 .footer__tagline {
   font-size: var(--text-sm);
@@ -114,12 +139,17 @@
   border-radius: var(--radius-pill);
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   transition:
     color var(--t-base) var(--ease-expo),
     background var(--t-base) var(--ease-expo),
-    border-color var(--t-base) var(--ease-expo);
+    border-color var(--t-base) var(--ease-expo),
+    box-shadow var(--t-slow) var(--ease-expo),
+    transform var(--t-base) var(--ease-expo);
   text-decoration: none;
   width: fit-content;
+  box-shadow: 0 0 0 rgba(10, 14, 26, 0);
+  will-change: transform;
 }
 
 .footer__cta::after {
@@ -135,11 +165,26 @@
 
 .footer__cta:hover {
   color: #fff;
+  border-color: var(--ink);
+  box-shadow: 0 18px 44px rgba(10, 14, 26, 0.14);
 }
 
 .footer__cta:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+.footer__cta svg {
+  transition: transform var(--t-base) var(--ease-expo);
+}
+
+.footer__cta:hover svg {
+  transform: translate3d(2px, -2px, 0);
+}
+
+.footer__cta:active {
+  transform: scale(0.985);
+  box-shadow: 0 10px 24px rgba(10, 14, 26, 0.12);
 }
 
 /* ── Nav Grid ───────────────────────────────────────────────────────────────── */
@@ -159,11 +204,56 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  transition:
+    opacity 0.55s var(--ease-expo),
+    filter 0.55s var(--ease-expo);
+  will-change: transform, opacity;
+}
+
+.footer__nav:has(.footer__col:hover) .footer__col:not(:hover) {
+  opacity: 0.55;
+  filter: blur(0.25px);
 }
 
 .footer__colhead {
   display: block;
   margin-bottom: var(--space-1);
+  position: relative;
+  width: fit-content;
+  isolation: isolate;
+  transition:
+    opacity 0.5s var(--ease-expo),
+    filter 0.5s var(--ease-expo),
+    transform 0.5s var(--ease-expo);
+}
+
+.footer__colhead::before {
+  content: '';
+  position: absolute;
+  inset: -0.7rem -1rem;
+  background:
+    radial-gradient(circle at 45% 55%, rgba(221, 231, 255, 0.32), transparent 52%),
+    radial-gradient(circle at 65% 35%, rgba(37, 99, 235, 0.16), transparent 48%);
+  opacity: 0;
+  filter: blur(9px);
+  transform: scale(0.72) translate3d(-8px, 5px, 0);
+  transition:
+    opacity 0.55s var(--ease-expo),
+    transform 0.65s var(--ease-expo);
+  pointer-events: none;
+}
+
+.footer__colhead:hover,
+.footer__colhead[data-fog-active="true"] {
+  opacity: 0.62;
+  filter: blur(0.55px);
+  transform: translateY(-1px);
+}
+
+.footer__colhead:hover::before,
+.footer__colhead[data-fog-active="true"]::before {
+  opacity: 1;
+  transform: scale(1.18) translate3d(10px, -7px, 0);
 }
 
 .footer__col ul {
@@ -176,10 +266,33 @@
 .footer__link {
   font-size: var(--text-sm);
   color: var(--ink-muted);
-  transition: color var(--t-fast) var(--ease), letter-spacing var(--t-base) var(--ease-expo);
+  transition:
+    color var(--t-base) var(--ease-expo),
+    opacity var(--t-base) var(--ease-expo),
+    transform 0.46s var(--ease-expo),
+    letter-spacing 0.46s var(--ease-expo);
   text-decoration: none;
   position: relative;
   display: inline-block;
+  isolation: isolate;
+  will-change: transform;
+}
+
+.footer__link::before {
+  content: '';
+  position: absolute;
+  inset: -0.65rem -1rem;
+  background:
+    radial-gradient(circle at 38% 50%, rgba(222, 232, 255, 0.42), transparent 46%),
+    radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.16), transparent 48%);
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(0.68) translate3d(-10px, 6px, 0);
+  transition:
+    opacity 0.42s var(--ease-expo),
+    transform 0.7s var(--ease-expo);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .footer__link::after {
@@ -192,14 +305,27 @@
   background: var(--clay);
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.3s var(--ease-expo);
+  transition: transform 0.46s var(--ease-expo);
 }
 
-.footer__link:hover {
+.footer__link:hover,
+.footer__link[data-fog-active="true"] {
   color: var(--ink);
+  transform: translateY(-2px);
+  letter-spacing: 0.015em;
+  opacity: 0.72;
+  filter: blur(0.45px);
+  text-shadow: 0 0 16px rgba(37, 99, 235, 0.32);
 }
 
-.footer__link:hover::after {
+.footer__link:hover::before,
+.footer__link[data-fog-active="true"]::before {
+  opacity: 1;
+  transform: scale(1.28) translate3d(14px, -8px, 0);
+}
+
+.footer__link:hover::after,
+.footer__link[data-fog-active="true"]::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -245,7 +371,61 @@
   font-size: var(--text-xs);
   font-weight: 500;
   color: var(--ink-muted);
-  transition: color var(--t-fast) var(--ease);
+  transition:
+    color var(--t-base) var(--ease-expo),
+    transform var(--t-base) var(--ease-expo);
   text-decoration: none;
+  display: inline-block;
 }
-.footer__medialink:hover { color: var(--ink); }
+.footer__medialink:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+@keyframes footerAmbientShift {
+  0% {
+    opacity: 0.62;
+    transform: translate3d(-1.5%, 0.8%, 0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(1.6%, -1%, 0) scale(1.035);
+  }
+}
+
+@keyframes footerGrainDrift {
+  0%, 100% {
+    opacity: var(--noise-opacity-mid);
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: calc(var(--noise-opacity-mid) + 0.012);
+    transform: translate3d(1px, -1px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer::before,
+  .footer::after {
+    animation: none;
+  }
+
+  .footer__growthLine,
+  .footer__wordmark,
+  .footer__cta,
+  .footer__cta::after,
+  .footer__cta svg,
+  .footer__col,
+  .footer__link,
+  .footer__link::after,
+  .footer__medialink {
+    transition-duration: 0.01ms;
+  }
+
+  .footer__wordmark:hover,
+  .footer__cta:hover svg,
+  .footer__link:hover,
+  .footer__medialink:hover {
+    transform: none;
+  }
+}

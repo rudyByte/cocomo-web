@@ -3,6 +3,8 @@ import "@/styles/tokens.css";
 import "@/styles/globals.css";
 import { fraunces, plusJakartaSans, spaceGrotesk, jetbrainsMono } from "@/lib/fonts";
 import { Cursor } from "@/components/Cursor/Cursor";
+import { SmoothScroll } from "@/components/SmoothScroll/SmoothScroll";
+import { Preloader } from "@/components/Preloader/Preloader";
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
@@ -84,11 +86,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ cursor: "none" }}
         suppressHydrationWarning
       >
+        <Preloader />
         <Cursor />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
